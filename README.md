@@ -16,7 +16,7 @@ If you drop a pair that is not saved yet, the board says **New Creature ?** and 
 
 ## Your notes stay in the browser
 
-Creatures, combos, attributes, and the tokens on the board are saved in this browser’s local storage. Each species can store Style and Type as text, and HP, ATK, DEF, SPD, and RNG as whole numbers. Edit them from the Data tab.
+Creatures, combos, attributes, and the tokens on the board are saved in this browser’s local storage. Each species has a Style (Brawler, Controller, Guard, Healer, Ranged, Striker), a Type (Fire, Forest, Ice, Plains, River, Wild), and HP, ATK, DEF, SPD, and RNG as whole numbers. Edit them from the Data tab.
 
 Export writes a `merge-board.json` file. To make a newer list part of the project, replace `data/merge-board.json` with that export. The next time the app loads, it uses the new file and drops browser-only creatures that were not in it. Until that file changes, creatures you add in the browser stay put. Import still replaces the list in this browser only.
 

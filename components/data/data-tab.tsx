@@ -20,20 +20,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCatalog } from "@/components/catalog-context";
-import { attributeSummary, STAT_KEYS, STAT_LABELS, type StatKey } from "@/lib/attributes";
+import {
+  attributeSummary,
+  STAT_KEYS,
+  STAT_LABELS,
+  isStyle,
+  isType,
+  STYLES,
+  TYPES,
+  type StatKey,
+  type StyleName,
+  type TypeName,
+} from "@/lib/attributes";
 import { creatureName, findByName, normalizeName, sortCreatures } from "@/lib/merge";
 import { exportPayload, parseImport } from "@/lib/storage";
 import { tierStyle } from "@/lib/tiers";
 import type { Creature } from "@/lib/types";
 
 const NEW_RESULT = "__new__";
+const NONE = "__none__";
 
 type EditDraft = {
   id: string;
   name: string;
   tier: string;
-  style: string;
-  type: string;
+  style: StyleName | "";
+  type: TypeName | "";
   hp: string;
   atk: string;
   def: string;
@@ -162,8 +174,8 @@ export function DataTab() {
     const result = catalogApi.updateCreature(editing.id, {
       name: editing.name,
       tier: Number(editing.tier),
-      style: editing.style,
-      type: editing.type,
+      style: editing.style || null,
+      type: editing.type || null,
       ...stats,
     });
     if (!result.ok) {
@@ -397,24 +409,54 @@ export function DataTab() {
                     </Select>
                     <div className="grid gap-2 sm:grid-cols-2">
                       <div className="space-y-1">
-                        <Label htmlFor={`style-${creature.id}`}>Style</Label>
-                        <Input
-                          id={`style-${creature.id}`}
-                          value={editing.style}
-                          onChange={(event) =>
-                            setEditing({ ...editing, style: event.target.value })
-                          }
-                        />
+                        <Label id={`style-label-${creature.id}`}>Style</Label>
+                        <Select
+                          value={editing.style || NONE}
+                          onValueChange={(value) => {
+                            if (!value || value === NONE) {
+                              setEditing({ ...editing, style: "" });
+                              return;
+                            }
+                            if (isStyle(value)) setEditing({ ...editing, style: value });
+                          }}
+                        >
+                          <SelectTrigger className="w-full" aria-labelledby={`style-label-${creature.id}`}>
+                            <SelectValue placeholder="Style" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={NONE}>None</SelectItem>
+                            {STYLES.map((style) => (
+                              <SelectItem key={style} value={style}>
+                                {style}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-1">
-                        <Label htmlFor={`type-${creature.id}`}>Type</Label>
-                        <Input
-                          id={`type-${creature.id}`}
-                          value={editing.type}
-                          onChange={(event) =>
-                            setEditing({ ...editing, type: event.target.value })
-                          }
-                        />
+                        <Label id={`type-label-${creature.id}`}>Type</Label>
+                        <Select
+                          value={editing.type || NONE}
+                          onValueChange={(value) => {
+                            if (!value || value === NONE) {
+                              setEditing({ ...editing, type: "" });
+                              return;
+                            }
+                            if (isType(value)) setEditing({ ...editing, type: value });
+                          }}
+                        >
+                          <SelectTrigger className="w-full" aria-labelledby={`type-label-${creature.id}`}>
+                            <SelectValue placeholder="Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={NONE}>None</SelectItem>
+                            {TYPES.map((type) => (
+                              <SelectItem key={type} value={type}>
+                                {type}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
                     <div className="grid grid-cols-5 gap-2">

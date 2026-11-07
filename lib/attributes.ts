@@ -1,3 +1,19 @@
+export const STYLES = ["Brawler", "Controller", "Guard", "Healer", "Ranged", "Striker"] as const;
+
+export const TYPES = ["Fire", "Forest", "Ice", "Plains", "River", "Wild"] as const;
+
+export type StyleName = (typeof STYLES)[number];
+
+export type TypeName = (typeof TYPES)[number];
+
+export function isStyle(value: string): value is StyleName {
+  return (STYLES as readonly string[]).includes(value);
+}
+
+export function isType(value: string): value is TypeName {
+  return (TYPES as readonly string[]).includes(value);
+}
+
 export const STAT_KEYS = ["hp", "atk", "def", "spd", "rng"] as const;
 
 export type StatKey = (typeof STAT_KEYS)[number];
@@ -11,8 +27,8 @@ export const STAT_LABELS: Record<StatKey, string> = {
 };
 
 export type CreatureAttributes = {
-  style?: string;
-  type?: string;
+  style?: StyleName;
+  type?: TypeName;
   hp?: number;
   atk?: number;
   def?: number;
@@ -20,7 +36,15 @@ export type CreatureAttributes = {
   rng?: number;
 };
 
-const TEXT_LIMIT = 40;
+function readChoice<T extends string>(
+  field: unknown,
+  options: readonly T[],
+): T | undefined | null {
+  if (field === undefined || field === null || field === "") return undefined;
+  if (typeof field !== "string") return null;
+  const text = field.trim().toLowerCase();
+  return options.find((option) => option.toLowerCase() === text);
+}
 
 export function readAttributes(
   raw: object,
@@ -28,19 +52,12 @@ export function readAttributes(
 ): { ok: true; value: CreatureAttributes } | { ok: false; error: string } {
   const item = raw as Record<string, unknown>;
   const value: CreatureAttributes = {};
-  for (const key of ["style", "type"] as const) {
-    const field = item[key];
-    if (field === undefined || field === null) continue;
-    if (typeof field !== "string") {
-      return { ok: false, error: `${name} has a ${key} that is not text.` };
-    }
-    const text = field.trim().replace(/\s+/g, " ");
-    if (!text) continue;
-    if (text.length > TEXT_LIMIT) {
-      return { ok: false, error: `${name} has a ${key} longer than ${TEXT_LIMIT} characters.` };
-    }
-    value[key] = text;
-  }
+  const style = readChoice(item.style, STYLES);
+  const type = readChoice(item.type, TYPES);
+  if (style === null) return { ok: false, error: `${name} has a style that is not text.` };
+  if (type === null) return { ok: false, error: `${name} has a type that is not text.` };
+  if (style) value.style = style;
+  if (type) value.type = type;
   for (const key of STAT_KEYS) {
     const field = item[key];
     if (field === undefined || field === null || field === "") continue;
@@ -53,7 +70,9 @@ export function readAttributes(
 }
 
 export function attributeSummary(creature: CreatureAttributes): string | null {
-  const words = [creature.style, creature.type].filter((item): item is string => Boolean(item));
+  const words = [creature.style, creature.type].filter(
+    (item): item is StyleName | TypeName => item !== undefined,
+  );
   const stats = STAT_KEYS.filter((key) => creature[key] !== undefined).map(
     (key) => `${STAT_LABELS[key]} ${creature[key]}`,
   );

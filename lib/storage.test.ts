@@ -24,7 +24,7 @@ describe("bundled catalog", () => {
   it("keeps style, type, and stats through an export", () => {
     const parsed = parseImport({
       creatures: [
-        { id: "chick", name: "Chick", tier: 1, style: "Fluffy", type: "Beast", hp: 12, atk: 3 },
+        { id: "chick", name: "Chick", tier: 1, style: "Brawler", type: "fire", hp: 12, atk: 3 },
         { id: "bunny", name: "Bunny", tier: 1 },
         { id: "cat", name: "Cat", tier: 1 },
       ],
@@ -33,15 +33,30 @@ describe("bundled catalog", () => {
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
     expect(parsed.catalog.creatures[0]).toMatchObject({
-      style: "Fluffy",
-      type: "Beast",
+      style: "Brawler",
+      type: "Fire",
       hp: 12,
       atk: 3,
     });
     const again = parseImport(JSON.parse(exportPayload(parsed.catalog)));
     expect(again.ok).toBe(true);
     if (!again.ok) return;
-    expect(again.catalog.creatures[0]).toMatchObject({ hp: 12, style: "Fluffy" });
+    expect(again.catalog.creatures[0]).toMatchObject({ hp: 12, style: "Brawler", type: "Fire" });
+  });
+
+  it("drops a style or type that is not one of the choices", () => {
+    const parsed = parseImport({
+      creatures: [
+        { id: "chick", name: "Chick", tier: 1, style: "Fluffy", type: "River" },
+        { id: "bunny", name: "Bunny", tier: 1 },
+        { id: "cat", name: "Cat", tier: 1 },
+      ],
+      recipes: [],
+    });
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) return;
+    expect(parsed.catalog.creatures[0].style).toBeUndefined();
+    expect(parsed.catalog.creatures[0].type).toBe("River");
   });
 
   it("rejects a stat that is not a whole number", () => {
