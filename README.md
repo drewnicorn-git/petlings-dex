@@ -14,6 +14,8 @@ This is not the game, and it is not an official guide. The creature list and com
 
 If you drop a pair that is not saved yet, the board says **New Creature ?** and you can name the result. That writes the creature and the combo.
 
+Picture styles for Cat, Bunny, and Chick are on the Picture styles page. The board keeps the current drawings until one of those styles is chosen for the whole list.
+
 ## Your notes stay in the browser
 
 Creatures, combos, attributes, and the tokens on the board are saved in this browser’s local storage. Each species has a Style (Brawler, Controller, Guard, Healer, Ranged, Striker), a Type (Fire, Forest, Ice, Plains, River, Wild), and HP, ATK, DEF, SPD, and RNG as whole numbers. Edit them from the Data tab.
