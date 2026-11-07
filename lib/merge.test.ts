@@ -9,11 +9,30 @@ import {
   validateTierChange,
 } from "@/lib/merge";
 import { seedCatalog } from "@/lib/seed";
+import { COLLECTION_TOTAL, TIER_TOTALS } from "@/lib/tiers";
 import type { Catalog } from "@/lib/types";
 
 function catalog(): Catalog {
   return structuredClone(seedCatalog);
 }
+
+describe("collection totals", () => {
+  it("matches the known roster size for each tier", () => {
+    expect(TIER_TOTALS).toEqual({
+      1: 3,
+      2: 6,
+      3: 21,
+      4: 24,
+      5: 25,
+      6: 25,
+      7: 23,
+      8: 22,
+      9: 19,
+      10: 16,
+    });
+    expect(COLLECTION_TOTAL).toBe(184);
+  });
+});
 
 describe("attemptMerge", () => {
   it("merges two chicks into a duck", () => {

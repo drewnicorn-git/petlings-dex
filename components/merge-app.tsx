@@ -3,6 +3,7 @@
 import { CatalogProvider, useCatalog } from "@/components/catalog-context";
 import { MergeBoard } from "@/components/board/merge-board";
 import { DataTab } from "@/components/data/data-tab";
+import { TierProgress } from "@/components/tier-progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function Notebook() {
@@ -39,6 +40,7 @@ export function MergeApp() {
             Drag two creatures of the same tier together. A saved combo becomes the next
             creature. Drop one in the corner to count the Chick, Bunny, and Cat it takes.
           </p>
+          <TierProgress />
         </header>
         <main className="px-4 py-4 sm:px-6">
           <Notebook />

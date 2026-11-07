@@ -24,3 +24,21 @@ export function tierStyle(tier: number): TierStyle {
 export function starterTotal(tier: number): number {
   return 2 ** (tier - 1);
 }
+
+export const TIER_TOTALS: Record<number, number> = {
+  1: 3,
+  2: 6,
+  3: 21,
+  4: 24,
+  5: 25,
+  6: 25,
+  7: 23,
+  8: 22,
+  9: 19,
+  10: 16,
+};
+
+export const COLLECTION_TOTAL = TIERS.reduce(
+  (sum, tier) => sum + (TIER_TOTALS[tier.tier] ?? 0),
+  0,
+);
