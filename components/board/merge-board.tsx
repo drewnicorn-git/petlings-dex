@@ -457,7 +457,7 @@ export function MergeBoard() {
                 onPointerDown={(event) => startTokenDrag(event, token)}
               >
                 <span className="rounded-2xl bg-background p-1 shadow-sm ring-1 ring-foreground/10">
-                  <CreatureArt name={creature.name} className="h-16 w-16" />
+                  <CreatureArt name={creature.name} id={creature.id} className="h-16 w-16" />
                 </span>
                 <span className="mt-1 max-w-full truncate text-center text-xs font-semibold">
                   {creature.name}
@@ -533,7 +533,7 @@ export function MergeBoard() {
           className="pointer-events-none fixed z-50 w-24 -translate-x-1/2 -translate-y-16"
           style={{ left: ghost.x, top: ghost.y }}
         >
-          <CreatureArt name={ghostCreature.name} className="mx-auto h-16 w-16" />
+          <CreatureArt name={ghostCreature.name} id={ghostCreature.id} className="mx-auto h-16 w-16" />
           <p className="truncate text-center text-xs font-semibold">{ghostCreature.name}</p>
         </div>
       ) : null}

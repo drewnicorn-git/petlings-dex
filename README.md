@@ -14,7 +14,7 @@ This is not the game, and it is not an official guide. The creature list and com
 
 If you drop a pair that is not saved yet, the board says **New Creature ?** and you can name the result. That writes the creature and the combo.
 
-Picture styles for Cat, Bunny, and Chick are on the Picture styles page. The board keeps the current drawings until one of those styles is chosen for the whole list.
+Every saved creature uses a chibi portrait. A creature you add later keeps a simple drawing until it has a portrait of its own.
 
 ## Your notes stay in the browser
 

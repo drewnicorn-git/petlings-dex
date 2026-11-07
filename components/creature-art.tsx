@@ -1,9 +1,22 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useEffect, useState, type ReactNode } from "react";
+import { assetPath } from "@/lib/asset-path";
 import {
   lookFor,
   type CreatureLook,
   type Extra,
 } from "@/lib/creature-look";
+import { slugify } from "@/lib/merge";
+import { seedCatalog } from "@/lib/seed";
+
+const PORTRAIT_IDS = new Set(seedCatalog.creatures.map((creature) => creature.id));
+
+function portraitIdFor(id: string | undefined, name: string): string | null {
+  if (id && PORTRAIT_IDS.has(id)) return id;
+  const slug = slugify(name);
+  return PORTRAIT_IDS.has(slug) ? slug : null;
+}
 
 function Frame({ children, className }: { children: ReactNode; className?: string }) {
   return (
@@ -577,7 +590,34 @@ function portrait(look: CreatureLook): ReactNode {
   );
 }
 
-export function CreatureArt({ name, className }: { name: string; className?: string }) {
+export function CreatureArt({
+  name,
+  id,
+  className,
+}: {
+  name: string;
+  id?: string;
+  className?: string;
+}) {
+  const portraitId = portraitIdFor(id, name);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    setFailed(false);
+  }, [portraitId]);
+
+  if (portraitId && !failed) {
+    return (
+      // next/image dropped the GitHub Pages folder, so these use a plain image.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={assetPath(`/creatures/${portraitId}.jpg`)}
+        alt=""
+        className={`${className ?? ""} object-contain`}
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+
   const look = lookFor(name);
   return (
     <Frame className={className}>

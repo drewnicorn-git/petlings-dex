@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { CreatureArt } from "@/components/creature-art";
 import { Button } from "@/components/ui/button";
+import { assetPath } from "@/lib/asset-path";
 
 const CHOICE_KEY = "petlings-picture-style";
 
@@ -107,21 +107,17 @@ export function StylePicker() {
               <div className="mt-4 grid grid-cols-3 gap-3">
                 {ANIMALS.map((name) => (
                   <figure key={name} className="text-center">
-                    <Image
-                      src={`/style-samples/${look.files[name]}`}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={assetPath(`/style-samples/${look.files[name]}`)}
                       alt={`${look.name} drawing of a ${name.toLowerCase()}`}
-                      width={640}
-                      height={640}
-                      unoptimized
                       className="aspect-square w-full rounded-2xl bg-background object-contain"
                     />
                     <figcaption className="mt-2 text-sm font-semibold">{name}</figcaption>
-                    <Image
-                      src={`/style-samples/${look.files[name]}`}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={assetPath(`/style-samples/${look.files[name]}`)}
                       alt=""
-                      width={64}
-                      height={64}
-                      unoptimized
                       className="mx-auto mt-2 h-16 w-16 rounded-xl bg-background object-contain"
                     />
                   </figure>
