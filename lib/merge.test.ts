@@ -43,8 +43,8 @@ describe("attemptMerge", () => {
   });
 
   it("treats parent order as the same combo", () => {
-    const recipe = findRecipe(seedCatalog.recipes, "snapping-turtle", "panda");
-    expect(recipe?.resultId).toBe("river-dragon");
+    const recipe = findRecipe(seedCatalog.recipes, "bunny", "cat");
+    expect(recipe?.resultId).toBe("arctic-fox");
   });
 
   it("rejects different tiers", () => {
@@ -58,14 +58,24 @@ describe("attemptMerge", () => {
   });
 
   it("reports an unknown same-tier pair", () => {
-    expect(attemptMerge(seedCatalog, "chick", "bunny")).toEqual({
+    const board = catalog();
+    board.creatures.push(
+      { id: "alpha", name: "Alpha", tier: 2 },
+      { id: "beta", name: "Beta", tier: 2 },
+    );
+    expect(attemptMerge(board, "alpha", "beta")).toEqual({
       ok: false,
       reason: "unknown",
     });
   });
 
   it("refuses a tier 10 merge", () => {
-    expect(attemptMerge(seedCatalog, "cosmic-dragon", "frost-sovereign")).toEqual({
+    const board = catalog();
+    board.creatures.push(
+      { id: "nova", name: "Nova", tier: 10 },
+      { id: "eclipse", name: "Eclipse", tier: 10 },
+    );
+    expect(attemptMerge(board, "nova", "eclipse")).toEqual({
       ok: false,
       reason: "max-tier",
     });
@@ -134,14 +144,20 @@ describe("disassemble", () => {
     }
   });
 
-  it("names the creature that is missing a combo", () => {
-    expect(disassemble("tiger", seedCatalog)).toEqual({
-      status: "missing",
-      creatureId: "tiger",
+  it("counts a tiger as two cats", () => {
+    expect(disassemble("tiger", seedCatalog)).toMatchObject({
+      status: "ok",
+      total: 2,
+      counts: { chick: 0, bunny: 0, cat: 2 },
     });
-    expect(disassemble("river-dragon", seedCatalog)).toEqual({
+  });
+
+  it("names the creature that is missing a combo", () => {
+    const board = catalog();
+    board.creatures.push({ id: "orphan", name: "Orphan", tier: 2 });
+    expect(disassemble("orphan", board)).toEqual({
       status: "missing",
-      creatureId: "panda",
+      creatureId: "orphan",
     });
   });
 });

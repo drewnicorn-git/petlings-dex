@@ -4,6 +4,25 @@ export type Creature = {
   tier: number;
   locked?: boolean;
   note?: string;
+  style?: string;
+  type?: string;
+  hp?: number;
+  atk?: number;
+  def?: number;
+  spd?: number;
+  rng?: number;
+};
+
+export type CreaturePatch = {
+  name?: string;
+  tier?: number;
+  style?: string | null;
+  type?: string | null;
+  hp?: number | null;
+  atk?: number | null;
+  def?: number | null;
+  spd?: number | null;
+  rng?: number | null;
 };
 
 export type Recipe = {

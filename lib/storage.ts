@@ -1,5 +1,6 @@
+import { readAttributes } from "@/lib/attributes";
 import { validateRecipe } from "@/lib/merge";
-import { seedCatalog } from "@/lib/seed";
+import { bundledRevision, seedCatalog } from "@/lib/seed";
 import {
   STARTER_IDS,
   STARTER_NAMES,
@@ -15,7 +16,52 @@ export type Persisted = {
   version: 1;
   catalog: Catalog;
   tokens: BoardToken[];
+  sourceStamp: string;
 };
+
+export function catalogStamp(catalog: Catalog): string {
+  const body = JSON.stringify({
+    creatures: catalog.creatures.map((creature) => ({
+      id: creature.id,
+      name: creature.name,
+      tier: creature.tier,
+      locked: Boolean(creature.locked),
+      note: creature.note ?? "",
+      style: creature.style ?? "",
+      type: creature.type ?? "",
+      hp: creature.hp ?? null,
+      atk: creature.atk ?? null,
+      def: creature.def ?? null,
+      spd: creature.spd ?? null,
+      rng: creature.rng ?? null,
+    })),
+    recipes: catalog.recipes.map((recipe) => ({
+      id: recipe.id,
+      parentA: recipe.parentA,
+      parentB: recipe.parentB,
+      resultId: recipe.resultId,
+    })),
+  });
+  let hash = 2166136261;
+  for (let index = 0; index < body.length; index += 1) {
+    hash ^= body.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(16);
+}
+
+export const bundledStamp = catalogStamp(seedCatalog);
+
+export function resolveSavedCatalog(
+  saved: { catalog: Catalog; sourceStamp?: string } | null,
+  bundled: Catalog,
+  stamp: string,
+): { catalog: Catalog; sourceStamp: string } {
+  if (!saved || saved.sourceStamp !== stamp) {
+    return { catalog: structuredClone(bundled), sourceStamp: stamp };
+  }
+  return { catalog: saved.catalog, sourceStamp: stamp };
+}
 
 export function parseImport(
   data: unknown,
@@ -62,12 +108,15 @@ export function parseImport(
     }
     seenIds.add(item.id);
     seenNames.add(name.toLowerCase());
+    const attributes = readAttributes(raw, name);
+    if (!attributes.ok) return attributes;
     creatures.push({
       id: item.id,
       name,
       tier: locked ? 1 : item.tier,
       locked: locked || undefined,
       note: typeof item.note === "string" && item.note.trim() ? item.note.trim() : undefined,
+      ...attributes.value,
     });
   }
 
@@ -139,27 +188,43 @@ export function loadPersisted(): Persisted | null {
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as { catalog?: unknown; tokens?: unknown };
+    const parsed = JSON.parse(raw) as {
+      catalog?: unknown;
+      tokens?: unknown;
+      sourceStamp?: unknown;
+    };
     const imported = parseImport(parsed.catalog ?? parsed);
     if (!imported.ok) return null;
-    const ids = new Set(imported.catalog.creatures.map((creature) => creature.id));
+    const chosen = resolveSavedCatalog(
+      {
+        catalog: imported.catalog,
+        sourceStamp: typeof parsed.sourceStamp === "string" ? parsed.sourceStamp : undefined,
+      },
+      freshCatalog(),
+      bundledStamp,
+    );
+    const ids = new Set(chosen.catalog.creatures.map((creature) => creature.id));
     const tokens = Array.isArray(parsed.tokens)
       ? parsed.tokens.filter((token) => validToken(token, ids))
       : [];
-    return { version: 1, catalog: imported.catalog, tokens };
+    return { version: 1, catalog: chosen.catalog, tokens, sourceStamp: chosen.sourceStamp };
   } catch {
     return null;
   }
 }
 
-export function savePersisted(catalog: Catalog, tokens: BoardToken[]): void {
+export function savePersisted(
+  catalog: Catalog,
+  tokens: BoardToken[],
+  sourceStamp: string,
+): void {
   if (typeof window === "undefined") return;
-  const payload: Persisted = { version: 1, catalog, tokens };
+  const payload: Persisted = { version: 1, catalog, tokens, sourceStamp };
   window.localStorage.setItem(KEY, JSON.stringify(payload));
 }
 
 export function exportPayload(catalog: Catalog): string {
-  return JSON.stringify({ version: 1, ...catalog }, null, 2);
+  return JSON.stringify({ version: 1, revision: bundledRevision, ...catalog }, null, 2);
 }
 
 export function freshCatalog(): Catalog {

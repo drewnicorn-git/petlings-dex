@@ -2,7 +2,7 @@
 
 A personal notebook for a pet-merge game. Add creatures and the same-tier combos that make them, drag cartoon tokens together to see what unlocks, and drop a creature in the corner to count how many Chicks, Bunnies, and Cats it takes to make again.
 
-This is not the game, and it is not an official guide. The starter list includes only the creatures and combos published on the Petlings site, plus Snapping Turtle at tier 5 so the published Panda merge can be stored. Everything else is yours to type in.
+This is not the game, and it is not an official guide. The creature list and combos checked into the project live in `data/merge-board.json`. That file is the copy that ships with the app.
 
 ## Rules the board keeps
 
@@ -16,7 +16,9 @@ If you drop a pair that is not saved yet, the board says **New Creature ?** and 
 
 ## Your notes stay in the browser
 
-Creatures, combos, and the tokens on the board are saved in this browser’s local storage. Export a JSON file from the Data tab if you want a copy, and import it on another browser. Deploying the site does not upload that notebook.
+Creatures, combos, attributes, and the tokens on the board are saved in this browser’s local storage. Each species can store Style and Type as text, and HP, ATK, DEF, SPD, and RNG as whole numbers. Edit them from the Data tab.
+
+Export writes a `merge-board.json` file. To make a newer list part of the project, replace `data/merge-board.json` with that export. The next time the app loads, it uses the new file and drops browser-only creatures that were not in it. Until that file changes, creatures you add in the browser stay put. Import still replaces the list in this browser only.
 
 ## Run it locally
 

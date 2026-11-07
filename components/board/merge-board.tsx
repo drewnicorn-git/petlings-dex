@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CreatureArt } from "@/components/creature-art";
+import { attributeSummary } from "@/lib/attributes";
 import { useCatalog } from "@/components/catalog-context";
 import { Palette } from "@/components/board/palette";
 import { Button } from "@/components/ui/button";
@@ -432,6 +433,7 @@ export function MergeBoard() {
           const creature = catalog.creatures.find((item) => item.id === token.creatureId);
           if (!creature) return null;
           const colors = tierStyle(creature.tier);
+          const summary = attributeSummary(creature);
           return (
             <div
               key={token.id}
@@ -466,6 +468,11 @@ export function MergeBoard() {
                 >
                   T{creature.tier}
                 </span>
+                {summary ? (
+                  <span className="mt-0.5 line-clamp-2 text-center text-[10px] leading-tight text-muted-foreground">
+                    {summary}
+                  </span>
+                ) : null}
               </div>
             </div>
           );

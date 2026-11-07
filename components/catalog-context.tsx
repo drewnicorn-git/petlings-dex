@@ -17,8 +17,9 @@ import {
   validateRecipe,
   validateTierChange,
 } from "@/lib/merge";
-import { freshCatalog, loadPersisted, savePersisted } from "@/lib/storage";
-import type { BoardToken, Catalog, Creature, Recipe } from "@/lib/types";
+import { readAttributes } from "@/lib/attributes";
+import { bundledStamp, freshCatalog, loadPersisted, savePersisted } from "@/lib/storage";
+import type { BoardToken, Catalog, Creature, CreaturePatch, Recipe } from "@/lib/types";
 
 type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 
@@ -28,10 +29,7 @@ type CatalogContextValue = {
   tokens: BoardToken[];
   setTokens: Dispatch<SetStateAction<BoardToken[]>>;
   addCreature: (name: string, tier: number) => Result<Creature>;
-  updateCreature: (
-    id: string,
-    patch: { name?: string; tier?: number },
-  ) => Result<Creature>;
+  updateCreature: (id: string, patch: CreaturePatch) => Result<Creature>;
   deleteCreature: (id: string) => Result<null>;
   addRecipe: (parentA: string, parentB: string, resultId: string) => Result<Recipe>;
   deleteRecipe: (id: string) => void;
@@ -48,6 +46,7 @@ function newId(prefix: string): string {
 export function CatalogProvider({ children }: { children: ReactNode }) {
   const [catalog, setCatalog] = useState<Catalog>(freshCatalog);
   const [tokens, setTokens] = useState<BoardToken[]>([]);
+  const [sourceStamp, setSourceStamp] = useState(bundledStamp);
   const [ready, setReady] = useState(false);
   const catalogRef = useRef(catalog);
   catalogRef.current = catalog;
@@ -62,14 +61,15 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
     if (saved) {
       commit(saved.catalog);
       setTokens(saved.tokens);
+      setSourceStamp(saved.sourceStamp);
     }
     setReady(true);
   }, []);
 
   useEffect(() => {
     if (!ready) return;
-    savePersisted(catalog, tokens);
-  }, [catalog, tokens, ready]);
+    savePersisted(catalog, tokens, sourceStamp);
+  }, [catalog, tokens, sourceStamp, ready]);
 
   const value: CatalogContextValue = {
     ready,
@@ -106,7 +106,27 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
         const tierError = validateTierChange(current, id, nextTier);
         if (tierError) return { ok: false, error: tierError };
       }
-      const creature = { ...existing, name: nextName, tier: nextTier };
+      const attributes = readAttributes(
+        {
+          style: patch.style === undefined ? existing.style : patch.style,
+          type: patch.type === undefined ? existing.type : patch.type,
+          hp: patch.hp === undefined ? existing.hp : patch.hp,
+          atk: patch.atk === undefined ? existing.atk : patch.atk,
+          def: patch.def === undefined ? existing.def : patch.def,
+          spd: patch.spd === undefined ? existing.spd : patch.spd,
+          rng: patch.rng === undefined ? existing.rng : patch.rng,
+        },
+        nextName,
+      );
+      if (!attributes.ok) return attributes;
+      const creature: Creature = {
+        id: existing.id,
+        name: nextName,
+        tier: nextTier,
+        ...(existing.locked ? { locked: true } : {}),
+        ...(existing.note ? { note: existing.note } : {}),
+        ...attributes.value,
+      };
       commit({
         ...current,
         creatures: current.creatures.map((item) => (item.id === id ? creature : item)),
