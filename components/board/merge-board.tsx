@@ -1,0 +1,567 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CreatureArt } from "@/components/creature-art";
+import { useCatalog } from "@/components/catalog-context";
+import { Palette } from "@/components/board/palette";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  attemptMerge,
+  creatureName,
+  disassemble,
+  findByName,
+  normalizeName,
+  type Breakdown,
+} from "@/lib/merge";
+import { tierStyle } from "@/lib/tiers";
+import {
+  STARTER_IDS,
+  STARTER_NAMES,
+  type BoardToken,
+  type StarterCounts,
+} from "@/lib/types";
+
+const TOKEN_W = 112;
+const TOKEN_H = 132;
+
+type Drag =
+  | { kind: "palette"; creatureId: string; pointerId: number }
+  | {
+      kind: "token";
+      tokenId: string;
+      creatureId: string;
+      pointerId: number;
+      dx: number;
+      dy: number;
+      originX: number;
+      originY: number;
+    };
+
+type Mystery = {
+  parentA: string;
+  parentB: string;
+  tokenA: string;
+  tokenB: string;
+  x: number;
+  y: number;
+};
+
+function newTokenId(): string {
+  return `token-${crypto.randomUUID().slice(0, 8)}`;
+}
+
+function pointIn(rect: DOMRect, x: number, y: number): boolean {
+  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
+function localPoint(board: HTMLElement, clientX: number, clientY: number) {
+  const rect = board.getBoundingClientRect();
+  return { x: clientX - rect.left + board.scrollLeft, y: clientY - rect.top + board.scrollTop };
+}
+
+function clampToken(board: HTMLElement, x: number, y: number) {
+  const maxX = Math.max(8, board.clientWidth - TOKEN_W - 8);
+  const maxY = Math.max(8, board.clientHeight - TOKEN_H - 8);
+  return {
+    x: Math.min(Math.max(8, x), maxX),
+    y: Math.min(Math.max(8, y), maxY),
+  };
+}
+
+function Counts({ counts }: { counts: StarterCounts }) {
+  return (
+    <ul className="mt-1 space-y-0.5">
+      {STARTER_IDS.map((id) => (
+        <li key={id}>
+          {STARTER_NAMES[id]} × {counts[id]}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function BreakdownView({
+  creatureId,
+  breakdown,
+}: {
+  creatureId: string;
+  breakdown: Breakdown;
+}) {
+  const { catalog } = useCatalog();
+  const creature = catalog.creatures.find((item) => item.id === creatureId);
+  if (!creature) return null;
+  if (breakdown.status === "missing") {
+    return (
+      <p>
+        {creatureName(catalog, breakdown.creatureId)} has no combo yet, so the starter count
+        stops there.
+      </p>
+    );
+  }
+  if (breakdown.status === "cycle") {
+    return <p>This combo loops, so it can&apos;t be counted.</p>;
+  }
+  if (breakdown.status === "not-starter") {
+    return (
+      <p>
+        {creatureName(catalog, breakdown.creatureId)} is tier 1, but only Chick, Bunny, and Cat
+        can start a line.
+      </p>
+    );
+  }
+  if (breakdown.status !== "ok") return null;
+  return (
+    <div>
+      <p className="text-xs text-muted-foreground">
+        {breakdown.total} starter {breakdown.total === 1 ? "pet" : "pets"}
+      </p>
+      {breakdown.paths.length === 0 ? (
+        <>
+          <p className="text-xs">This is a starter.</p>
+          <Counts counts={breakdown.counts} />
+        </>
+      ) : (
+        breakdown.paths.map((path) => (
+          <div key={`${path.recipeId}-${path.counts.chick}-${path.counts.bunny}-${path.counts.cat}`} className="mt-2">
+            <p className="text-xs">
+              via {creatureName(catalog, path.parentA)} + {creatureName(catalog, path.parentB)}
+            </p>
+            <Counts counts={path.counts} />
+          </div>
+        ))
+      )}
+      {breakdown.truncated ? <p className="mt-1 text-xs">Showing the first 8 ways.</p> : null}
+    </div>
+  );
+}
+
+export function MergeBoard() {
+  const api = useCatalog();
+  const { catalog, tokens, setTokens } = api;
+  const boardRef = useRef<HTMLDivElement>(null);
+  const dockRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<Drag | null>(null);
+  const apiRef = useRef(api);
+  const tokensRef = useRef(tokens);
+  apiRef.current = api;
+  tokensRef.current = tokens;
+
+  const [ghost, setGhost] = useState<{ x: number; y: number; creatureId: string } | null>(null);
+  const [dockHot, setDockHot] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [mystery, setMystery] = useState<Mystery | null>(null);
+  const [focusId, setFocusId] = useState<string | null>(null);
+  const [nameOpen, setNameOpen] = useState(false);
+  const [draftName, setDraftName] = useState("");
+  const [nameError, setNameError] = useState<string | null>(null);
+  const noticeTimer = useRef<number | null>(null);
+
+  const flash = useCallback((message: string) => {
+    setNotice(message);
+    if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+    noticeTimer.current = window.setTimeout(() => setNotice(null), 2200);
+  }, []);
+
+  const tokenAt = useCallback((clientX: number, clientY: number, ignoreId: string | null) => {
+    const board = boardRef.current;
+    if (!board) return null;
+    const nodes = board.querySelectorAll<HTMLElement>("[data-token-id]");
+    for (const node of nodes) {
+      const id = node.dataset.tokenId;
+      if (!id || id === ignoreId) continue;
+      if (pointIn(node.getBoundingClientRect(), clientX, clientY)) {
+        return tokensRef.current.find((token) => token.id === id) ?? null;
+      }
+    }
+    return null;
+  }, []);
+
+  const place = useCallback(
+    (creatureId: string, x: number, y: number): string => {
+      const id = newTokenId();
+      setTokens((current) => [...current, { id, creatureId, x, y }]);
+      return id;
+    },
+    [setTokens],
+  );
+
+  const snapBack = useCallback(
+    (drag: Extract<Drag, { kind: "token" }>) => {
+      setTokens((current) =>
+        current.map((token) =>
+          token.id === drag.tokenId ? { ...token, x: drag.originX, y: drag.originY } : token,
+        ),
+      );
+    },
+    [setTokens],
+  );
+
+  const finishMerge = useCallback(
+    (resultId: string, removeIds: string[], x: number, y: number) => {
+      setTokens((current) => {
+        const next = current.filter((token) => !removeIds.includes(token.id));
+        next.push({ id: newTokenId(), creatureId: resultId, x, y });
+        return next;
+      });
+      setMystery(null);
+    },
+    [setTokens],
+  );
+
+  useEffect(() => {
+    const move = (event: PointerEvent) => {
+      const drag = dragRef.current;
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      event.preventDefault();
+      const creatureId = drag.kind === "palette" ? drag.creatureId : drag.creatureId;
+      setGhost({ x: event.clientX, y: event.clientY, creatureId });
+      const dock = dockRef.current;
+      setDockHot(!!dock && pointIn(dock.getBoundingClientRect(), event.clientX, event.clientY));
+      if (drag.kind !== "token") return;
+      const board = boardRef.current;
+      if (!board) return;
+      const local = localPoint(board, event.clientX, event.clientY);
+      const pos = clampToken(board, local.x - drag.dx, local.y - drag.dy);
+      setTokens((current) =>
+        current.map((token) => (token.id === drag.tokenId ? { ...token, ...pos } : token)),
+      );
+    };
+
+    const up = (event: PointerEvent) => {
+      const drag = dragRef.current;
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      dragRef.current = null;
+      setGhost(null);
+      setDockHot(false);
+      const board = boardRef.current;
+      const dock = dockRef.current;
+      if (!board) return;
+      const overDock = !!dock && pointIn(dock.getBoundingClientRect(), event.clientX, event.clientY);
+      const overBoard = pointIn(board.getBoundingClientRect(), event.clientX, event.clientY);
+
+      if (drag.kind === "palette") {
+        if (overDock) {
+          setFocusId(drag.creatureId);
+          return;
+        }
+        const hit = tokenAt(event.clientX, event.clientY, null);
+        if (hit) {
+          combine(drag.creatureId, null, hit, event.clientX, event.clientY);
+          return;
+        }
+        if (overBoard) {
+          const local = localPoint(board, event.clientX, event.clientY);
+          const pos = clampToken(board, local.x - TOKEN_W / 2, local.y - 40);
+          place(drag.creatureId, pos.x, pos.y);
+        }
+        return;
+      }
+
+      const token = tokensRef.current.find((item) => item.id === drag.tokenId);
+      if (!token) return;
+      if (overDock) {
+        setFocusId(token.creatureId);
+        snapBack(drag);
+        return;
+      }
+      const hit = tokenAt(event.clientX, event.clientY, drag.tokenId);
+      if (hit) {
+        combine(drag.creatureId, drag, hit, event.clientX, event.clientY);
+        return;
+      }
+    };
+
+    function combine(
+      incomingId: string,
+      drag: Extract<Drag, { kind: "token" }> | null,
+      target: BoardToken,
+      clientX: number,
+      clientY: number,
+    ) {
+      const board = boardRef.current;
+      if (!board) return;
+      const attempt = attemptMerge(apiRef.current.catalog, incomingId, target.creatureId);
+      if (!attempt.ok && attempt.reason === "same-tier") {
+        flash("Same tier only");
+        if (drag) snapBack(drag);
+        return;
+      }
+      if (!attempt.ok && attempt.reason === "max-tier") {
+        flash("Tier 10 is the top. Those two can't merge higher.");
+        if (drag) snapBack(drag);
+        return;
+      }
+      if (attempt.ok) {
+        finishMerge(attempt.resultId, [target.id, drag?.tokenId ?? ""], target.x, target.y);
+        return;
+      }
+      let tokenA = drag?.tokenId;
+      if (drag) snapBack(drag);
+      if (!tokenA) {
+        const pos = clampToken(board, target.x + TOKEN_W + 12, target.y);
+        tokenA = place(incomingId, pos.x, pos.y);
+      }
+      const local = localPoint(board, clientX, clientY);
+      setMystery({
+        parentA: incomingId,
+        parentB: target.creatureId,
+        tokenA,
+        tokenB: target.id,
+        x: local.x,
+        y: local.y,
+      });
+    }
+
+    window.addEventListener("pointermove", move, { passive: false });
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+    };
+  }, [finishMerge, flash, place, setTokens, snapBack, tokenAt]);
+
+  useEffect(() => {
+    if (!mystery) return;
+    const ids = new Set(tokens.map((token) => token.id));
+    if (!ids.has(mystery.tokenA) || !ids.has(mystery.tokenB)) setMystery(null);
+  }, [mystery, tokens]);
+
+  function startPaletteDrag(event: React.PointerEvent<HTMLButtonElement>, creatureId: string) {
+    if (event.button !== 0) return;
+    dragRef.current = { kind: "palette", creatureId, pointerId: event.pointerId };
+    setGhost({ x: event.clientX, y: event.clientY, creatureId });
+  }
+
+  function startTokenDrag(event: React.PointerEvent<HTMLDivElement>, token: BoardToken) {
+    if (event.button !== 0) return;
+    const board = boardRef.current;
+    if (!board) return;
+    const local = localPoint(board, event.clientX, event.clientY);
+    dragRef.current = {
+      kind: "token",
+      tokenId: token.id,
+      creatureId: token.creatureId,
+      pointerId: event.pointerId,
+      dx: local.x - token.x,
+      dy: local.y - token.y,
+      originX: token.x,
+      originY: token.y,
+    };
+    setGhost({ x: event.clientX, y: event.clientY, creatureId: token.creatureId });
+  }
+
+  function saveDiscovery() {
+    if (!mystery) return;
+    const parent = catalog.creatures.find((creature) => creature.id === mystery.parentA);
+    if (!parent) return;
+    const tier = parent.tier + 1;
+    const cleaned = normalizeName(draftName);
+    const existing = findByName(catalog.creatures, cleaned);
+    let resultId = existing?.id;
+    if (existing && existing.tier !== tier) {
+      setNameError(
+        `${existing.name} is tier ${existing.tier}. This merge needs a tier ${tier} result.`,
+      );
+      return;
+    }
+    if (!existing) {
+      const created = api.addCreature(cleaned, tier);
+      if (!created.ok) {
+        setNameError(created.error);
+        return;
+      }
+      resultId = created.value.id;
+    }
+    if (!resultId) return;
+    const saved = api.addRecipe(mystery.parentA, mystery.parentB, resultId);
+    if (!saved.ok) {
+      setNameError(saved.error);
+      return;
+    }
+    const anchor =
+      tokens.find((token) => token.id === mystery.tokenB) ??
+      tokens.find((token) => token.id === mystery.tokenA);
+    finishMerge(resultId, [mystery.tokenA, mystery.tokenB], anchor?.x ?? 24, anchor?.y ?? 24);
+    setNameOpen(false);
+    setDraftName("");
+    setNameError(null);
+  }
+
+  const focus = focusId ? catalog.creatures.find((creature) => creature.id === focusId) : null;
+  const breakdown = focusId ? disassemble(focusId, catalog) : null;
+  const ghostCreature = ghost
+    ? catalog.creatures.find((creature) => creature.id === ghost.creatureId)
+    : null;
+  const mysteryParents = mystery
+    ? [creatureName(catalog, mystery.parentA), creatureName(catalog, mystery.parentB)]
+    : [];
+
+  return (
+    <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
+      <Palette creatures={catalog.creatures} onPointerDown={startPaletteDrag} />
+      <div
+        ref={boardRef}
+        className="relative min-h-[32rem] overflow-hidden rounded-2xl border bg-[radial-gradient(circle,#e4d3b4_1px,transparent_1px)] bg-[size:22px_22px] bg-card select-none"
+      >
+        {tokens.length === 0 ? (
+          <p className="pointer-events-none absolute top-6 right-6 left-6 text-sm text-muted-foreground">
+            Drag a creature here, then drop it on another of the same tier.
+          </p>
+        ) : null}
+        {notice ? (
+          <p
+            role="status"
+            className="absolute top-3 left-1/2 z-30 -translate-x-1/2 rounded-full bg-foreground px-3 py-1 text-sm text-background"
+          >
+            {notice}
+          </p>
+        ) : null}
+        {tokens.map((token) => {
+          const creature = catalog.creatures.find((item) => item.id === token.creatureId);
+          if (!creature) return null;
+          const colors = tierStyle(creature.tier);
+          return (
+            <div
+              key={token.id}
+              data-token-id={token.id}
+              className="absolute w-28"
+              style={{ left: token.x, top: token.y }}
+            >
+              <button
+                type="button"
+                className="absolute -top-2 -right-1 z-10 flex size-6 items-center justify-center rounded-full bg-foreground text-xs text-background"
+                aria-label={`Remove ${creature.name}`}
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={() =>
+                  setTokens((current) => current.filter((item) => item.id !== token.id))
+                }
+              >
+                ×
+              </button>
+              <div
+                className="flex cursor-grab flex-col items-center touch-none active:cursor-grabbing"
+                onPointerDown={(event) => startTokenDrag(event, token)}
+              >
+                <span className="rounded-2xl bg-background p-1 shadow-sm ring-1 ring-foreground/10">
+                  <CreatureArt name={creature.name} className="h-16 w-16" />
+                </span>
+                <span className="mt-1 max-w-full truncate text-center text-xs font-semibold">
+                  {creature.name}
+                </span>
+                <span
+                  className="mt-0.5 rounded-full px-1.5 text-[10px] font-bold"
+                  style={{ background: colors.bg, color: colors.fg }}
+                >
+                  T{creature.tier}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+        {mystery ? (
+          <div
+            className="absolute z-30 w-52 rounded-2xl border bg-popover p-3 shadow-lg"
+            style={{
+              left: Math.max(
+                8,
+                Math.min(mystery.x, (boardRef.current?.clientWidth ?? 280) - 220),
+              ),
+              top: Math.max(12, mystery.y - 88),
+            }}
+          >
+            <p className="font-heading text-base">New Creature ?</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {mysteryParents[0]} and {mysteryParents[1]} don&apos;t have a saved combo.
+            </p>
+            <div className="mt-2 flex gap-2">
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => {
+                  setDraftName("");
+                  setNameError(null);
+                  setNameOpen(true);
+                }}
+              >
+                Name it
+              </Button>
+              <Button type="button" size="sm" variant="outline" onClick={() => setMystery(null)}>
+                Dismiss
+              </Button>
+            </div>
+          </div>
+        ) : null}
+        <div
+          ref={dockRef}
+          className={`absolute right-3 bottom-3 z-20 w-64 rounded-2xl border bg-popover/95 p-3 text-sm shadow-md backdrop-blur ${dockHot ? "ring-2 ring-primary" : ""}`}
+        >
+          <p className="text-xs font-semibold tracking-wide uppercase">Disassemble</p>
+          <p className="text-xs text-muted-foreground">Drop a creature here.</p>
+          {focus && breakdown ? (
+            <div className="mt-2" aria-live="polite">
+              <p className="font-semibold">{focus.name}</p>
+              <BreakdownView creatureId={focus.id} breakdown={breakdown} />
+            </div>
+          ) : (
+            <p className="mt-2 text-xs text-muted-foreground">
+              The count is how many Chicks, Bunnies, and Cats it takes to make that creature again.
+            </p>
+          )}
+        </div>
+      </div>
+      {ghost && ghostCreature ? (
+        <div
+          className="pointer-events-none fixed z-50 w-24 -translate-x-1/2 -translate-y-16"
+          style={{ left: ghost.x, top: ghost.y }}
+        >
+          <CreatureArt name={ghostCreature.name} className="mx-auto h-16 w-16" />
+          <p className="truncate text-center text-xs font-semibold">{ghostCreature.name}</p>
+        </div>
+      ) : null}
+      <Dialog open={nameOpen} onOpenChange={setNameOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Name the new creature</DialogTitle>
+            <DialogDescription>
+              {mystery
+                ? `${mysteryParents[0]} + ${mysteryParents[1]} will be saved as a tier ${
+                    (catalog.creatures.find((creature) => creature.id === mystery.parentA)?.tier ?? 1) + 1
+                  } result.`
+                : "Save this combo."}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-1">
+            <Label htmlFor="discovery-name">Species name</Label>
+            <Input
+              id="discovery-name"
+              value={draftName}
+              onChange={(event) => setDraftName(event.target.value)}
+              placeholder="River Dragon"
+            />
+          </div>
+          {nameError ? <p className="text-sm text-destructive">{nameError}</p> : null}
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setNameOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="button" onClick={saveDiscovery}>
+              Save combo
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
