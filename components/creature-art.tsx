@@ -612,7 +612,8 @@ export function CreatureArt({
       <img
         src={assetPath(`/creatures/${portraitId}.jpg`)}
         alt=""
-        className={`${className ?? ""} object-contain`}
+        draggable={false}
+        className={`${className ?? ""} pointer-events-none object-contain`}
         onError={() => setFailed(true)}
       />
     );

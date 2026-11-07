@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { pickMergeTarget, type DropBox, type HitBox } from "@/lib/hit";
 import {
   attemptMerge,
   creatureName,
@@ -173,19 +174,72 @@ export function MergeBoard() {
     noticeTimer.current = window.setTimeout(() => setNotice(null), 2200);
   }, []);
 
-  const tokenAt = useCallback((clientX: number, clientY: number, ignoreId: string | null) => {
+  const tokenBoxes = useCallback((): HitBox[] => {
     const board = boardRef.current;
-    if (!board) return null;
-    const nodes = board.querySelectorAll<HTMLElement>("[data-token-id]");
-    for (const node of nodes) {
+    if (!board) return [];
+    const creatures = new Map(
+      apiRef.current.catalog.creatures.map((creature) => [creature.id, creature]),
+    );
+    const boxes: HitBox[] = [];
+    for (const node of board.querySelectorAll<HTMLElement>("[data-token-id]")) {
       const id = node.dataset.tokenId;
-      if (!id || id === ignoreId) continue;
-      if (pointIn(node.getBoundingClientRect(), clientX, clientY)) {
-        return tokensRef.current.find((token) => token.id === id) ?? null;
-      }
+      if (!id) continue;
+      const token = tokensRef.current.find((item) => item.id === id);
+      const creature = token ? creatures.get(token.creatureId) : undefined;
+      if (!token || !creature) continue;
+      const rect = node.getBoundingClientRect();
+      boxes.push({
+        id,
+        tier: creature.tier,
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+      });
     }
-    return null;
+    return boxes;
   }, []);
+
+  const dropOn = useCallback(
+    (drag: Drag, clientX: number, clientY: number) => {
+      const creature = apiRef.current.catalog.creatures.find(
+        (item) => item.id === drag.creatureId,
+      );
+      if (!creature) return null;
+      let drop: DropBox = {
+        left: clientX - 36,
+        top: clientY - 36,
+        right: clientX + 36,
+        bottom: clientY + 36,
+      };
+      if (drag.kind === "token") {
+        const board = boardRef.current;
+        const node = board?.querySelector<HTMLElement>(
+          `[data-token-id="${CSS.escape(drag.tokenId)}"]`,
+        );
+        if (board && node) {
+          const local = localPoint(board, clientX, clientY);
+          const pos = clampToken(board, local.x - drag.dx, local.y - drag.dy);
+          const boardRect = board.getBoundingClientRect();
+          const width = node.getBoundingClientRect().width || TOKEN_W;
+          const height = node.getBoundingClientRect().height || TOKEN_H;
+          const left = boardRect.left - board.scrollLeft + pos.x;
+          const top = boardRect.top - board.scrollTop + pos.y;
+          drop = { left, top, right: left + width, bottom: top + height };
+        }
+      }
+      const targetId = pickMergeTarget(
+        tokenBoxes(),
+        drag.kind === "token" ? drag.tokenId : null,
+        drop,
+        creature.tier,
+      );
+      return targetId
+        ? tokensRef.current.find((token) => token.id === targetId) ?? null
+        : null;
+    },
+    [tokenBoxes],
+  );
 
   const place = useCallback(
     (creatureId: string, x: number, y: number): string => {
@@ -224,8 +278,9 @@ export function MergeBoard() {
       const drag = dragRef.current;
       if (!drag || event.pointerId !== drag.pointerId) return;
       event.preventDefault();
-      const creatureId = drag.kind === "palette" ? drag.creatureId : drag.creatureId;
-      setGhost({ x: event.clientX, y: event.clientY, creatureId });
+      if (drag.kind === "palette") {
+        setGhost({ x: event.clientX, y: event.clientY, creatureId: drag.creatureId });
+      }
       const dock = dockRef.current;
       setDockHot(!!dock && pointIn(dock.getBoundingClientRect(), event.clientX, event.clientY));
       if (drag.kind !== "token") return;
@@ -255,7 +310,7 @@ export function MergeBoard() {
           setFocusId(drag.creatureId);
           return;
         }
-        const hit = tokenAt(event.clientX, event.clientY, null);
+        const hit = dropOn(drag, event.clientX, event.clientY);
         if (hit) {
           combine(drag.creatureId, null, hit, event.clientX, event.clientY);
           return;
@@ -275,7 +330,7 @@ export function MergeBoard() {
         snapBack(drag);
         return;
       }
-      const hit = tokenAt(event.clientX, event.clientY, drag.tokenId);
+      const hit = dropOn(drag, event.clientX, event.clientY);
       if (hit) {
         combine(drag.creatureId, drag, hit, event.clientX, event.clientY);
         return;
@@ -331,7 +386,7 @@ export function MergeBoard() {
       window.removeEventListener("pointerup", up);
       window.removeEventListener("pointercancel", up);
     };
-  }, [finishMerge, flash, place, setTokens, snapBack, tokenAt]);
+  }, [dropOn, finishMerge, flash, place, setTokens, snapBack]);
 
   useEffect(() => {
     if (!mystery) return;
@@ -347,6 +402,8 @@ export function MergeBoard() {
 
   function startTokenDrag(event: React.PointerEvent<HTMLDivElement>, token: BoardToken) {
     if (event.button !== 0) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
     const board = boardRef.current;
     if (!board) return;
     const local = localPoint(board, event.clientX, event.clientY);
@@ -360,7 +417,6 @@ export function MergeBoard() {
       originX: token.x,
       originY: token.y,
     };
-    setGhost({ x: event.clientX, y: event.clientY, creatureId: token.creatureId });
   }
 
   function saveDiscovery() {
@@ -445,16 +501,22 @@ export function MergeBoard() {
                 type="button"
                 className="absolute -top-2 -right-1 z-10 flex size-6 items-center justify-center rounded-full bg-foreground text-xs text-background"
                 aria-label={`Remove ${creature.name}`}
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={() =>
-                  setTokens((current) => current.filter((item) => item.id !== token.id))
-                }
+                onPointerDown={(event) => {
+                  event.stopPropagation();
+                  event.currentTarget.dataset.press = "1";
+                }}
+                onClick={(event) => {
+                  if (event.currentTarget.dataset.press !== "1") return;
+                  event.currentTarget.dataset.press = "";
+                  setTokens((current) => current.filter((item) => item.id !== token.id));
+                }}
               >
                 ×
               </button>
               <div
-                className="flex cursor-grab flex-col items-center touch-none active:cursor-grabbing"
+                className="flex cursor-grab flex-col items-center touch-none select-none active:cursor-grabbing"
                 onPointerDown={(event) => startTokenDrag(event, token)}
+                onDragStart={(event) => event.preventDefault()}
               >
                 <span className="rounded-2xl bg-background p-1 shadow-sm ring-1 ring-foreground/10">
                   <CreatureArt name={creature.name} id={creature.id} className="h-16 w-16" />
@@ -530,7 +592,7 @@ export function MergeBoard() {
       </div>
       {ghost && ghostCreature ? (
         <div
-          className="pointer-events-none fixed z-50 w-24 -translate-x-1/2 -translate-y-16"
+          className="pointer-events-none fixed z-50 w-16 -translate-x-1/2 -translate-y-1/2"
           style={{ left: ghost.x, top: ghost.y }}
         >
           <CreatureArt name={ghostCreature.name} id={ghostCreature.id} className="mx-auto h-16 w-16" />
