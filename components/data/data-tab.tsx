@@ -20,37 +20,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCatalog } from "@/components/catalog-context";
-import {
-  attributeSummary,
-  STAT_KEYS,
-  STAT_LABELS,
-  isStyle,
-  isType,
-  STYLES,
-  TYPES,
-  type StatKey,
-  type StyleName,
-  type TypeName,
-} from "@/lib/attributes";
 import { creatureName, findByName, normalizeName, sortCreatures } from "@/lib/merge";
 import { exportPayload, parseImport } from "@/lib/storage";
 import { tierStyle } from "@/lib/tiers";
 import type { Creature } from "@/lib/types";
 
 const NEW_RESULT = "__new__";
-const NONE = "__none__";
 
 type EditDraft = {
   id: string;
   name: string;
   tier: string;
-  style: StyleName | "";
-  type: TypeName | "";
-  hp: string;
-  atk: string;
-  def: string;
-  spd: string;
-  rng: string;
 };
 
 function draftFrom(creature: Creature): EditDraft {
@@ -58,26 +38,7 @@ function draftFrom(creature: Creature): EditDraft {
     id: creature.id,
     name: creature.name,
     tier: String(creature.tier),
-    style: creature.style ?? "",
-    type: creature.type ?? "",
-    hp: creature.hp === undefined ? "" : String(creature.hp),
-    atk: creature.atk === undefined ? "" : String(creature.atk),
-    def: creature.def === undefined ? "" : String(creature.def),
-    spd: creature.spd === undefined ? "" : String(creature.spd),
-    rng: creature.rng === undefined ? "" : String(creature.rng),
   };
-}
-
-function readStat(
-  value: string,
-  label: string,
-): { ok: true; value: number | null } | { ok: false; error: string } {
-  const trimmed = value.trim();
-  if (!trimmed) return { ok: true, value: null };
-  if (!/^-?\d+$/.test(trimmed)) {
-    return { ok: false, error: `${label} has to be a whole number.` };
-  }
-  return { ok: true, value: Number(trimmed) };
 }
 
 export function DataTab() {
@@ -162,21 +123,9 @@ export function DataTab() {
 
   function saveEdit() {
     if (!editing) return;
-    const stats = {} as Record<StatKey, number | null>;
-    for (const key of STAT_KEYS) {
-      const parsed = readStat(editing[key], STAT_LABELS[key]);
-      if (!parsed.ok) {
-        setEditError(parsed.error);
-        return;
-      }
-      stats[key] = parsed.value;
-    }
     const result = catalogApi.updateCreature(editing.id, {
       name: editing.name,
       tier: Number(editing.tier),
-      style: editing.style || null,
-      type: editing.type || null,
-      ...stats,
     });
     if (!result.ok) {
       setEditError(result.error);
@@ -374,7 +323,6 @@ export function DataTab() {
           {creatures.map((creature) => {
             const colors = tierStyle(creature.tier);
             const isEditing = editing?.id === creature.id;
-            const summary = attributeSummary(creature);
             return (
               <li key={creature.id} className="rounded-xl border p-3">
                 {isEditing ? (
@@ -407,74 +355,6 @@ export function DataTab() {
                         )}
                       </SelectContent>
                     </Select>
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      <div className="space-y-1">
-                        <Label id={`style-label-${creature.id}`}>Style</Label>
-                        <Select
-                          value={editing.style || NONE}
-                          onValueChange={(value) => {
-                            if (!value || value === NONE) {
-                              setEditing({ ...editing, style: "" });
-                              return;
-                            }
-                            if (isStyle(value)) setEditing({ ...editing, style: value });
-                          }}
-                        >
-                          <SelectTrigger className="w-full" aria-labelledby={`style-label-${creature.id}`}>
-                            <SelectValue placeholder="Style" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value={NONE}>None</SelectItem>
-                            {STYLES.map((style) => (
-                              <SelectItem key={style} value={style}>
-                                {style}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-1">
-                        <Label id={`type-label-${creature.id}`}>Type</Label>
-                        <Select
-                          value={editing.type || NONE}
-                          onValueChange={(value) => {
-                            if (!value || value === NONE) {
-                              setEditing({ ...editing, type: "" });
-                              return;
-                            }
-                            if (isType(value)) setEditing({ ...editing, type: value });
-                          }}
-                        >
-                          <SelectTrigger className="w-full" aria-labelledby={`type-label-${creature.id}`}>
-                            <SelectValue placeholder="Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value={NONE}>None</SelectItem>
-                            {TYPES.map((type) => (
-                              <SelectItem key={type} value={type}>
-                                {type}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-5 gap-2">
-                      {STAT_KEYS.map((key) => (
-                        <div key={key} className="space-y-1">
-                          <Label htmlFor={`${key}-${creature.id}`}>{STAT_LABELS[key]}</Label>
-                          <Input
-                            id={`${key}-${creature.id}`}
-                            inputMode="numeric"
-                            value={editing[key]}
-                            aria-label={`${STAT_LABELS[key]} for ${creature.name}`}
-                            onChange={(event) =>
-                              setEditing({ ...editing, [key]: event.target.value })
-                            }
-                          />
-                        </div>
-                      ))}
-                    </div>
                     {editError ? <p className="text-sm text-destructive">{editError}</p> : null}
                     <div className="flex gap-2">
                       <Button type="button" size="sm" onClick={saveEdit}>
@@ -505,12 +385,6 @@ export function DataTab() {
                         </span>
                         <span className="truncate font-semibold">{creature.name}</span>
                       </div>
-                      {summary ? (
-                        <p className="mt-1 text-xs text-muted-foreground">{summary}</p>
-                      ) : null}
-                      {creature.note ? (
-                        <p className="mt-1 text-xs text-muted-foreground">{creature.note}</p>
-                      ) : null}
                     </div>
                     <div className="flex shrink-0 gap-1">
                       <Button

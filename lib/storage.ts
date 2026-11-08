@@ -1,4 +1,3 @@
-import { readAttributes } from "@/lib/attributes";
 import { validateRecipe } from "@/lib/merge";
 import { bundledRevision, seedCatalog } from "@/lib/seed";
 import {
@@ -26,14 +25,6 @@ export function catalogStamp(catalog: Catalog): string {
       name: creature.name,
       tier: creature.tier,
       locked: Boolean(creature.locked),
-      note: creature.note ?? "",
-      style: creature.style ?? "",
-      type: creature.type ?? "",
-      hp: creature.hp ?? null,
-      atk: creature.atk ?? null,
-      def: creature.def ?? null,
-      spd: creature.spd ?? null,
-      rng: creature.rng ?? null,
     })),
     recipes: catalog.recipes.map((recipe) => ({
       id: recipe.id,
@@ -86,7 +77,6 @@ export function parseImport(
       id?: unknown;
       name?: unknown;
       tier?: unknown;
-      note?: unknown;
     };
     if (typeof item.id !== "string" || typeof item.name !== "string") {
       return { ok: false, error: "A creature in that file is missing a name or id." };
@@ -108,15 +98,11 @@ export function parseImport(
     }
     seenIds.add(item.id);
     seenNames.add(name.toLowerCase());
-    const attributes = readAttributes(raw, name);
-    if (!attributes.ok) return attributes;
     creatures.push({
       id: item.id,
       name,
       tier: locked ? 1 : item.tier,
       locked: locked || undefined,
-      note: typeof item.note === "string" && item.note.trim() ? item.note.trim() : undefined,
-      ...attributes.value,
     });
   }
 

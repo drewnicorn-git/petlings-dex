@@ -65,6 +65,17 @@ export function findRecipe(
   return recipes.find((recipe) => pairKey(recipe.parentA, recipe.parentB) === key);
 }
 
+export function missingPartners(catalog: Catalog, creatureId: string): Creature[] {
+  const creature = creatureMap(catalog.creatures).get(creatureId);
+  if (!creature || creature.tier >= 10) return [];
+  return catalog.creatures
+    .filter(
+      (other) =>
+        other.tier === creature.tier && !findRecipe(catalog.recipes, creature.id, other.id),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
+}
+
 export function emptyCounts(): StarterCounts {
   return { chick: 0, bunny: 0, cat: 0 };
 }

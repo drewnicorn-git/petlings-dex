@@ -4,6 +4,7 @@ import {
   disassemble,
   expectedStarterTotal,
   findRecipe,
+  missingPartners,
   totalCount,
   validateRecipe,
   validateTierChange,
@@ -31,6 +32,27 @@ describe("collection totals", () => {
       10: 16,
     });
     expect(COLLECTION_TOTAL).toBe(184);
+  });
+});
+
+describe("missingPartners", () => {
+  it("lists every same-tier creature that has no saved combo, including itself", () => {
+    for (const creature of seedCatalog.creatures) {
+      const missing = new Set(missingPartners(seedCatalog, creature.id).map((partner) => partner.id));
+      const sameTier = seedCatalog.creatures.filter((other) => other.tier === creature.tier);
+      for (const other of sameTier) {
+        const attempt = attemptMerge(seedCatalog, creature.id, other.id);
+        if (creature.tier >= 10) {
+          expect(missing.has(other.id)).toBe(false);
+          continue;
+        }
+        if (missing.has(other.id)) {
+          expect(attempt).toEqual({ ok: false, reason: "unknown" });
+        } else {
+          expect(attempt.ok).toBe(true);
+        }
+      }
+    }
   });
 });
 

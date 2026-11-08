@@ -17,7 +17,6 @@ import {
   validateRecipe,
   validateTierChange,
 } from "@/lib/merge";
-import { readAttributes } from "@/lib/attributes";
 import { bundledStamp, freshCatalog, loadPersisted, savePersisted } from "@/lib/storage";
 import type { BoardToken, Catalog, Creature, CreaturePatch, Recipe } from "@/lib/types";
 
@@ -106,26 +105,11 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
         const tierError = validateTierChange(current, id, nextTier);
         if (tierError) return { ok: false, error: tierError };
       }
-      const attributes = readAttributes(
-        {
-          style: patch.style === undefined ? existing.style : patch.style,
-          type: patch.type === undefined ? existing.type : patch.type,
-          hp: patch.hp === undefined ? existing.hp : patch.hp,
-          atk: patch.atk === undefined ? existing.atk : patch.atk,
-          def: patch.def === undefined ? existing.def : patch.def,
-          spd: patch.spd === undefined ? existing.spd : patch.spd,
-          rng: patch.rng === undefined ? existing.rng : patch.rng,
-        },
-        nextName,
-      );
-      if (!attributes.ok) return attributes;
       const creature: Creature = {
         id: existing.id,
         name: nextName,
         tier: nextTier,
         ...(existing.locked ? { locked: true } : {}),
-        ...(existing.note ? { note: existing.note } : {}),
-        ...attributes.value,
       };
       commit({
         ...current,

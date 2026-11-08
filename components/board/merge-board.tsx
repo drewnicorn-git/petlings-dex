@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CreatureArt } from "@/components/creature-art";
-import { attributeSummary } from "@/lib/attributes";
 import { useCatalog } from "@/components/catalog-context";
 import { Palette } from "@/components/board/palette";
 import { Button } from "@/components/ui/button";
@@ -22,6 +21,7 @@ import {
   creatureName,
   disassemble,
   findByName,
+  missingPartners,
   normalizeName,
   type Breakdown,
 } from "@/lib/merge";
@@ -159,6 +159,7 @@ export function MergeBoard() {
   const { catalog, tokens, setTokens } = api;
   const boardRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLDivElement>(null);
+  const gapRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<Drag | null>(null);
   const apiRef = useRef(api);
   const tokensRef = useRef(tokens);
@@ -167,9 +168,11 @@ export function MergeBoard() {
 
   const [ghost, setGhost] = useState<{ x: number; y: number; creatureId: string } | null>(null);
   const [dockHot, setDockHot] = useState(false);
+  const [gapHot, setGapHot] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [mystery, setMystery] = useState<Mystery | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
+  const [gapId, setGapId] = useState<string | null>(null);
   const [nameOpen, setNameOpen] = useState(false);
   const [draftName, setDraftName] = useState("");
   const [nameError, setNameError] = useState<string | null>(null);
@@ -289,7 +292,9 @@ export function MergeBoard() {
         setGhost({ x: event.clientX, y: event.clientY, creatureId: drag.creatureId });
       }
       const dock = dockRef.current;
+      const gap = gapRef.current;
       setDockHot(!!dock && pointIn(dock.getBoundingClientRect(), event.clientX, event.clientY));
+      setGapHot(!!gap && pointIn(gap.getBoundingClientRect(), event.clientX, event.clientY));
       if (drag.kind !== "token") return;
       const board = boardRef.current;
       if (!board) return;
@@ -306,13 +311,20 @@ export function MergeBoard() {
       dragRef.current = null;
       setGhost(null);
       setDockHot(false);
+      setGapHot(false);
       const board = boardRef.current;
       const dock = dockRef.current;
+      const gap = gapRef.current;
       if (!board) return;
+      const overGap = !!gap && pointIn(gap.getBoundingClientRect(), event.clientX, event.clientY);
       const overDock = !!dock && pointIn(dock.getBoundingClientRect(), event.clientX, event.clientY);
       const overBoard = pointIn(board.getBoundingClientRect(), event.clientX, event.clientY);
 
       if (drag.kind === "palette") {
+        if (overGap) {
+          setGapId(drag.creatureId);
+          return;
+        }
         if (overDock) {
           setFocusId(drag.creatureId);
           return;
@@ -332,6 +344,11 @@ export function MergeBoard() {
 
       const token = tokensRef.current.find((item) => item.id === drag.tokenId);
       if (!token) return;
+      if (overGap) {
+        setGapId(token.creatureId);
+        snapBack(drag);
+        return;
+      }
       if (overDock) {
         setFocusId(token.creatureId);
         snapBack(drag);
@@ -472,12 +489,34 @@ export function MergeBoard() {
     ? [creatureName(catalog, mystery.parentA), creatureName(catalog, mystery.parentB)]
     : [];
 
+  const gapCreature = gapId ? catalog.creatures.find((creature) => creature.id === gapId) : null;
+  const gaps = gapCreature ? missingPartners(catalog, gapCreature.id) : [];
+
+  function clearBoard() {
+    dragRef.current = null;
+    setGhost(null);
+    setMystery(null);
+    setTokens([]);
+  }
+
   return (
     <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
       <Palette creatures={catalog.creatures} onPointerDown={startPaletteDrag} />
+      <div className="flex min-w-0 flex-col gap-2">
+      <div className="flex justify-end">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={tokens.length === 0}
+          onClick={clearBoard}
+        >
+          Clear all
+        </Button>
+      </div>
       <div
         ref={boardRef}
-        className="relative min-h-[32rem] overflow-hidden rounded-2xl border bg-[radial-gradient(circle,#e4d3b4_1px,transparent_1px)] bg-[size:22px_22px] bg-card select-none"
+        className="relative min-h-[32rem] flex-1 overflow-hidden rounded-2xl border bg-[radial-gradient(circle,#e4d3b4_1px,transparent_1px)] bg-[size:22px_22px] bg-card select-none"
       >
         {tokens.length === 0 ? (
           <p className="pointer-events-none absolute top-6 right-6 left-6 text-sm text-muted-foreground">
@@ -496,7 +535,6 @@ export function MergeBoard() {
           const creature = catalog.creatures.find((item) => item.id === token.creatureId);
           if (!creature) return null;
           const colors = tierStyle(creature.tier);
-          const summary = attributeSummary(creature);
           return (
             <div
               key={token.id}
@@ -537,11 +575,6 @@ export function MergeBoard() {
                 >
                   T{creature.tier}
                 </span>
-                {summary ? (
-                  <span className="mt-0.5 line-clamp-2 text-center text-[10px] leading-tight text-muted-foreground">
-                    {summary}
-                  </span>
-                ) : null}
               </div>
             </div>
           );
@@ -579,27 +612,77 @@ export function MergeBoard() {
             </div>
           </div>
         ) : null}
-        <div
-          ref={dockRef}
-          className={`absolute right-3 bottom-3 z-20 flex max-h-[calc(100%-1.5rem)] w-72 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur ${dockHot ? "ring-2 ring-primary" : ""}`}
-        >
-          <div className="shrink-0 px-3 pt-3">
-            <p className="text-xs font-semibold tracking-wide uppercase">Disassemble</p>
-            <p className="text-xs text-muted-foreground">Drop a creature here.</p>
+        <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex max-h-[calc(100%-1.5rem)] flex-col items-stretch justify-end gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div
+            ref={gapRef}
+            className={`pointer-events-auto flex max-h-52 w-full min-h-0 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur sm:max-h-80 sm:w-72 ${gapHot ? "ring-2 ring-primary" : ""}`}
+          >
+            <div className="shrink-0 px-3 pt-3">
+              <p className="text-xs font-semibold tracking-wide uppercase">Missing combos</p>
+              <p className="text-xs text-muted-foreground">Drop a creature here.</p>
+            </div>
+            <div className="mt-2 min-h-0 flex-1 overflow-y-auto px-3 pb-3">
+              {gapCreature ? (
+                <div aria-live="polite">
+                  <p className="font-semibold break-words">{gapCreature.name}</p>
+                  {gapCreature.tier >= 10 ? (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Tier 10 is the top, so nothing in that tier combines further.
+                    </p>
+                  ) : gaps.length === 0 ? (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Every tier {gapCreature.tier} creature already has a saved combo with{" "}
+                      {gapCreature.name}, including two of them.
+                    </p>
+                  ) : (
+                    <>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {gaps.length} tier {gapCreature.tier}{" "}
+                        {gaps.length === 1 ? "partner has" : "partners have"} no saved combo yet.
+                      </p>
+                      <ul className="mt-2 space-y-1">
+                        {gaps.map((partner) => (
+                          <li key={partner.id} className="text-xs break-words">
+                            {partner.id === gapCreature.id
+                              ? `${partner.name} + ${partner.name}`
+                              : partner.name}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Every creature in a tier can combine with every creature in that tier, including
+                  itself. This lists the ones that are not saved yet.
+                </p>
+              )}
+            </div>
           </div>
-          <div className="mt-2 max-h-64 min-h-0 overflow-y-auto px-3 pb-3">
-            {focus && breakdown ? (
-              <div aria-live="polite">
-                <p className="font-semibold break-words">{focus.name}</p>
-                <BreakdownView creatureId={focus.id} breakdown={breakdown} />
-              </div>
-            ) : (
-              <p className="text-xs text-muted-foreground">
-                The count is how many Chicks, Bunnies, and Cats it takes to make that creature again.
-              </p>
-            )}
+          <div
+            ref={dockRef}
+            className={`pointer-events-auto flex max-h-52 w-full min-h-0 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur sm:max-h-80 sm:w-72 ${dockHot ? "ring-2 ring-primary" : ""}`}
+          >
+            <div className="shrink-0 px-3 pt-3">
+              <p className="text-xs font-semibold tracking-wide uppercase">Disassemble</p>
+              <p className="text-xs text-muted-foreground">Drop a creature here.</p>
+            </div>
+            <div className="mt-2 min-h-0 flex-1 overflow-y-auto px-3 pb-3">
+              {focus && breakdown ? (
+                <div aria-live="polite">
+                  <p className="font-semibold break-words">{focus.name}</p>
+                  <BreakdownView creatureId={focus.id} breakdown={breakdown} />
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  The count is how many Chicks, Bunnies, and Cats it takes to make that creature again.
+                </p>
+              )}
+            </div>
           </div>
         </div>
+      </div>
       </div>
       {ghost && ghostCreature ? (
         <div

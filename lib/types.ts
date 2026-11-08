@@ -1,30 +1,13 @@
-import type { StyleName, TypeName } from "@/lib/attributes";
-
 export type Creature = {
   id: string;
   name: string;
   tier: number;
   locked?: boolean;
-  note?: string;
-  style?: StyleName;
-  type?: TypeName;
-  hp?: number;
-  atk?: number;
-  def?: number;
-  spd?: number;
-  rng?: number;
 };
 
 export type CreaturePatch = {
   name?: string;
   tier?: number;
-  style?: StyleName | null;
-  type?: TypeName | null;
-  hp?: number | null;
-  atk?: number | null;
-  def?: number | null;
-  spd?: number | null;
-  rng?: number | null;
 };
 
 export type Recipe = {

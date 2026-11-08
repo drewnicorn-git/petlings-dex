@@ -1,27 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { CatalogProvider, useCatalog } from "@/components/catalog-context";
 import { MergeBoard } from "@/components/board/merge-board";
 import { DataTab } from "@/components/data/data-tab";
 import { TierProgress } from "@/components/tier-progress";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-function ClearBoardButton() {
-  const { tokens, setTokens } = useCatalog();
-  return (
-    <Button
-      type="button"
-      variant="outline"
-      size="sm"
-      disabled={tokens.length === 0}
-      onClick={() => setTokens([])}
-    >
-      Clear all
-    </Button>
-  );
-}
 
 function Notebook() {
   const { ready } = useCatalog();
@@ -52,21 +35,11 @@ export function MergeApp() {
           <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
             Personal notebook
           </p>
-          <div className="flex flex-wrap items-end justify-between gap-2">
-            <h1 className="font-heading text-3xl">Merge Board</h1>
-            <div className="flex items-center gap-3">
-              <ClearBoardButton />
-              <Link
-                href="/styles"
-                className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
-              >
-                Picture styles
-              </Link>
-            </div>
-          </div>
+          <h1 className="font-heading text-3xl">Merge Board</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
             Drag two creatures of the same tier together. A saved combo becomes the next
-            creature. Drop one in the corner to count the Chick, Bunny, and Cat it takes.
+            creature. Drop one in a corner to count the Chick, Bunny, and Cat it takes, or to
+            see which same-tier partners are still missing.
           </p>
           <TierProgress />
         </header>

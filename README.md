@@ -1,12 +1,13 @@
 # Merge Board
 
-A personal notebook for a pet-merge game. Add creatures and the same-tier combos that make them, drag cartoon tokens together to see what unlocks, and drop a creature in the corner to count how many Chicks, Bunnies, and Cats it takes to make again.
+A personal notebook for a pet-merge game. Add creatures and the same-tier combos that make them, drag cartoon tokens together to see what unlocks, and drop a creature in a corner to count how many Chicks, Bunnies, and Cats it takes to make again or to see which same-tier partners are still missing.
 
 This is not the game, and it is not an official guide. The creature list and combos checked into the project live in `data/merge-board.json`. That file is the copy that ships with the app.
 
 ## Rules the board keeps
 
 - Only two creatures of the same tier can combine.
+- Every creature in a tier can combine with every creature in that tier, including two of the same creature.
 - The result is the next tier.
 - Chick, Bunny, and Cat are the only tier 1 creatures.
 - A pair is the same combo in either order. Two of the same creature is allowed.
@@ -18,7 +19,7 @@ Every saved creature uses a chibi portrait. A creature you add later keeps a sim
 
 ## Your notes stay in the browser
 
-Creatures, combos, attributes, and the tokens on the board are saved in this browser’s local storage. Each species has a Style (Brawler, Controller, Guard, Healer, Ranged, Striker), a Type (Fire, Forest, Ice, Plains, River, Wild), and HP, ATK, DEF, SPD, and RNG as whole numbers. Edit them from the Data tab.
+Creatures, combos, and the tokens on the board are saved in this browser’s local storage. Edit names, tiers, and combos from the Data tab.
 
 Export writes a `merge-board.json` file. To make a newer list part of the project, replace `data/merge-board.json` with that export. The next time the app loads, it uses the new file and drops browser-only creatures that were not in it. Until that file changes, creatures you add in the browser stay put. Import still replaces the list in this browser only.
 
