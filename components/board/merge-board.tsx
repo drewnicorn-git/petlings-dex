@@ -122,27 +122,34 @@ function BreakdownView({
     );
   }
   if (breakdown.status !== "ok") return null;
+  const ways = breakdown.paths.length;
   return (
     <div>
       <p className="text-xs text-muted-foreground">
+        {ways === 0
+          ? "Starter"
+          : `${ways} ${ways === 1 ? "way" : "ways"}`}
+        {" · "}
         {breakdown.total} starter {breakdown.total === 1 ? "pet" : "pets"}
       </p>
-      {breakdown.paths.length === 0 ? (
+      {ways === 0 ? (
         <>
           <p className="text-xs">This is a starter.</p>
           <Counts counts={breakdown.counts} />
         </>
       ) : (
         breakdown.paths.map((path) => (
-          <div key={`${path.recipeId}-${path.counts.chick}-${path.counts.bunny}-${path.counts.cat}`} className="mt-2">
-            <p className="text-xs">
+          <div
+            key={`${path.recipeId}-${path.counts.chick}-${path.counts.bunny}-${path.counts.cat}`}
+            className="mt-2"
+          >
+            <p className="text-xs break-words">
               via {creatureName(catalog, path.parentA)} + {creatureName(catalog, path.parentB)}
             </p>
             <Counts counts={path.counts} />
           </div>
         ))
       )}
-      {breakdown.truncated ? <p className="mt-1 text-xs">Showing the first 8 ways.</p> : null}
     </div>
   );
 }
@@ -574,20 +581,24 @@ export function MergeBoard() {
         ) : null}
         <div
           ref={dockRef}
-          className={`absolute right-3 bottom-3 z-20 w-64 rounded-2xl border bg-popover/95 p-3 text-sm shadow-md backdrop-blur ${dockHot ? "ring-2 ring-primary" : ""}`}
+          className={`absolute right-3 bottom-3 z-20 flex max-h-[calc(100%-1.5rem)] w-72 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur ${dockHot ? "ring-2 ring-primary" : ""}`}
         >
-          <p className="text-xs font-semibold tracking-wide uppercase">Disassemble</p>
-          <p className="text-xs text-muted-foreground">Drop a creature here.</p>
-          {focus && breakdown ? (
-            <div className="mt-2" aria-live="polite">
-              <p className="font-semibold">{focus.name}</p>
-              <BreakdownView creatureId={focus.id} breakdown={breakdown} />
-            </div>
-          ) : (
-            <p className="mt-2 text-xs text-muted-foreground">
-              The count is how many Chicks, Bunnies, and Cats it takes to make that creature again.
-            </p>
-          )}
+          <div className="shrink-0 px-3 pt-3">
+            <p className="text-xs font-semibold tracking-wide uppercase">Disassemble</p>
+            <p className="text-xs text-muted-foreground">Drop a creature here.</p>
+          </div>
+          <div className="mt-2 max-h-64 min-h-0 overflow-y-auto px-3 pb-3">
+            {focus && breakdown ? (
+              <div aria-live="polite">
+                <p className="font-semibold break-words">{focus.name}</p>
+                <BreakdownView creatureId={focus.id} breakdown={breakdown} />
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground">
+                The count is how many Chicks, Bunnies, and Cats it takes to make that creature again.
+              </p>
+            )}
+          </div>
         </div>
       </div>
       {ghost && ghostCreature ? (

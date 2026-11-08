@@ -144,6 +144,26 @@ describe("disassemble", () => {
     }
   });
 
+  it("lists every way to make a creature", () => {
+    const hippo = disassemble("hippo", seedCatalog);
+    expect(hippo.status).toBe("ok");
+    if (hippo.status !== "ok") return;
+    expect(hippo.paths).toHaveLength(
+      seedCatalog.recipes.filter((recipe) => recipe.resultId === "hippo").length,
+    );
+    for (const path of hippo.paths) {
+      expect(totalCount(path.counts)).toBe(expectedStarterTotal(4));
+    }
+
+    const salamander = disassemble("giant-salamander", seedCatalog);
+    expect(salamander.status).toBe("ok");
+    if (salamander.status !== "ok") return;
+    expect(salamander.paths.length).toBeGreaterThan(8);
+    for (const path of salamander.paths) {
+      expect(totalCount(path.counts)).toBe(expectedStarterTotal(5));
+    }
+  });
+
   it("counts a tiger as two cats", () => {
     expect(disassemble("tiger", seedCatalog)).toMatchObject({
       status: "ok",

@@ -233,85 +233,119 @@ export type Breakdown =
       total: number;
       counts: StarterCounts;
       paths: PathCounts[];
-      truncated?: boolean;
     }
   | { status: "missing" | "cycle" | "not-starter"; creatureId: string };
 
-type TopRecipe = { recipeId: string; parentA: string; parentB: string };
-
-type Walk =
-  | { ok: true; counts: StarterCounts; top?: TopRecipe }
+type CountResult =
+  | { ok: true; counts: StarterCounts[] }
   | { ok: false; error: "missing" | "cycle" | "not-starter"; creatureId: string };
 
-function walk(
-  id: string,
-  catalog: Catalog,
-  stack: string[],
-  top: TopRecipe | null,
-): Walk[] {
-  if (stack.includes(id)) return [{ ok: false, error: "cycle", creatureId: id }];
-  const creature = creatureMap(catalog.creatures).get(id);
-  if (!creature) return [{ ok: false, error: "missing", creatureId: id }];
-  if (creature.tier === 1) {
-    if (!isStarter(id)) return [{ ok: false, error: "not-starter", creatureId: id }];
-    const counts = emptyCounts();
-    counts[id] = 1;
-    return [{ ok: true, counts, top: top ?? undefined }];
-  }
-  const recipes = catalog.recipes.filter((recipe) => recipe.resultId === id);
-  if (recipes.length === 0) return [{ ok: false, error: "missing", creatureId: id }];
-  const out: Walk[] = [];
+function countKey(counts: StarterCounts): string {
+  return `${counts.chick}:${counts.bunny}:${counts.cat}`;
+}
+
+function recipesByResult(recipes: Recipe[]): Map<string, Recipe[]> {
+  const map = new Map<string, Recipe[]>();
   for (const recipe of recipes) {
-    const here: TopRecipe = {
-      recipeId: recipe.id,
-      parentA: recipe.parentA,
-      parentB: recipe.parentB,
-    };
-    const nextTop = top ?? here;
-    const left = walk(recipe.parentA, catalog, [...stack, id], nextTop);
-    const right = walk(recipe.parentB, catalog, [...stack, id], nextTop);
-    for (const parentLeft of left) {
-      for (const parentRight of right) {
-        if (!parentLeft.ok) out.push(parentLeft);
-        else if (!parentRight.ok) out.push(parentRight);
-        else {
-          out.push({
-            ok: true,
-            counts: addCounts(parentLeft.counts, parentRight.counts),
-            top: nextTop,
-          });
-        }
-        if (out.length > 40) return out;
-      }
-    }
+    const list = map.get(recipe.resultId);
+    if (list) list.push(recipe);
+    else map.set(recipe.resultId, [recipe]);
   }
-  return out;
+  return map;
 }
 
 export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
-  const creature = catalog.creatures.find((item) => item.id === creatureId);
+  const creatures = creatureMap(catalog.creatures);
+  const creature = creatures.get(creatureId);
   if (!creature) return { status: "missing", creatureId };
   if (isStarter(creatureId)) {
     const counts = emptyCounts();
     counts[creatureId] = 1;
     return { status: "ok", total: 1, counts, paths: [] };
   }
-  const walked = walk(creatureId, catalog, [], null);
-  const good = walked.filter((item) => item.ok);
-  if (good.length === 0) {
-    const bad = walked.find((item) => !item.ok);
-    if (!bad || bad.ok) return { status: "missing", creatureId };
-    return { status: bad.error, creatureId: bad.creatureId };
+
+  const recipesFor = recipesByResult(catalog.recipes);
+  const cache = new Map<string, StarterCounts[]>();
+
+  function parentCounts(id: string, stack: string[]): CountResult {
+    if (stack.includes(id)) return { ok: false, error: "cycle", creatureId: id };
+    const cached = cache.get(id);
+    if (cached) return { ok: true, counts: cached };
+    const current = creatures.get(id);
+    if (!current) return { ok: false, error: "missing", creatureId: id };
+    if (current.tier === 1) {
+      if (!isStarter(id)) return { ok: false, error: "not-starter", creatureId: id };
+      const counts = emptyCounts();
+      counts[id] = 1;
+      const only = [counts];
+      cache.set(id, only);
+      return { ok: true, counts: only };
+    }
+    const recipes = recipesFor.get(id) ?? [];
+    if (recipes.length === 0) return { ok: false, error: "missing", creatureId: id };
+    const seen = new Set<string>();
+    const counts: StarterCounts[] = [];
+    let failure: CountResult | null = null;
+    for (const recipe of recipes) {
+      const left = parentCounts(recipe.parentA, [...stack, id]);
+      if (!left.ok) {
+        failure ??= left;
+        continue;
+      }
+      const right = parentCounts(recipe.parentB, [...stack, id]);
+      if (!right.ok) {
+        failure ??= right;
+        continue;
+      }
+      for (const parentLeft of left.counts) {
+        for (const parentRight of right.counts) {
+          const combined = addCounts(parentLeft, parentRight);
+          const signature = countKey(combined);
+          if (seen.has(signature)) continue;
+          seen.add(signature);
+          counts.push(combined);
+        }
+      }
+    }
+    if (counts.length === 0) return failure ?? { ok: false, error: "missing", creatureId: id };
+    cache.set(id, counts);
+    return { ok: true, counts };
   }
+
+  const recipes = recipesFor.get(creatureId) ?? [];
+  if (recipes.length === 0) return { status: "missing", creatureId };
   const paths: PathCounts[] = [];
-  const seen = new Set<string>();
-  for (const item of good) {
-    if (!item.ok || !item.top) continue;
-    const signature = `${item.top.recipeId}:${item.counts.chick}:${item.counts.bunny}:${item.counts.cat}`;
-    if (seen.has(signature)) continue;
-    seen.add(signature);
-    paths.push({ ...item.top, counts: item.counts });
-    if (paths.length === 8) break;
+  let failure: CountResult | null = null;
+  for (const recipe of recipes) {
+    const left = parentCounts(recipe.parentA, [creatureId]);
+    if (!left.ok) {
+      failure ??= left;
+      continue;
+    }
+    const right = parentCounts(recipe.parentB, [creatureId]);
+    if (!right.ok) {
+      failure ??= right;
+      continue;
+    }
+    const seen = new Set<string>();
+    for (const parentLeft of left.counts) {
+      for (const parentRight of right.counts) {
+        const counts = addCounts(parentLeft, parentRight);
+        const signature = countKey(counts);
+        if (seen.has(signature)) continue;
+        seen.add(signature);
+        paths.push({
+          recipeId: recipe.id,
+          parentA: recipe.parentA,
+          parentB: recipe.parentB,
+          counts,
+        });
+      }
+    }
+  }
+  if (paths.length === 0) {
+    if (!failure || failure.ok) return { status: "missing", creatureId };
+    return { status: failure.error, creatureId: failure.creatureId };
   }
   const counts = paths[0]?.counts ?? emptyCounts();
   return {
@@ -319,7 +353,6 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
     total: totalCount(counts),
     counts,
     paths,
-    truncated: good.length > paths.length,
   };
 }
 
