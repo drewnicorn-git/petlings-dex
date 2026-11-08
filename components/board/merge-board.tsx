@@ -20,12 +20,14 @@ import { pickMergeTarget, type DropBox, type HitBox } from "@/lib/hit";
 import {
   adviseStarters,
   attemptMerge,
+  buildTree,
   creatureName,
   disassemble,
   findByName,
   missingPartners,
   normalizeName,
   type Breakdown,
+  type BuildStep,
   type StarterOption,
 } from "@/lib/merge";
 import { tierStyle } from "@/lib/tiers";
@@ -124,6 +126,31 @@ function Counts({ counts }: { counts: StarterCounts }) {
   );
 }
 
+function BuildBranch({
+  step,
+  catalog,
+}: {
+  step: BuildStep;
+  catalog: ReturnType<typeof useCatalog>["catalog"];
+}) {
+  const name = creatureName(catalog, step.creatureId);
+  if (!step.left || !step.right) {
+    return <p className="text-xs">{name}</p>;
+  }
+  return (
+    <div>
+      <p className="text-xs font-semibold">{name}</p>
+      <p className="text-xs text-muted-foreground">
+        {creatureName(catalog, step.left.creatureId)} + {creatureName(catalog, step.right.creatureId)}
+      </p>
+      <div className="mt-1 ml-3 space-y-1 border-l border-foreground/15 pl-2">
+        <BuildBranch step={step.left} catalog={catalog} />
+        <BuildBranch step={step.right} catalog={catalog} />
+      </div>
+    </div>
+  );
+}
+
 function StockField({
   id,
   value,
@@ -183,6 +210,8 @@ function BreakdownView({
   have: StarterCounts;
 }) {
   const { catalog } = useCatalog();
+  const [tree, setTree] = useState<BuildStep | null>(null);
+  const [treeOpen, setTreeOpen] = useState(false);
   const creature = catalog.creatures.find((item) => item.id === creatureId);
   if (!creature) return null;
   if (breakdown.status === "missing") {
@@ -209,10 +238,21 @@ function BreakdownView({
   const best = options[0];
   const fits = options.filter((option) => option.affordable).length;
   const ways = breakdown.paths.length;
+
+  function openTree() {
+    if (!best?.path) return;
+    setTree(buildTree(catalog, creatureId, best.path));
+    setTreeOpen(true);
+  }
+
   return (
     <div>
       {best ? (
-        <div className="mt-2 rounded-xl bg-muted px-2 py-1.5">
+        <div
+          className={`mt-2 rounded-xl bg-muted px-2 py-1.5 ${best.path ? "cursor-pointer" : ""}`}
+          onDoubleClick={openTree}
+          title={best.path ? "Double-click for the full build" : undefined}
+        >
           <p className="text-xs font-semibold">
             {best.affordable ? "Best mix you can make" : "Closest mix"}
           </p>
@@ -229,8 +269,26 @@ function BreakdownView({
               ? "This uses the starters you have the most of."
               : `Still need ${shortfallText(best)}.`}
           </p>
+          {best.path ? (
+            <p className="text-xs text-muted-foreground">Double-click for the full build.</p>
+          ) : null}
         </div>
       ) : null}
+      <Dialog open={treeOpen} onOpenChange={setTreeOpen}>
+        <DialogContent className="max-h-[min(32rem,80vh)] overflow-y-auto sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Build {creature.name}</DialogTitle>
+            <DialogDescription>
+              {best?.path
+                ? `${creatureName(catalog, best.path.parentA)} + ${creatureName(catalog, best.path.parentB)}, followed all the way to Chick, Bunny, and Cat.`
+                : "This creature is already a starter."}
+            </DialogDescription>
+          </DialogHeader>
+          {tree ? <BuildBranch step={tree} catalog={catalog} /> : (
+            <p className="text-sm text-muted-foreground">This mix cannot be traced to starters.</p>
+          )}
+        </DialogContent>
+      </Dialog>
       <p className="mt-2 text-xs text-muted-foreground">
         {ways === 0
           ? "Starter"

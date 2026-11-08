@@ -121,6 +121,75 @@ export type StarterOption = {
   path: PathCounts | null;
 };
 
+export type BuildStep = {
+  creatureId: string;
+  counts: StarterCounts;
+  left: BuildStep | null;
+  right: BuildStep | null;
+};
+
+export function buildTree(
+  catalog: Catalog,
+  creatureId: string,
+  path: Pick<PathCounts, "parentA" | "parentB" | "counts">,
+): BuildStep | null {
+  const creatures = creatureMap(catalog.creatures);
+  const recipesFor = recipesByResult(catalog.recipes);
+  const cache = new Map<string, Map<string, BuildStep>>();
+
+  function options(id: string, stack: string[]): Map<string, BuildStep> | null {
+    if (stack.includes(id)) return null;
+    const cached = cache.get(id);
+    if (cached) return cached;
+    const creature = creatures.get(id);
+    if (!creature) return null;
+    const found = new Map<string, BuildStep>();
+    if (creature.tier === 1) {
+      if (!isStarter(id)) return null;
+      const counts = emptyCounts();
+      counts[id] = 1;
+      found.set(countKey(counts), { creatureId: id, counts, left: null, right: null });
+      cache.set(id, found);
+      return found;
+    }
+    const recipes = recipesFor.get(id) ?? [];
+    for (const recipe of recipes) {
+      const left = options(recipe.parentA, [...stack, id]);
+      const right = options(recipe.parentB, [...stack, id]);
+      if (!left || !right) continue;
+      for (const parentLeft of left.values()) {
+        for (const parentRight of right.values()) {
+          const counts = addCounts(parentLeft.counts, parentRight.counts);
+          const key = countKey(counts);
+          if (found.has(key)) continue;
+          found.set(key, {
+            creatureId: id,
+            counts,
+            left: parentLeft,
+            right: parentRight,
+          });
+        }
+      }
+    }
+    if (found.size === 0) return null;
+    cache.set(id, found);
+    return found;
+  }
+
+  const left = options(path.parentA, [creatureId]);
+  const right = options(path.parentB, [creatureId]);
+  if (!left || !right) return null;
+  const target = countKey(path.counts);
+  for (const parentLeft of left.values()) {
+    for (const parentRight of right.values()) {
+      const counts = addCounts(parentLeft.counts, parentRight.counts);
+      if (countKey(counts) !== target) continue;
+      return { creatureId, counts, left: parentLeft, right: parentRight };
+    }
+  }
+  return null;
+}
+
 export function adviseStarters(
   paths: PathCounts[],
   ownCounts: StarterCounts,

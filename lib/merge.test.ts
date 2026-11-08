@@ -2,11 +2,14 @@ import { describe, expect, it } from "vitest";
 import {
   adviseStarters,
   attemptMerge,
+  buildTree,
   disassemble,
   expectedStarterTotal,
   findRecipe,
+  isStarter,
   missingPartners,
   totalCount,
+  type BuildStep,
   validateRecipe,
   validateTierChange,
 } from "@/lib/merge";
@@ -58,6 +61,59 @@ describe("adviseStarters", () => {
     expect(best.affordable).toBe(false);
     expect(best.path?.recipeId).toBe("chicks");
     expect(totalCount(best.shortfall)).toBe(7);
+  });
+});
+
+function leafCounts(step: BuildStep): { chick: number; bunny: number; cat: number } {
+  if (!step.left || !step.right) return step.counts;
+  return {
+    chick: leafCounts(step.left).chick + leafCounts(step.right).chick,
+    bunny: leafCounts(step.left).bunny + leafCounts(step.right).bunny,
+    cat: leafCounts(step.left).cat + leafCounts(step.right).cat,
+  };
+}
+
+function assertBuild(step: BuildStep) {
+  if (!step.left || !step.right) {
+    expect(isStarter(step.creatureId)).toBe(true);
+    expect(totalCount(step.counts)).toBe(1);
+    return;
+  }
+  const recipe = findRecipe(seedCatalog.recipes, step.left.creatureId, step.right.creatureId);
+  expect(recipe?.resultId).toBe(step.creatureId);
+  assertBuild(step.left);
+  assertBuild(step.right);
+}
+
+describe("buildTree", () => {
+  it("expands a duck into two chicks", () => {
+    const duck = disassemble("duck", seedCatalog);
+    expect(duck.status).toBe("ok");
+    if (duck.status !== "ok") return;
+    const tree = buildTree(seedCatalog, "duck", duck.paths[0]);
+    expect(tree).toMatchObject({
+      creatureId: "duck",
+      left: { creatureId: "chick", left: null, right: null },
+      right: { creatureId: "chick", left: null, right: null },
+    });
+  });
+
+  it("follows the chosen starter mix all the way down", () => {
+    const hippo = disassemble("hippo", seedCatalog);
+    expect(hippo.status).toBe("ok");
+    if (hippo.status !== "ok") return;
+    const path = hippo.paths.find(
+      (item) => item.parentA === "frog" && item.parentB === "frog",
+    );
+    expect(path).toBeTruthy();
+    if (!path) return;
+    const tree = buildTree(seedCatalog, "hippo", path);
+    expect(tree).not.toBeNull();
+    if (!tree) return;
+    expect(tree.left?.creatureId).toBe("frog");
+    expect(tree.right?.creatureId).toBe("frog");
+    expect(leafCounts(tree)).toEqual(path.counts);
+    assertBuild(tree);
   });
 });
 
