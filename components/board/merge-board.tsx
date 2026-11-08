@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { CreatureArt } from "@/components/creature-art";
 import { useCatalog } from "@/components/catalog-context";
 import { Palette } from "@/components/board/palette";
@@ -17,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { pickMergeTarget, type DropBox, type HitBox } from "@/lib/hit";
 import {
+  adviseStarters,
   attemptMerge,
   creatureName,
   disassemble,
@@ -24,6 +26,7 @@ import {
   missingPartners,
   normalizeName,
   type Breakdown,
+  type StarterOption,
 } from "@/lib/merge";
 import { tierStyle } from "@/lib/tiers";
 import {
@@ -35,6 +38,35 @@ import {
 
 const TOKEN_W = 112;
 const TOKEN_H = 132;
+const STOCK_KEY = "petlings-starter-stock";
+
+function readStock(): StarterCounts {
+  const empty = { chick: 0, bunny: 0, cat: 0 };
+  if (typeof window === "undefined") return empty;
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(STOCK_KEY) ?? "") as Partial<StarterCounts>;
+    return {
+      chick: wholeCount(parsed.chick),
+      bunny: wholeCount(parsed.bunny),
+      cat: wholeCount(parsed.cat),
+    };
+  } catch {
+    return empty;
+  }
+}
+
+function wholeCount(value: unknown): number {
+  const parsed = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.max(0, Math.floor(parsed));
+}
+
+function shortfallText(option: StarterOption): string {
+  const parts = STARTER_IDS.filter((id) => option.shortfall[id] > 0).map(
+    (id) => `${STARTER_NAMES[id]} × ${option.shortfall[id]}`,
+  );
+  return parts.join(", ");
+}
 
 type Drag =
   | { kind: "palette"; creatureId: string; pointerId: number }
@@ -92,12 +124,63 @@ function Counts({ counts }: { counts: StarterCounts }) {
   );
 }
 
+function StockField({
+  id,
+  value,
+  onChange,
+}: {
+  id: (typeof STARTER_IDS)[number];
+  value: number;
+  onChange: (next: number) => void;
+}) {
+  const name = STARTER_NAMES[id];
+  return (
+    <div className="flex items-center gap-1">
+      <label htmlFor={`stock-${id}`} className="text-xs font-semibold">
+        {name}
+      </label>
+      <Input
+        id={`stock-${id}`}
+        type="number"
+        inputMode="numeric"
+        min={0}
+        step={1}
+        value={value}
+        aria-label={`${name} count`}
+        className="h-8 w-16 px-1.5 text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        onChange={(event) => onChange(wholeCount(event.target.value))}
+      />
+      <div className="flex flex-col">
+        <button
+          type="button"
+          className="flex size-4 items-center justify-center rounded-sm text-foreground hover:bg-muted"
+          aria-label={`Add one ${name}`}
+          onClick={() => onChange(value + 1)}
+        >
+          <ChevronUp className="size-3" />
+        </button>
+        <button
+          type="button"
+          className="flex size-4 items-center justify-center rounded-sm text-foreground hover:bg-muted disabled:opacity-40"
+          aria-label={`Remove one ${name}`}
+          disabled={value <= 0}
+          onClick={() => onChange(value - 1)}
+        >
+          <ChevronDown className="size-3" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function BreakdownView({
   creatureId,
   breakdown,
+  have,
 }: {
   creatureId: string;
   breakdown: Breakdown;
+  have: StarterCounts;
 }) {
   const { catalog } = useCatalog();
   const creature = catalog.creatures.find((item) => item.id === creatureId);
@@ -122,33 +205,57 @@ function BreakdownView({
     );
   }
   if (breakdown.status !== "ok") return null;
+  const options = adviseStarters(breakdown.paths, breakdown.counts, have);
+  const best = options[0];
+  const fits = options.filter((option) => option.affordable).length;
   const ways = breakdown.paths.length;
   return (
     <div>
-      <p className="text-xs text-muted-foreground">
+      {best ? (
+        <div className="mt-2 rounded-xl bg-muted px-2 py-1.5">
+          <p className="text-xs font-semibold">
+            {best.affordable ? "Best mix you can make" : "Closest mix"}
+          </p>
+          {best.path ? (
+            <p className="text-xs break-words">
+              via {creatureName(catalog, best.path.parentA)} + {creatureName(catalog, best.path.parentB)}
+            </p>
+          ) : (
+            <p className="text-xs">This is a starter.</p>
+          )}
+          <Counts counts={best.counts} />
+          <p className="text-xs text-muted-foreground">
+            {best.affordable
+              ? "This uses the starters you have the most of."
+              : `Still need ${shortfallText(best)}.`}
+          </p>
+        </div>
+      ) : null}
+      <p className="mt-2 text-xs text-muted-foreground">
         {ways === 0
           ? "Starter"
-          : `${ways} ${ways === 1 ? "way" : "ways"}`}
+          : `${fits} of ${ways} ${ways === 1 ? "way" : "ways"} fit what you have`}
         {" · "}
         {breakdown.total} starter {breakdown.total === 1 ? "pet" : "pets"}
       </p>
-      {ways === 0 ? (
-        <>
-          <p className="text-xs">This is a starter.</p>
-          <Counts counts={breakdown.counts} />
-        </>
-      ) : (
-        breakdown.paths.map((path) => (
-          <div
-            key={`${path.recipeId}-${path.counts.chick}-${path.counts.bunny}-${path.counts.cat}`}
-            className="mt-2"
-          >
-            <p className="text-xs break-words">
-              via {creatureName(catalog, path.parentA)} + {creatureName(catalog, path.parentB)}
-            </p>
-            <Counts counts={path.counts} />
-          </div>
-        ))
+      {ways === 0 ? null : (
+        options.map((option) =>
+          option.path ? (
+            <div
+              key={`${option.path.recipeId}-${option.counts.chick}-${option.counts.bunny}-${option.counts.cat}`}
+              className={`mt-2 ${option.affordable ? "" : "opacity-60"}`}
+            >
+              <p className="text-xs break-words">
+                via {creatureName(catalog, option.path.parentA)} +{" "}
+                {creatureName(catalog, option.path.parentB)}
+              </p>
+              <p className="text-[10px] font-semibold tracking-wide uppercase">
+                {option.affordable ? "Possible" : `Needs ${shortfallText(option)}`}
+              </p>
+              <Counts counts={option.counts} />
+            </div>
+          ) : null,
+        )
       )}
     </div>
   );
@@ -173,10 +280,26 @@ export function MergeBoard() {
   const [mystery, setMystery] = useState<Mystery | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [gapId, setGapId] = useState<string | null>(null);
+  const [stock, setStock] = useState<StarterCounts>({ chick: 0, bunny: 0, cat: 0 });
+  const [stockReady, setStockReady] = useState(false);
   const [nameOpen, setNameOpen] = useState(false);
   const [draftName, setDraftName] = useState("");
   const [nameError, setNameError] = useState<string | null>(null);
   const noticeTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    setStock(readStock());
+    setStockReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!stockReady) return;
+    window.localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
+  }, [stock, stockReady]);
+
+  function setStockCount(id: (typeof STARTER_IDS)[number], value: number) {
+    setStock((current) => ({ ...current, [id]: value }));
+  }
 
   const flash = useCallback((message: string) => {
     setNotice(message);
@@ -503,7 +626,20 @@ export function MergeBoard() {
     <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
       <Palette creatures={catalog.creatures} onPointerDown={startPaletteDrag} />
       <div className="flex min-w-0 flex-col gap-2">
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div className="flex flex-wrap items-end gap-3">
+          <p className="pb-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            You have
+          </p>
+          {STARTER_IDS.map((id) => (
+            <StockField
+              key={id}
+              id={id}
+              value={stock[id]}
+              onChange={(value) => setStockCount(id, value)}
+            />
+          ))}
+        </div>
         <Button
           type="button"
           variant="outline"
@@ -519,7 +655,7 @@ export function MergeBoard() {
         className="relative min-h-[32rem] flex-1 overflow-hidden rounded-2xl border bg-[radial-gradient(circle,#e4d3b4_1px,transparent_1px)] bg-[size:22px_22px] bg-card select-none"
       >
         {tokens.length === 0 ? (
-          <p className="pointer-events-none absolute top-6 right-6 left-6 text-sm text-muted-foreground">
+          <p className="pointer-events-none absolute top-6 left-6 max-w-xs text-sm text-muted-foreground">
             Drag a creature here, then drop it on another of the same tier.
           </p>
         ) : null}
@@ -612,11 +748,10 @@ export function MergeBoard() {
             </div>
           </div>
         ) : null}
-        <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 flex max-h-[calc(100%-1.5rem)] flex-col items-stretch justify-end gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div
-            ref={gapRef}
-            className={`pointer-events-auto flex max-h-52 w-full min-h-0 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur sm:max-h-80 sm:w-72 ${gapHot ? "ring-2 ring-primary" : ""}`}
-          >
+        <div
+          ref={gapRef}
+          className={`absolute top-3 right-3 z-20 flex max-h-52 w-72 max-w-[calc(100%-1.5rem)] min-h-0 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur sm:max-h-64 ${gapHot ? "ring-2 ring-primary" : ""}`}
+        >
             <div className="shrink-0 px-3 pt-3">
               <p className="text-xs font-semibold tracking-wide uppercase">Missing combos</p>
               <p className="text-xs text-muted-foreground">Drop a creature here.</p>
@@ -659,11 +794,11 @@ export function MergeBoard() {
                 </p>
               )}
             </div>
-          </div>
-          <div
-            ref={dockRef}
-            className={`pointer-events-auto flex max-h-52 w-full min-h-0 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur sm:max-h-80 sm:w-72 ${dockHot ? "ring-2 ring-primary" : ""}`}
-          >
+        </div>
+        <div
+          ref={dockRef}
+          className={`absolute right-3 bottom-3 z-20 flex max-h-64 w-72 max-w-[calc(100%-1.5rem)] min-h-0 flex-col overflow-hidden rounded-2xl border bg-popover/95 text-sm shadow-md backdrop-blur ${dockHot ? "ring-2 ring-primary" : ""}`}
+        >
             <div className="shrink-0 px-3 pt-3">
               <p className="text-xs font-semibold tracking-wide uppercase">Disassemble</p>
               <p className="text-xs text-muted-foreground">Drop a creature here.</p>
@@ -672,16 +807,15 @@ export function MergeBoard() {
               {focus && breakdown ? (
                 <div aria-live="polite">
                   <p className="font-semibold break-words">{focus.name}</p>
-                  <BreakdownView creatureId={focus.id} breakdown={breakdown} />
+                  <BreakdownView creatureId={focus.id} breakdown={breakdown} have={stock} />
                 </div>
               ) : (
                 <p className="text-xs text-muted-foreground">
-                  The count is how many Chicks, Bunnies, and Cats it takes to make that creature again.
+                  Set how many Chicks, Bunnies, and Cats you have, then drop a creature here for the best mix.
                 </p>
               )}
             </div>
           </div>
-        </div>
       </div>
       </div>
       {ghost && ghostCreature ? (

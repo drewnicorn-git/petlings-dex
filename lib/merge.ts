@@ -92,6 +92,61 @@ export function totalCount(counts: StarterCounts): number {
   return counts.chick + counts.bunny + counts.cat;
 }
 
+export function starterShortfall(need: StarterCounts, have: StarterCounts): StarterCounts {
+  return {
+    chick: Math.max(0, need.chick - have.chick),
+    bunny: Math.max(0, need.bunny - have.bunny),
+    cat: Math.max(0, need.cat - have.cat),
+  };
+}
+
+export function canAfford(need: StarterCounts, have: StarterCounts): boolean {
+  return totalCount(starterShortfall(need, have)) === 0;
+}
+
+function peakStrain(need: StarterCounts, have: StarterCounts): number {
+  let peak = 0;
+  for (const id of STARTER_IDS) {
+    if (need[id] <= 0) continue;
+    if (have[id] <= 0) return Number.POSITIVE_INFINITY;
+    peak = Math.max(peak, need[id] / have[id]);
+  }
+  return peak;
+}
+
+export type StarterOption = {
+  counts: StarterCounts;
+  affordable: boolean;
+  shortfall: StarterCounts;
+  path: PathCounts | null;
+};
+
+export function adviseStarters(
+  paths: PathCounts[],
+  ownCounts: StarterCounts,
+  have: StarterCounts,
+): StarterOption[] {
+  const sources =
+    paths.length > 0
+      ? paths.map((path) => ({ counts: path.counts, path }))
+      : [{ counts: ownCounts, path: null }];
+  const options: StarterOption[] = sources.map((source) => {
+    const shortfall = starterShortfall(source.counts, have);
+    return {
+      counts: source.counts,
+      shortfall,
+      affordable: totalCount(shortfall) === 0,
+      path: source.path,
+    };
+  });
+  return options.sort((a, b) => {
+    if (a.affordable !== b.affordable) return a.affordable ? -1 : 1;
+    const extra = totalCount(a.shortfall) - totalCount(b.shortfall);
+    if (extra !== 0) return extra;
+    return peakStrain(a.counts, have) - peakStrain(b.counts, have);
+  });
+}
+
 export type MergeAttempt =
   | { ok: true; resultId: string }
   | { ok: false; reason: "same-tier" | "max-tier" | "unknown" };

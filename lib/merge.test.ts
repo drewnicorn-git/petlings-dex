@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  adviseStarters,
   attemptMerge,
   disassemble,
   expectedStarterTotal,
@@ -32,6 +33,31 @@ describe("collection totals", () => {
       10: 16,
     });
     expect(COLLECTION_TOTAL).toBe(184);
+  });
+});
+
+describe("adviseStarters", () => {
+  const chicks = { recipeId: "chicks", parentA: "a", parentB: "a", counts: { chick: 8, bunny: 0, cat: 0 } };
+  const mixed = { recipeId: "mixed", parentA: "b", parentB: "c", counts: { chick: 2, bunny: 2, cat: 4 } };
+
+  it("picks an affordable mix that leans on the starter you have the most of", () => {
+    const [best] = adviseStarters([mixed, chicks], chicks.counts, { chick: 10, bunny: 2, cat: 2 });
+    expect(best.affordable).toBe(true);
+    expect(best.path?.recipeId).toBe("chicks");
+    expect(best.shortfall).toEqual({ chick: 0, bunny: 0, cat: 0 });
+  });
+
+  it("skips a mix you cannot afford", () => {
+    const [best] = adviseStarters([chicks, mixed], chicks.counts, { chick: 2, bunny: 2, cat: 4 });
+    expect(best.path?.recipeId).toBe("mixed");
+    expect(best.affordable).toBe(true);
+  });
+
+  it("suggests the mix that needs the fewest extra starters", () => {
+    const [best] = adviseStarters([mixed, chicks], chicks.counts, { chick: 1, bunny: 0, cat: 0 });
+    expect(best.affordable).toBe(false);
+    expect(best.path?.recipeId).toBe("chicks");
+    expect(totalCount(best.shortfall)).toBe(7);
   });
 });
 
