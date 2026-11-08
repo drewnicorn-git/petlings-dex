@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import { CreatureArt } from "@/components/creature-art";
 import { useCatalog } from "@/components/catalog-context";
 import { Palette } from "@/components/board/palette";
@@ -16,9 +16,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { pickMergeTarget, type DropBox, type HitBox } from "@/lib/hit";
 import {
-  adviseStarters,
   attemptMerge,
   buildTree,
   creatureName,
@@ -26,6 +33,8 @@ import {
   findByName,
   missingPartners,
   normalizeName,
+  rankMixes,
+  sortCreatures,
   type Breakdown,
   type BuildStep,
   type StarterOption,
@@ -41,6 +50,7 @@ import {
 const TOKEN_W = 112;
 const TOKEN_H = 132;
 const STOCK_KEY = "petlings-starter-stock";
+const OWNED_KEY = "petlings-owned-creatures";
 
 function readStock(): StarterCounts {
   const empty = { chick: 0, bunny: 0, cat: 0 };
@@ -61,6 +71,57 @@ function wholeCount(value: unknown): number {
   const parsed = typeof value === "number" ? value : Number(value);
   if (!Number.isFinite(parsed)) return 0;
   return Math.max(0, Math.floor(parsed));
+}
+
+function ownedChoices(creatures: Parameters<typeof sortCreatures>[0]) {
+  const groups = new Map<number, Parameters<typeof sortCreatures>[0]>();
+  for (const creature of sortCreatures(creatures).filter((item) => item.tier > 1)) {
+    const list = groups.get(creature.tier);
+    if (list) list.push(creature);
+    else groups.set(creature.tier, [creature]);
+  }
+  return [...groups.entries()].map(([tier, list]) => ({ tier, creatures: list }));
+}
+
+function ownedTally(ids: string[], creatures: Parameters<typeof sortCreatures>[0]) {
+  const order: string[] = [];
+  const counts = new Map<string, number>();
+  for (const id of ids) {
+    if (!counts.has(id)) order.push(id);
+    counts.set(id, (counts.get(id) ?? 0) + 1);
+  }
+  return order.flatMap((id) => {
+    const creature = creatures.find((item) => item.id === id);
+    if (!creature || creature.tier <= 1) return [];
+    return [{ id, name: creature.name, tier: creature.tier, count: counts.get(id) ?? 0 }];
+  });
+}
+
+function readOwned(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(OWNED_KEY) ?? "");
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((id): id is string => typeof id === "string" && id.length > 0);
+  } catch {
+    return [];
+  }
+}
+
+function ownedUseText(uses: string[], catalog: ReturnType<typeof useCatalog>["catalog"]): string {
+  const order: string[] = [];
+  const counts = new Map<string, number>();
+  for (const id of uses) {
+    if (!counts.has(id)) order.push(id);
+    counts.set(id, (counts.get(id) ?? 0) + 1);
+  }
+  const parts = order.map((id) => {
+    const count = counts.get(id) ?? 0;
+    const name = creatureName(catalog, id);
+    return count > 1 ? `${name} × ${count}` : name;
+  });
+  if (parts.length === 0) return "";
+  return `Uses your ${parts.join(", ")}.`;
 }
 
 function shortfallText(option: StarterOption): string {
@@ -134,8 +195,13 @@ function BuildBranch({
   catalog: ReturnType<typeof useCatalog>["catalog"];
 }) {
   const name = creatureName(catalog, step.creatureId);
-  if (!step.left || !step.right) {
-    return <p className="text-xs">{name}</p>;
+  if (step.owned || !step.left || !step.right) {
+    return (
+      <p className="text-xs">
+        {name}
+        {step.owned ? " · already have" : ""}
+      </p>
+    );
   }
   return (
     <div>
@@ -204,10 +270,12 @@ function BreakdownView({
   creatureId,
   breakdown,
   have,
+  owned,
 }: {
   creatureId: string;
   breakdown: Breakdown;
   have: StarterCounts;
+  owned: string[];
 }) {
   const { catalog } = useCatalog();
   const [tree, setTree] = useState<BuildStep | null>(null);
@@ -234,14 +302,14 @@ function BreakdownView({
     );
   }
   if (breakdown.status !== "ok") return null;
-  const options = adviseStarters(breakdown.paths, breakdown.counts, have);
+  const options = rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
   const best = options[0];
   const fits = options.filter((option) => option.affordable).length;
   const ways = breakdown.paths.length;
 
   function openTree() {
     if (!best?.path) return;
-    setTree(buildTree(catalog, creatureId, best.path));
+    setTree(best.tree ?? buildTree(catalog, creatureId, best.path));
     setTreeOpen(true);
   }
 
@@ -264,6 +332,9 @@ function BreakdownView({
             <p className="text-xs">This is a starter.</p>
           )}
           <Counts counts={best.counts} />
+          {best.uses.length > 0 ? (
+            <p className="text-xs text-muted-foreground">{ownedUseText(best.uses, catalog)}</p>
+          ) : null}
           <p className="text-xs text-muted-foreground">
             {best.affordable
               ? "This uses the starters you have the most of."
@@ -280,7 +351,11 @@ function BreakdownView({
             <DialogTitle>Build {creature.name}</DialogTitle>
             <DialogDescription>
               {best?.path
-                ? `${creatureName(catalog, best.path.parentA)} + ${creatureName(catalog, best.path.parentB)}, followed all the way to Chick, Bunny, and Cat.`
+                ? `${creatureName(catalog, best.path.parentA)} + ${creatureName(catalog, best.path.parentB)}${
+                    best.uses.length > 0
+                      ? ". Pieces you already have stay closed."
+                      : ", followed all the way to Chick, Bunny, and Cat."
+                  }`
                 : "This creature is already a starter."}
             </DialogDescription>
           </DialogHeader>
@@ -297,10 +372,10 @@ function BreakdownView({
         {breakdown.total} starter {breakdown.total === 1 ? "pet" : "pets"}
       </p>
       {ways === 0 ? null : (
-        options.map((option) =>
+        options.map((option, index) =>
           option.path ? (
             <div
-              key={`${option.path.recipeId}-${option.counts.chick}-${option.counts.bunny}-${option.counts.cat}`}
+              key={`${option.path.recipeId}-${index}`}
               className={`mt-2 ${option.affordable ? "" : "opacity-60"}`}
             >
               <p className="text-xs break-words">
@@ -310,6 +385,9 @@ function BreakdownView({
               <p className="text-[10px] font-semibold tracking-wide uppercase">
                 {option.affordable ? "Possible" : `Needs ${shortfallText(option)}`}
               </p>
+              {option.uses.length > 0 ? (
+                <p className="text-[10px] text-muted-foreground">{ownedUseText(option.uses, catalog)}</p>
+              ) : null}
               <Counts counts={option.counts} />
             </div>
           ) : null,
@@ -339,6 +417,8 @@ export function MergeBoard() {
   const [focusId, setFocusId] = useState<string | null>(null);
   const [gapId, setGapId] = useState<string | null>(null);
   const [stock, setStock] = useState<StarterCounts>({ chick: 0, bunny: 0, cat: 0 });
+  const [owned, setOwned] = useState<string[]>([]);
+  const [pickerKey, setPickerKey] = useState(0);
   const [stockReady, setStockReady] = useState(false);
   const [nameOpen, setNameOpen] = useState(false);
   const [draftName, setDraftName] = useState("");
@@ -347,6 +427,7 @@ export function MergeBoard() {
 
   useEffect(() => {
     setStock(readStock());
+    setOwned(readOwned());
     setStockReady(true);
   }, []);
 
@@ -354,6 +435,23 @@ export function MergeBoard() {
     if (!stockReady) return;
     window.localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
   }, [stock, stockReady]);
+
+  useEffect(() => {
+    if (!stockReady) return;
+    window.localStorage.setItem(OWNED_KEY, JSON.stringify(owned));
+  }, [owned, stockReady]);
+
+  useEffect(() => {
+    if (!stockReady) return;
+    setOwned((current) => {
+      const next = current.filter((id) => {
+        const creature = catalog.creatures.find((item) => item.id === id);
+        return creature !== undefined && creature.tier > 1;
+      });
+      if (next.length === current.length && next.every((id, index) => id === current[index])) return current;
+      return next;
+    });
+  }, [catalog, stockReady]);
 
   function setStockCount(id: (typeof STARTER_IDS)[number], value: number) {
     setStock((current) => ({ ...current, [id]: value }));
@@ -697,6 +795,64 @@ export function MergeBoard() {
               onChange={(value) => setStockCount(id, value)}
             />
           ))}
+          <Select
+            key={pickerKey}
+            onValueChange={(value) => {
+              if (typeof value !== "string" || value.length === 0) return;
+              setOwned((current) => [...current, value]);
+              setPickerKey((current) => current + 1);
+            }}
+          >
+            <SelectTrigger
+              aria-label="Add a creature you already have"
+              className="size-8 justify-center px-0 pl-0 pr-0 [&_svg:nth-of-type(2)]:hidden"
+            >
+              <Plus className="size-4" />
+            </SelectTrigger>
+            <SelectContent align="start" className="max-h-80">
+              {ownedChoices(catalog.creatures).map((group) => (
+                <SelectGroup key={group.tier}>
+                  <SelectLabel style={{ color: tierStyle(group.tier).bg }}>
+                    Tier {group.tier}
+                  </SelectLabel>
+                  {group.creatures.map((creature) => {
+                    const colors = tierStyle(creature.tier);
+                    return (
+                      <SelectItem
+                        key={creature.id}
+                        value={creature.id}
+                        style={{ backgroundColor: colors.bg, color: colors.fg }}
+                      >
+                        {creature.name}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              ))}
+            </SelectContent>
+          </Select>
+          {ownedTally(owned, catalog.creatures).map((chip) => {
+            const colors = tierStyle(chip.tier);
+            return (
+              <span
+                key={chip.id}
+                className="mb-0.5 inline-flex h-8 items-center rounded-full px-2 text-xs font-semibold"
+                style={{ backgroundColor: colors.bg, color: colors.fg }}
+              >
+                {chip.name}
+                {chip.count > 1 ? ` × ${chip.count}` : ""}
+              </span>
+            );
+          })}
+          <button
+            type="button"
+            className="mb-0.5 flex size-8 items-center justify-center rounded-lg border border-input text-foreground hover:bg-muted disabled:opacity-40"
+            aria-label="Remove all added creatures"
+            disabled={owned.length === 0}
+            onClick={() => setOwned([])}
+          >
+            <Trash2 className="size-4" />
+          </button>
         </div>
         <Button
           type="button"
@@ -865,11 +1021,16 @@ export function MergeBoard() {
               {focus && breakdown ? (
                 <div aria-live="polite">
                   <p className="font-semibold break-words">{focus.name}</p>
-                  <BreakdownView creatureId={focus.id} breakdown={breakdown} have={stock} />
+                  <BreakdownView
+                    creatureId={focus.id}
+                    breakdown={breakdown}
+                    have={stock}
+                    owned={owned}
+                  />
                 </div>
               ) : (
                 <p className="text-xs text-muted-foreground">
-                  Set how many Chicks, Bunnies, and Cats you have, then drop a creature here for the best mix.
+                  Set your Chick, Bunny, and Cat counts. Use + to add a creature you already own, then drop one here.
                 </p>
               )}
             </div>

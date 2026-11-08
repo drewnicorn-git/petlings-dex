@@ -4,6 +4,8 @@ import {
   attemptMerge,
   buildTree,
   disassemble,
+  priceTree,
+  rankMixes,
   expectedStarterTotal,
   findRecipe,
   isStarter,
@@ -114,6 +116,84 @@ describe("buildTree", () => {
     expect(tree.right?.creatureId).toBe("frog");
     expect(leafCounts(tree)).toEqual(path.counts);
     assertBuild(tree);
+  });
+});
+
+describe("owned creatures", () => {
+  function hippoFrog() {
+    const hippo = disassemble("hippo", seedCatalog);
+    expect(hippo.status).toBe("ok");
+    if (hippo.status !== "ok") throw new Error("hippo");
+    const path = hippo.paths.find((item) => item.parentA === "frog" && item.parentB === "frog");
+    expect(path).toBeTruthy();
+    if (!path) throw new Error("frog path");
+    const tree = buildTree(seedCatalog, "hippo", path);
+    if (!tree?.left || !tree.right) throw new Error("tree");
+    return { hippo, path, tree: { ...tree, left: tree.left, right: tree.right } };
+  }
+
+  it("spends one owned frog and leaves the cheaper frog to build", () => {
+    const { tree } = hippoFrog();
+    const quote = priceTree(tree, ["frog"], { chick: 0, bunny: 0, cat: 0 });
+    expect(quote.uses).toEqual(["frog"]);
+    const ownedLeft = quote.step.left?.owned === true;
+    const ownedRight = quote.step.right?.owned === true;
+    expect(ownedLeft !== ownedRight).toBe(true);
+    const remaining = ownedLeft ? quote.step.right : quote.step.left;
+    expect(remaining?.owned).toBeUndefined();
+    expect(quote.cost).toEqual(remaining?.counts);
+    expect(totalCount(quote.cost)).toBe(
+      Math.min(totalCount(tree.left.counts), totalCount(tree.right.counts)),
+    );
+  });
+
+  it("treats an owned hippo as already made", () => {
+    const { tree } = hippoFrog();
+    const quote = priceTree(tree, ["hippo"], { chick: 0, bunny: 0, cat: 0 });
+    expect(quote.cost).toEqual({ chick: 0, bunny: 0, cat: 0 });
+    expect(quote.step.owned).toBe(true);
+    expect(quote.step.left).toBeNull();
+  });
+
+  it("spends two copies when the same creature is added twice", () => {
+    const { tree } = hippoFrog();
+    const quote = priceTree(tree, ["frog", "frog"], { chick: 0, bunny: 0, cat: 0 });
+    expect(quote.cost).toEqual({ chick: 0, bunny: 0, cat: 0 });
+    expect(quote.uses).toEqual(["frog", "frog"]);
+  });
+
+  it("still spends owned copies when more than eight were added", () => {
+    const { tree } = hippoFrog();
+    const quote = priceTree(tree, Array.from({ length: 9 }, () => "frog"), {
+      chick: 0,
+      bunny: 0,
+      cat: 0,
+    });
+    expect(quote.cost).toEqual({ chick: 0, bunny: 0, cat: 0 });
+    expect(quote.uses).toEqual(["frog", "frog"]);
+  });
+
+  it("makes the frog mix cheaper once a frog is already owned", () => {
+    const { hippo } = hippoFrog();
+    const have = { chick: 20, bunny: 20, cat: 20 };
+    const plain = adviseStarters(hippo.paths, hippo.counts, have);
+    const ranked = rankMixes(seedCatalog, "hippo", hippo.paths, hippo.counts, have, ["frog"]);
+    const frog = ranked.find((option) => option.path?.parentA === "frog" && option.path.parentB === "frog");
+    const full = plain.find((option) => option.path?.parentA === "frog" && option.path.parentB === "frog");
+    expect(frog?.uses).toEqual(["frog"]);
+    expect(totalCount(frog?.counts ?? { chick: 0, bunny: 0, cat: 0 })).toBeLessThan(
+      totalCount(full?.counts ?? { chick: 0, bunny: 0, cat: 0 }),
+    );
+  });
+
+  it("keeps the same order when nothing extra is owned", () => {
+    const { hippo } = hippoFrog();
+    const have = { chick: 1, bunny: 0, cat: 0 };
+    const ranked = rankMixes(seedCatalog, "hippo", hippo.paths, hippo.counts, have, []);
+    const plain = adviseStarters(hippo.paths, hippo.counts, have);
+    expect(ranked.map((option) => option.path?.recipeId)).toEqual(
+      plain.map((option) => option.path?.recipeId),
+    );
   });
 });
 

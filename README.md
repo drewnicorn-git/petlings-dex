@@ -9,7 +9,7 @@ This is not the game, and it is not an official guide. The creature list and com
 - Only two creatures of the same tier can combine.
 - Every creature in a tier can combine with every creature in that tier, including two of the same creature.
 - The result is the next tier.
-- Chick, Bunny, and Cat are the only tier 1 creatures.
+- Chick, Bunny, and Cat are the only tier 1 creatures. The counts above the board are how many of those you have. The plus adds a higher-tier creature you already own so the best mix can use it, and the trash icon clears every added creature.
 - A pair is the same combo in either order. Two of the same creature is allowed.
 - A combo cannot loop back into itself.
 

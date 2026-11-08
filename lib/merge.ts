@@ -119,6 +119,8 @@ export type StarterOption = {
   affordable: boolean;
   shortfall: StarterCounts;
   path: PathCounts | null;
+  uses: string[];
+  tree: BuildStep | null;
 };
 
 export type BuildStep = {
@@ -126,16 +128,131 @@ export type BuildStep = {
   counts: StarterCounts;
   left: BuildStep | null;
   right: BuildStep | null;
+  owned?: boolean;
 };
+
+function cheaperCost(a: StarterCounts, b: StarterCounts, have: StarterCounts): number {
+  const extra = totalCount(starterShortfall(a, have)) - totalCount(starterShortfall(b, have));
+  if (extra !== 0) return extra;
+  const strain = peakStrain(a, have) - peakStrain(b, have);
+  if (strain !== 0) return strain;
+  return totalCount(a) - totalCount(b);
+}
+
+type PricedTree = { cost: StarterCounts; step: BuildStep; uses: string[] };
+
+function covered(node: BuildStep): PricedTree {
+  return {
+    cost: emptyCounts(),
+    uses: [node.creatureId],
+    step: {
+      creatureId: node.creatureId,
+      counts: emptyCounts(),
+      left: null,
+      right: null,
+      owned: true,
+    },
+  };
+}
+
+function joined(node: BuildStep, left: PricedTree, right: PricedTree): PricedTree {
+  return {
+    cost: addCounts(left.cost, right.cost),
+    uses: [...left.uses, ...right.uses],
+    step: {
+      creatureId: node.creatureId,
+      counts: addCounts(left.cost, right.cost),
+      left: left.step,
+      right: right.step,
+    },
+  };
+}
+
+function priceGreedy(step: BuildStep, owned: string[]): PricedTree {
+  const counts = new Map<string, number>();
+  for (const id of owned) counts.set(id, (counts.get(id) ?? 0) + 1);
+
+  function walk(node: BuildStep): PricedTree {
+    const available = counts.get(node.creatureId) ?? 0;
+    if (available > 0 && !isStarter(node.creatureId)) {
+      counts.set(node.creatureId, available - 1);
+      return covered(node);
+    }
+    if (!node.left || !node.right) return { cost: node.counts, uses: [], step: node };
+    if (totalCount(node.left.counts) >= totalCount(node.right.counts)) {
+      return joined(node, walk(node.left), walk(node.right));
+    }
+    const right = walk(node.right);
+    return joined(node, walk(node.left), right);
+  }
+
+  return walk(step);
+}
+
+export function priceTree(
+  step: BuildStep,
+  owned: string[],
+  have: StarterCounts,
+  memo: Map<string, PricedTree> = new Map(),
+): PricedTree {
+  if (owned.length > 8) return priceGreedy(step, owned);
+
+  function solve(node: BuildStep, items: string[]): PricedTree {
+    const bagKey = [...items].sort().join("|");
+    const memoKey = `${node.creatureId}|${countKey(node.counts)}|${bagKey}`;
+    const hit = memo.get(memoKey);
+    if (hit) return hit;
+
+    if (items.includes(node.creatureId) && !isStarter(node.creatureId)) {
+      const quote = covered(node);
+      memo.set(memoKey, quote);
+      return quote;
+    }
+
+    let best: PricedTree | null = null;
+    const consider = (quote: PricedTree) => {
+      if (!best || cheaperCost(quote.cost, best.cost, have) < 0) best = quote;
+    };
+
+    if (!node.left || !node.right) {
+      consider({ cost: node.counts, uses: [], step: node });
+    } else if (items.length === 0) {
+      consider(joined(node, solve(node.left, []), solve(node.right, [])));
+    } else {
+      const masks = 1 << items.length;
+      for (let mask = 0; mask < masks; mask += 1) {
+        const leftBag: string[] = [];
+        const rightBag: string[] = [];
+        for (let index = 0; index < items.length; index += 1) {
+          if (mask & (1 << index)) leftBag.push(items[index]);
+          else rightBag.push(items[index]);
+        }
+        consider(joined(node, solve(node.left, leftBag), solve(node.right, rightBag)));
+      }
+    }
+
+    const chosen = best ?? { cost: node.counts, uses: [], step: node };
+    memo.set(memoKey, chosen);
+    return chosen;
+  }
+
+  return solve(step, owned);
+}
+
+function ownedOverlap(step: BuildStep, prefer: ReadonlySet<string>): number {
+  const here = prefer.has(step.creatureId) ? totalCount(step.counts) : 0;
+  return here + (step.left ? ownedOverlap(step.left, prefer) : 0) + (step.right ? ownedOverlap(step.right, prefer) : 0);
+}
 
 export function buildTree(
   catalog: Catalog,
   creatureId: string,
   path: Pick<PathCounts, "parentA" | "parentB" | "counts">,
+  cache: Map<string, Map<string, BuildStep>> = new Map(),
+  prefer: ReadonlySet<string> = new Set(),
 ): BuildStep | null {
   const creatures = creatureMap(catalog.creatures);
   const recipesFor = recipesByResult(catalog.recipes);
-  const cache = new Map<string, Map<string, BuildStep>>();
 
   function options(id: string, stack: string[]): Map<string, BuildStep> | null {
     if (stack.includes(id)) return null;
@@ -161,13 +278,17 @@ export function buildTree(
         for (const parentRight of right.values()) {
           const counts = addCounts(parentLeft.counts, parentRight.counts);
           const key = countKey(counts);
-          if (found.has(key)) continue;
-          found.set(key, {
+          const candidate: BuildStep = {
             creatureId: id,
             counts,
             left: parentLeft,
             right: parentRight,
-          });
+          };
+          const previous = found.get(key);
+          if (previous && (prefer.size === 0 || ownedOverlap(previous, prefer) >= ownedOverlap(candidate, prefer))) {
+            continue;
+          }
+          found.set(key, candidate);
         }
       }
     }
@@ -206,14 +327,72 @@ export function adviseStarters(
       shortfall,
       affordable: totalCount(shortfall) === 0,
       path: source.path,
+      uses: [],
+      tree: null,
     };
   });
-  return options.sort((a, b) => {
-    if (a.affordable !== b.affordable) return a.affordable ? -1 : 1;
-    const extra = totalCount(a.shortfall) - totalCount(b.shortfall);
-    if (extra !== 0) return extra;
-    return peakStrain(a.counts, have) - peakStrain(b.counts, have);
+  return options.sort((a, b) => compareOptions(a, b, have));
+}
+
+function compareOptions(a: StarterOption, b: StarterOption, have: StarterCounts): number {
+  if (a.affordable !== b.affordable) return a.affordable ? -1 : 1;
+  const extra = totalCount(a.shortfall) - totalCount(b.shortfall);
+  if (extra !== 0) return extra;
+  const strainA = peakStrain(a.counts, have);
+  const strainB = peakStrain(b.counts, have);
+  if (strainA !== strainB) {
+    if (!Number.isFinite(strainA)) return 1;
+    if (!Number.isFinite(strainB)) return -1;
+    return strainA - strainB;
+  }
+  return totalCount(a.counts) - totalCount(b.counts);
+}
+
+export function rankMixes(
+  catalog: Catalog,
+  creatureId: string,
+  paths: PathCounts[],
+  ownCounts: StarterCounts,
+  have: StarterCounts,
+  owned: string[],
+): StarterOption[] {
+  const usable = owned.filter((id) => {
+    const creature = catalog.creatures.find((item) => item.id === id);
+    return creature !== undefined && creature.tier > 1;
   });
+  if (usable.length === 0) return adviseStarters(paths, ownCounts, have);
+  const sources =
+    paths.length > 0
+      ? paths.map((path) => ({ counts: path.counts, path }))
+      : [{ counts: ownCounts, path: null as PathCounts | null }];
+  const cache = new Map<string, Map<string, BuildStep>>();
+  const pricedTrees = new Map<string, PricedTree>();
+  const prefer = new Set(usable);
+  const options = sources.map((source) => {
+    const tree = source.path ? buildTree(catalog, creatureId, source.path, cache, prefer) : null;
+    if (!tree) {
+      const shortfall = starterShortfall(source.counts, have);
+      return {
+        counts: source.counts,
+        shortfall,
+        affordable: totalCount(shortfall) === 0,
+        path: source.path,
+        uses: [] as string[],
+        tree: null,
+      };
+    }
+    const priced = priceTree(tree, usable, have, pricedTrees);
+    const shortfall = starterShortfall(priced.cost, have);
+    return {
+      counts: priced.cost,
+      shortfall,
+      affordable: totalCount(shortfall) === 0,
+      path: source.path,
+      uses: priced.uses,
+      tree: priced.step,
+    };
+  });
+  return options.sort((a, b) => compareOptions(a, b, have));
 }
 
 export type MergeAttempt =
