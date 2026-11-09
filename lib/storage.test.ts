@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import board from "@/data/merge-board.json";
-import { seedCatalog } from "@/lib/seed";
+import { seaCatalog, seedCatalog } from "@/lib/seed";
 import { catalogStamp, parseImport, resolveSavedCatalog } from "@/lib/storage";
 
 describe("bundled catalog", () => {
@@ -14,6 +14,12 @@ describe("bundled catalog", () => {
     expect(parsed.catalog.recipes).toHaveLength(seedCatalog.recipes.length);
     expect(parsed.catalog.creatures).toHaveLength(127);
     expect(seedCatalog.recipes).toHaveLength(1208);
+    expect(seaCatalog.creatures.map((creature) => creature.id)).toEqual([
+      "clownfish",
+      "seahorse",
+      "crab",
+    ]);
+    expect(seaCatalog.starters).toEqual(["clownfish", "seahorse", "crab"]);
     expect(parsed.catalog.creatures.some((creature) => "note" in creature)).toBe(false);
   });
 
@@ -61,7 +67,7 @@ describe("resolveSavedCatalog", () => {
   it("uses the project file when this browser has no saved stamp", () => {
     const stamp = catalogStamp(seedCatalog);
     const chosen = resolveSavedCatalog(
-      { catalog: { creatures: [], recipes: [] }, sourceStamp: undefined },
+      { catalog: { creatures: [], recipes: [], starters: ["chick", "bunny", "cat"] }, sourceStamp: undefined },
       seedCatalog,
       stamp,
     );

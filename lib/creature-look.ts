@@ -110,7 +110,7 @@ const RULES: Array<[RegExp, Kind]> = [
   [/mammoth|elephant/, "mammoth"],
   [/horse|pony/, "horse"],
   [/snake|serpent/, "snake"],
-  [/fish|shark/, "fish"],
+  [/fish|shark|clownfish|seahorse|whale|dolphin|orca|seal|narwhal|lobster|crab|shrimp|jellyfish|starfish|eel|squid|manta|turtle/, "fish"],
   [/owl/, "owl"],
   [/bear/, "bear"],
   [/frog|toad/, "frog"],

@@ -21,6 +21,7 @@ export type Recipe = {
 export type Catalog = {
   creatures: Creature[];
   recipes: Recipe[];
+  starters: readonly [string, string, string];
 };
 
 export type BoardToken = {
@@ -32,12 +33,8 @@ export type BoardToken = {
 
 export const STARTER_IDS = ["chick", "bunny", "cat"] as const;
 
-export type StarterId = (typeof STARTER_IDS)[number];
+export type StarterId = string;
 
-export type StarterCounts = Record<StarterId, number>;
+export type StarterCounts = Record<string, number>;
 
-export const STARTER_NAMES: Record<StarterId, string> = {
-  chick: "Chick",
-  bunny: "Bunny",
-  cat: "Cat",
-};
+export { STARTER_NAMES } from "@/lib/farms";

@@ -43,7 +43,7 @@ function draftFrom(creature: Creature): EditDraft {
 
 export function DataTab() {
   const catalogApi = useCatalog();
-  const { catalog } = catalogApi;
+  const { catalog, farm } = catalogApi;
   const creatures = useMemo(() => sortCreatures(catalog.creatures), [catalog.creatures]);
   const [name, setName] = useState("");
   const [tier, setTier] = useState("2");
@@ -520,7 +520,7 @@ export function DataTab() {
               type="button"
               onClick={() => {
                 if (!importText) return;
-                const parsed = parseImport(JSON.parse(importText));
+                const parsed = parseImport(JSON.parse(importText), farm);
                 if (parsed.ok) catalogApi.replaceCatalog(parsed.catalog);
                 setImportText(null);
               }}
@@ -536,7 +536,7 @@ export function DataTab() {
           <DialogHeader>
             <DialogTitle>Reset the starter list?</DialogTitle>
             <DialogDescription>
-              This restores the creature list saved in data/merge-board.json. Creatures and combos you added in this browser since that copy are removed.
+              This restores the bundled creature list for this farm. Creatures and combos you added in this browser since that copy are removed. The other farm stays as it is.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -10,6 +11,7 @@ import {
   type ReactNode,
   type SetStateAction,
 } from "react";
+import { FARM_IDS, type FarmId } from "@/lib/farms";
 import {
   normalizeName,
   uniqueCreatureId,
@@ -17,13 +19,21 @@ import {
   validateRecipe,
   validateTierChange,
 } from "@/lib/merge";
-import { bundledStamp, freshCatalog, loadPersisted, savePersisted } from "@/lib/storage";
+import { bundledStampFor, freshCatalog, loadPersisted, savePersisted } from "@/lib/storage";
 import type { BoardToken, Catalog, Creature, CreaturePatch, Recipe } from "@/lib/types";
 
 type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 
+type FarmBucket = {
+  catalog: Catalog;
+  tokens: BoardToken[];
+  sourceStamp: string;
+};
+
 type CatalogContextValue = {
   ready: boolean;
+  farm: FarmId;
+  setFarm: (farm: FarmId) => void;
   catalog: Catalog;
   tokens: BoardToken[];
   setTokens: Dispatch<SetStateAction<BoardToken[]>>;
@@ -42,41 +52,80 @@ function newId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
 }
 
+function initialBucket(farm: FarmId): FarmBucket {
+  const catalog = freshCatalog(farm);
+  return { catalog, tokens: [], sourceStamp: bundledStampFor(farm) };
+}
+
 export function CatalogProvider({ children }: { children: ReactNode }) {
-  const [catalog, setCatalog] = useState<Catalog>(freshCatalog);
-  const [tokens, setTokens] = useState<BoardToken[]>([]);
-  const [sourceStamp, setSourceStamp] = useState(bundledStamp);
+  const [farm, setFarm] = useState<FarmId>("land");
+  const [farms, setFarms] = useState<Record<FarmId, FarmBucket>>({
+    land: initialBucket("land"),
+    sea: initialBucket("sea"),
+  });
   const [ready, setReady] = useState(false);
-  const catalogRef = useRef(catalog);
-  catalogRef.current = catalog;
+  const farmRef = useRef(farm);
+  const farmsRef = useRef(farms);
+  farmRef.current = farm;
+  farmsRef.current = farms;
 
   function commit(next: Catalog) {
-    catalogRef.current = next;
-    setCatalog(next);
+    const id = farmRef.current;
+    const updated = {
+      ...farmsRef.current,
+      [id]: { ...farmsRef.current[id], catalog: next },
+    };
+    farmsRef.current = updated;
+    setFarms(updated);
   }
 
+  const setTokens = useCallback((action: SetStateAction<BoardToken[]>) => {
+    setFarms((current) => {
+      const id = farmRef.current;
+      const state = current[id];
+      const tokens = typeof action === "function" ? action(state.tokens) : action;
+      const updated = { ...current, [id]: { ...state, tokens } };
+      farmsRef.current = updated;
+      return updated;
+    });
+  }, []);
+
   useEffect(() => {
-    const saved = loadPersisted();
-    if (saved) {
-      commit(saved.catalog);
-      setTokens(saved.tokens);
-      setSourceStamp(saved.sourceStamp);
+    const next = { land: initialBucket("land"), sea: initialBucket("sea") };
+    for (const id of FARM_IDS) {
+      const saved = loadPersisted(id);
+      if (saved) {
+        next[id] = {
+          catalog: saved.catalog,
+          tokens: saved.tokens,
+          sourceStamp: saved.sourceStamp,
+        };
+      }
     }
+    farmsRef.current = next;
+    setFarms(next);
     setReady(true);
   }, []);
 
   useEffect(() => {
     if (!ready) return;
-    savePersisted(catalog, tokens, sourceStamp);
-  }, [catalog, tokens, sourceStamp, ready]);
+    for (const id of FARM_IDS) {
+      const state = farms[id];
+      savePersisted(state.catalog, state.tokens, state.sourceStamp, id);
+    }
+  }, [farms, ready]);
+
+  const active = farms[farm];
 
   const value: CatalogContextValue = {
     ready,
-    catalog,
-    tokens,
+    farm,
+    setFarm,
+    catalog: active.catalog,
+    tokens: active.tokens,
     setTokens,
     addCreature(name, tier) {
-      const current = catalogRef.current;
+      const current = farmsRef.current[farmRef.current].catalog;
       const error = validateCreatureDraft(current.creatures, name, tier);
       if (error) return { ok: false, error };
       const creature: Creature = {
@@ -91,7 +140,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       return { ok: true, value: creature };
     },
     updateCreature(id, patch) {
-      const current = catalogRef.current;
+      const current = farmsRef.current[farmRef.current].catalog;
       const existing = current.creatures.find((creature) => creature.id === id);
       if (!existing) return { ok: false, error: "That creature is not in the list." };
       const nextName = patch.name === undefined ? existing.name : normalizeName(patch.name);
@@ -118,11 +167,12 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       return { ok: true, value: creature };
     },
     deleteCreature(id) {
-      const current = catalogRef.current;
+      const current = farmsRef.current[farmRef.current].catalog;
       const existing = current.creatures.find((creature) => creature.id === id);
       if (!existing) return { ok: false, error: "That creature is not in the list." };
       if (existing.locked) return { ok: false, error: `${existing.name} stays in the list.` };
       commit({
+        ...current,
         creatures: current.creatures.filter((creature) => creature.id !== id),
         recipes: current.recipes.filter(
           (recipe) =>
@@ -136,7 +186,7 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       return { ok: true, value: null };
     },
     addRecipe(parentA, parentB, resultId, parentC) {
-      const current = catalogRef.current;
+      const current = farmsRef.current[farmRef.current].catalog;
       const error = validateRecipe(current, parentA, parentB, resultId, undefined, parentC);
       if (error) return { ok: false, error };
       const recipe: Recipe = {
@@ -150,21 +200,24 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       return { ok: true, value: recipe };
     },
     deleteRecipe(id) {
-      const current = catalogRef.current;
+      const current = farmsRef.current[farmRef.current].catalog;
       commit({
         ...current,
         recipes: current.recipes.filter((recipe) => recipe.id !== id),
       });
     },
     replaceCatalog(next) {
-      commit(next);
+      const id = farmRef.current;
+      const stamped = { ...next, starters: farmsRef.current[id].catalog.starters };
+      commit(stamped);
       setTokens((currentTokens) => {
-        const ids = new Set(next.creatures.map((creature) => creature.id));
+        const ids = new Set(stamped.creatures.map((creature) => creature.id));
         return currentTokens.filter((token) => ids.has(token.creatureId));
       });
     },
     resetCatalog() {
-      commit(freshCatalog());
+      const id = farmRef.current;
+      commit(freshCatalog(id));
       setTokens([]);
     },
   };

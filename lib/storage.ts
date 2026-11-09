@@ -1,15 +1,7 @@
+import { FARM_STARTERS, starterListLabel, storageKey, type FarmId } from "@/lib/farms";
 import { validateRecipe } from "@/lib/merge";
-import { bundledRevision, seedCatalog } from "@/lib/seed";
-import {
-  STARTER_IDS,
-  STARTER_NAMES,
-  type BoardToken,
-  type Catalog,
-  type Creature,
-  type StarterId,
-} from "@/lib/types";
-
-const KEY = "petlings-merge-board-v1";
+import { bundledRevision, seaCatalog, seedCatalog } from "@/lib/seed";
+import { STARTER_NAMES, type BoardToken, type Catalog, type Creature } from "@/lib/types";
 
 export type Persisted = {
   version: 1;
@@ -26,6 +18,7 @@ export function catalogStamp(catalog: Catalog): string {
       tier: creature.tier,
       locked: Boolean(creature.locked),
     })),
+    starters: catalog.starters,
     recipes: catalog.recipes.map((recipe) => ({
       id: recipe.id,
       parentA: recipe.parentA,
@@ -44,6 +37,14 @@ export function catalogStamp(catalog: Catalog): string {
 
 export const bundledStamp = catalogStamp(seedCatalog);
 
+export function bundledCatalog(farm: FarmId): Catalog {
+  return farm === "sea" ? seaCatalog : seedCatalog;
+}
+
+export function bundledStampFor(farm: FarmId): string {
+  return catalogStamp(bundledCatalog(farm));
+}
+
 export function resolveSavedCatalog(
   saved: { catalog: Catalog; sourceStamp?: string } | null,
   bundled: Catalog,
@@ -57,7 +58,10 @@ export function resolveSavedCatalog(
 
 export function parseImport(
   data: unknown,
+  farm: FarmId = "land",
 ): { ok: true; catalog: Catalog } | { ok: false; error: string } {
+  const starters = FARM_STARTERS[farm];
+  const starterLabel = starterListLabel(starters);
   if (!data || typeof data !== "object") {
     return { ok: false, error: "That file is not a merge board export." };
   }
@@ -85,8 +89,8 @@ export function parseImport(
     if (typeof item.tier !== "number" || !Number.isInteger(item.tier)) {
       return { ok: false, error: `${item.name || "A creature"} has a bad tier.` };
     }
-    const locked = (STARTER_IDS as readonly string[]).includes(item.id);
-    const name = locked ? STARTER_NAMES[item.id as StarterId] : item.name.trim().replace(/\s+/g, " ");
+    const locked = (starters as readonly string[]).includes(item.id);
+    const name = locked ? STARTER_NAMES[item.id] ?? item.name : item.name.trim().replace(/\s+/g, " ");
     if (!name) return { ok: false, error: "A creature has a blank name." };
     if (item.tier < 1 || item.tier > 10) {
       return { ok: false, error: `${name} has a tier outside 1 to 10.` };
@@ -107,21 +111,21 @@ export function parseImport(
     });
   }
 
-  for (const id of STARTER_IDS) {
+  for (const id of starters) {
     if (!seenIds.has(id)) {
-      return { ok: false, error: "The file needs Chick, Bunny, and Cat." };
+      return { ok: false, error: `The file needs ${starterLabel}.` };
     }
   }
   for (const creature of creatures) {
     if (creature.tier === 1 && !creature.locked) {
       return {
         ok: false,
-        error: `${creature.name} is tier 1. Only Chick, Bunny, and Cat can be tier 1.`,
+        error: `${creature.name} is tier 1. Only ${starterLabel} can be tier 1.`,
       };
     }
   }
 
-  const catalog: Catalog = { creatures, recipes: [] };
+  const catalog: Catalog = { creatures, recipes: [], starters };
   const recipeIds = new Set<string>();
   for (const raw of record.recipes) {
     if (!raw || typeof raw !== "object") {
@@ -173,25 +177,25 @@ function validToken(value: unknown, creatureIds: Set<string>): value is BoardTok
   );
 }
 
-export function loadPersisted(): Persisted | null {
+export function loadPersisted(farm: FarmId = "land"): Persisted | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = window.localStorage.getItem(KEY);
+    const raw = window.localStorage.getItem(storageKey(farm, "board"));
     if (!raw) return null;
     const parsed = JSON.parse(raw) as {
       catalog?: unknown;
       tokens?: unknown;
       sourceStamp?: unknown;
     };
-    const imported = parseImport(parsed.catalog ?? parsed);
+    const imported = parseImport(parsed.catalog ?? parsed, farm);
     if (!imported.ok) return null;
     const chosen = resolveSavedCatalog(
       {
         catalog: imported.catalog,
         sourceStamp: typeof parsed.sourceStamp === "string" ? parsed.sourceStamp : undefined,
       },
-      freshCatalog(),
-      bundledStamp,
+      freshCatalog(farm),
+      bundledStampFor(farm),
     );
     const ids = new Set(chosen.catalog.creatures.map((creature) => creature.id));
     const tokens = Array.isArray(parsed.tokens)
@@ -207,16 +211,17 @@ export function savePersisted(
   catalog: Catalog,
   tokens: BoardToken[],
   sourceStamp: string,
+  farm: FarmId = "land",
 ): void {
   if (typeof window === "undefined") return;
   const payload: Persisted = { version: 1, catalog, tokens, sourceStamp };
-  window.localStorage.setItem(KEY, JSON.stringify(payload));
+  window.localStorage.setItem(storageKey(farm, "board"), JSON.stringify(payload));
 }
 
 export function exportPayload(catalog: Catalog): string {
   return JSON.stringify({ version: 1, revision: bundledRevision, ...catalog }, null, 2);
 }
 
-export function freshCatalog(): Catalog {
-  return structuredClone(seedCatalog);
+export function freshCatalog(farm: FarmId = "land"): Catalog {
+  return structuredClone(bundledCatalog(farm));
 }

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "revision": 1,
+  "creatures": [
+    {
+      "id": "clownfish",
+      "name": "Clownfish",
+      "tier": 1,
+      "locked": true
+    },
+    {
+      "id": "seahorse",
+      "name": "Seahorse",
+      "tier": 1,
+      "locked": true
+    },
+    {
+      "id": "crab",
+      "name": "Crab",
+      "tier": 1,
+      "locked": true
+    }
+  ],
+  "recipes": []
+}

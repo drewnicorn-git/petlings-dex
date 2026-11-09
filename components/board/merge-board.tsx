@@ -34,35 +34,27 @@ import {
   findByName,
   missingPartners,
   normalizeName,
+  emptyCounts,
   rankMixes,
   sortCreatures,
   type Breakdown,
   type BuildStep,
   type StarterOption,
 } from "@/lib/merge";
+import { starterListLabel, storageKey, type FarmId } from "@/lib/farms";
 import { tierStyle } from "@/lib/tiers";
-import {
-  STARTER_IDS,
-  STARTER_NAMES,
-  type BoardToken,
-  type StarterCounts,
-} from "@/lib/types";
+import { STARTER_NAMES, type BoardToken, type StarterCounts } from "@/lib/types";
 
 const TOKEN_W = 112;
 const TOKEN_H = 132;
-const STOCK_KEY = "petlings-starter-stock";
-const OWNED_KEY = "petlings-owned-creatures";
 
-function readStock(): StarterCounts {
-  const empty = { chick: 0, bunny: 0, cat: 0 };
+function readStock(farm: FarmId, starters: readonly string[]): StarterCounts {
+  const empty = emptyCounts(starters);
   if (typeof window === "undefined") return empty;
   try {
-    const parsed = JSON.parse(window.localStorage.getItem(STOCK_KEY) ?? "") as Partial<StarterCounts>;
-    return {
-      chick: wholeCount(parsed.chick),
-      bunny: wholeCount(parsed.bunny),
-      cat: wholeCount(parsed.cat),
-    };
+    const parsed = JSON.parse(window.localStorage.getItem(storageKey(farm, "stock")) ?? "") as Partial<StarterCounts>;
+    for (const id of starters) empty[id] = wholeCount(parsed[id]);
+    return empty;
   } catch {
     return empty;
   }
@@ -98,10 +90,10 @@ function ownedTally(ids: string[], creatures: Parameters<typeof sortCreatures>[0
   });
 }
 
-function readOwned(): string[] {
+function readOwned(farm: FarmId): string[] {
   if (typeof window === "undefined") return [];
   try {
-    const parsed = JSON.parse(window.localStorage.getItem(OWNED_KEY) ?? "");
+    const parsed = JSON.parse(window.localStorage.getItem(storageKey(farm, "owned")) ?? "");
     if (!Array.isArray(parsed)) return [];
     return parsed.filter((id): id is string => typeof id === "string" && id.length > 0);
   } catch {
@@ -125,10 +117,10 @@ function ownedUseText(uses: string[], catalog: ReturnType<typeof useCatalog>["ca
   return `Uses your ${parts.join(", ")}.`;
 }
 
-function shortfallText(option: StarterOption): string {
-  const parts = STARTER_IDS.filter((id) => option.shortfall[id] > 0).map(
-    (id) => `${STARTER_NAMES[id]} × ${option.shortfall[id]}`,
-  );
+function shortfallText(option: StarterOption, starters: readonly string[]): string {
+  const parts = starters
+    .filter((id) => (option.shortfall[id] ?? 0) > 0)
+    .map((id) => `${STARTER_NAMES[id] ?? id} × ${option.shortfall[id]}`);
   return parts.join(", ");
 }
 
@@ -192,12 +184,12 @@ function clampToken(board: HTMLElement, x: number, y: number) {
   };
 }
 
-function Counts({ counts }: { counts: StarterCounts }) {
+function Counts({ counts, starters }: { counts: StarterCounts; starters: readonly string[] }) {
   return (
     <ul className="mt-1 space-y-0.5">
-      {STARTER_IDS.map((id) => (
+      {starters.map((id) => (
         <li key={id}>
-          {STARTER_NAMES[id]} × {counts[id]}
+          {STARTER_NAMES[id] ?? id} × {counts[id] ?? 0}
         </li>
       ))}
     </ul>
@@ -240,7 +232,7 @@ function StockField({
   value,
   onChange,
 }: {
-  id: (typeof STARTER_IDS)[number];
+  id: string;
   value: number;
   onChange: (next: number) => void;
 }) {
@@ -314,7 +306,7 @@ function BreakdownView({
   if (breakdown.status === "not-starter") {
     return (
       <p>
-        {creatureName(catalog, breakdown.creatureId)} is tier 1, but only Chick, Bunny, and Cat
+        {creatureName(catalog, breakdown.creatureId)} is tier 1, but only {starterListLabel(catalog.starters)}
         can start a line.
       </p>
     );
@@ -350,14 +342,14 @@ function BreakdownView({
           ) : (
             <p className="text-xs">This is a starter.</p>
           )}
-          <Counts counts={best.counts} />
+          <Counts counts={best.counts} starters={catalog.starters} />
           {best.uses.length > 0 ? (
             <p className="text-xs text-muted-foreground">{ownedUseText(best.uses, catalog)}</p>
           ) : null}
           <p className="text-xs text-muted-foreground">
             {best.affordable
               ? "This uses the starters you have the most of."
-              : `Still need ${shortfallText(best)}.`}
+              : `Still need ${shortfallText(best, catalog.starters)}.`}
           </p>
           {best.path ? (
             <p className="text-xs text-muted-foreground">Double-click for the full build.</p>
@@ -373,7 +365,7 @@ function BreakdownView({
                 ? `${comboNames(catalog, [best.path.parentA, best.path.parentB, best.path.parentC])}${
                     best.uses.length > 0
                       ? ". Pieces you already have stay closed."
-                      : ", followed all the way to Chick, Bunny, and Cat."
+                      : `, followed all the way to ${starterListLabel(catalog.starters)}.`
                   }`
                 : "This creature is already a starter."}
             </DialogDescription>
@@ -401,12 +393,12 @@ function BreakdownView({
                 via {comboNames(catalog, [option.path.parentA, option.path.parentB, option.path.parentC])}
               </p>
               <p className="text-[10px] font-semibold tracking-wide uppercase">
-                {option.affordable ? "Possible" : `Needs ${shortfallText(option)}`}
+                {option.affordable ? "Possible" : `Needs ${shortfallText(option, catalog.starters)}`}
               </p>
               {option.uses.length > 0 ? (
                 <p className="text-[10px] text-muted-foreground">{ownedUseText(option.uses, catalog)}</p>
               ) : null}
-              <Counts counts={option.counts} />
+              <Counts counts={option.counts} starters={catalog.starters} />
             </div>
           ) : null,
         )
@@ -417,7 +409,9 @@ function BreakdownView({
 
 export function MergeBoard() {
   const api = useCatalog();
-  const { catalog, tokens, setTokens } = api;
+  const { catalog, tokens, setTokens, farm } = api;
+  const starters = catalog.starters;
+  const starterNames = starterListLabel(starters);
   const boardRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLDivElement>(null);
   const gapRef = useRef<HTMLDivElement>(null);
@@ -438,8 +432,9 @@ export function MergeBoard() {
   waitingRef.current = waiting;
   const [focusId, setFocusId] = useState<string | null>(null);
   const [gapId, setGapId] = useState<string | null>(null);
-  const [stock, setStock] = useState<StarterCounts>({ chick: 0, bunny: 0, cat: 0 });
+  const [stock, setStock] = useState<StarterCounts>(() => emptyCounts(starters));
   const [owned, setOwned] = useState<string[]>([]);
+  const stockFarm = useRef(farm);
   const [pickerKey, setPickerKey] = useState(0);
   const [stockReady, setStockReady] = useState(false);
   const [nameOpen, setNameOpen] = useState(false);
@@ -448,20 +443,25 @@ export function MergeBoard() {
   const noticeTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    setStock(readStock());
-    setOwned(readOwned());
+    if (!stockReady || stockFarm.current !== farm) return;
+    window.localStorage.setItem(storageKey(farm, "stock"), JSON.stringify(stock));
+  }, [stock, farm, stockReady]);
+
+  useEffect(() => {
+    if (!stockReady || stockFarm.current !== farm) return;
+    window.localStorage.setItem(storageKey(farm, "owned"), JSON.stringify(owned));
+  }, [owned, farm, stockReady]);
+
+  useEffect(() => {
+    stockFarm.current = farm;
+    setStock(readStock(farm, starters));
+    setOwned(readOwned(farm));
+    setMystery(null);
+    setWaiting(null);
+    setFocusId(null);
+    setGapId(null);
     setStockReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!stockReady) return;
-    window.localStorage.setItem(STOCK_KEY, JSON.stringify(stock));
-  }, [stock, stockReady]);
-
-  useEffect(() => {
-    if (!stockReady) return;
-    window.localStorage.setItem(OWNED_KEY, JSON.stringify(owned));
-  }, [owned, stockReady]);
+  }, [farm, starters]);
 
   useEffect(() => {
     if (!stockReady) return;
@@ -475,7 +475,7 @@ export function MergeBoard() {
     });
   }, [catalog, stockReady]);
 
-  function setStockCount(id: (typeof STARTER_IDS)[number], value: number) {
+  function setStockCount(id: string, value: number) {
     setStock((current) => ({ ...current, [id]: value }));
   }
 
@@ -913,7 +913,7 @@ export function MergeBoard() {
           <p className="pb-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
             You have
           </p>
-          {STARTER_IDS.map((id) => (
+          {starters.map((id) => (
             <StockField
               key={id}
               id={id}
@@ -1195,7 +1195,7 @@ export function MergeBoard() {
                 </div>
               ) : (
                 <p className="text-xs text-muted-foreground">
-                  Set your Chick, Bunny, and Cat counts. Use + to add a creature you already own, then drop one here.
+                  Set your {starterNames} counts. Use + to add a creature you already own, then drop one here.
                 </p>
               )}
             </div>

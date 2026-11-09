@@ -1,16 +1,16 @@
+import { ALL_STARTER_IDS, FARM_STARTERS, STARTER_NAMES } from "@/lib/farms";
 import { starterTotal } from "@/lib/tiers";
 import {
-  STARTER_IDS,
-  STARTER_NAMES,
   type Catalog,
   type Creature,
   type Recipe,
   type StarterCounts,
-  type StarterId,
 } from "@/lib/types";
 
-export function isStarter(id: string): id is StarterId {
-  return (STARTER_IDS as readonly string[]).includes(id);
+const LAND_STARTERS = FARM_STARTERS.land;
+
+export function isStarter(id: string): boolean {
+  return ALL_STARTER_IDS.has(id);
 }
 
 export function normalizeName(name: string): string {
@@ -96,28 +96,25 @@ export function missingPartners(catalog: Catalog, creatureId: string): Creature[
     .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
 }
 
-export function emptyCounts(): StarterCounts {
-  return { chick: 0, bunny: 0, cat: 0 };
+export function emptyCounts(starters: readonly string[] = LAND_STARTERS): StarterCounts {
+  return Object.fromEntries(starters.map((id) => [id, 0]));
 }
 
 export function addCounts(a: StarterCounts, b: StarterCounts): StarterCounts {
-  return {
-    chick: a.chick + b.chick,
-    bunny: a.bunny + b.bunny,
-    cat: a.cat + b.cat,
-  };
+  const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+  const next: StarterCounts = {};
+  for (const key of keys) next[key] = (a[key] ?? 0) + (b[key] ?? 0);
+  return next;
 }
 
 export function totalCount(counts: StarterCounts): number {
-  return counts.chick + counts.bunny + counts.cat;
+  return Object.values(counts).reduce((sum, value) => sum + value, 0);
 }
 
 export function starterShortfall(need: StarterCounts, have: StarterCounts): StarterCounts {
-  return {
-    chick: Math.max(0, need.chick - have.chick),
-    bunny: Math.max(0, need.bunny - have.bunny),
-    cat: Math.max(0, need.cat - have.cat),
-  };
+  const next: StarterCounts = {};
+  for (const key of Object.keys(need)) next[key] = Math.max(0, (need[key] ?? 0) - (have[key] ?? 0));
+  return next;
 }
 
 export function canAfford(need: StarterCounts, have: StarterCounts): boolean {
@@ -126,10 +123,12 @@ export function canAfford(need: StarterCounts, have: StarterCounts): boolean {
 
 function peakStrain(need: StarterCounts, have: StarterCounts): number {
   let peak = 0;
-  for (const id of STARTER_IDS) {
-    if (need[id] <= 0) continue;
-    if (have[id] <= 0) return Number.POSITIVE_INFINITY;
-    peak = Math.max(peak, need[id] / have[id]);
+  for (const id of Object.keys(need)) {
+    const needed = need[id] ?? 0;
+    if (needed <= 0) continue;
+    const owned = have[id] ?? 0;
+    if (owned <= 0) return Number.POSITIVE_INFINITY;
+    peak = Math.max(peak, needed / owned);
   }
   return peak;
 }
@@ -163,12 +162,13 @@ function cheaperCost(a: StarterCounts, b: StarterCounts, have: StarterCounts): n
 type PricedTree = { cost: StarterCounts; step: BuildStep; uses: string[] };
 
 function covered(node: BuildStep): PricedTree {
+  const cost = emptyCounts(Object.keys(node.counts));
   return {
-    cost: emptyCounts(),
+    cost,
     uses: [node.creatureId],
     step: {
       creatureId: node.creatureId,
-      counts: emptyCounts(),
+      counts: cost,
       left: null,
       right: null,
       owned: true,
@@ -335,6 +335,7 @@ export function buildTree(
   cache: Map<string, Map<string, BuildStep>> = new Map(),
   prefer: ReadonlySet<string> = new Set(),
 ): BuildStep | null {
+  const starters = catalog.starters;
   const creatures = creatureMap(catalog.creatures);
   const recipesFor = recipesByResult(catalog.recipes);
   const overlapMemo = new WeakMap<BuildStep, number>();
@@ -348,9 +349,9 @@ export function buildTree(
     const found = new Map<string, BuildStep>();
     if (creature.tier === 1) {
       if (!isStarter(id)) return null;
-      const counts = emptyCounts();
+      const counts = emptyCounts(starters);
       counts[id] = 1;
-      found.set(countKey(counts), { creatureId: id, counts, left: null, right: null });
+      found.set(countKey(counts, starters), { creatureId: id, counts, left: null, right: null });
       cache.set(id, found);
       return found;
     }
@@ -363,7 +364,7 @@ export function buildTree(
       for (const parentLeft of left.values()) {
         for (const parentRight of right.values()) {
           const counts = addCounts(parentLeft.counts, parentRight.counts);
-          const key = countKey(counts);
+          const key = countKey(counts, starters);
           const candidate: BuildStep = {
             creatureId: id,
             counts,
@@ -391,11 +392,11 @@ export function buildTree(
   const right = options(path.parentB, [creatureId]);
   if (!left || !right) return null;
   for (const parentLeft of left.values()) {
-    const complement = countKey({
-      chick: path.counts.chick - parentLeft.counts.chick,
-      bunny: path.counts.bunny - parentLeft.counts.bunny,
-      cat: path.counts.cat - parentLeft.counts.cat,
-    });
+    const complementCounts = emptyCounts(starters);
+    for (const starter of starters) {
+      complementCounts[starter] = (path.counts[starter] ?? 0) - (parentLeft.counts[starter] ?? 0);
+    }
+    const complement = countKey(complementCounts, starters);
     const parentRight = right.get(complement);
     if (!parentRight) continue;
     return {
@@ -521,9 +522,9 @@ function signatureList(catalog: Catalog, id: string): number[] {
   const saved = signatureCache.get(catalog)?.get(id);
   if (saved) return saved;
   if (isStarter(id)) {
-    const counts = emptyCounts();
+    const counts = emptyCounts(catalog.starters);
     counts[id] = 1;
-    const only = [packCounts(counts)];
+    const only = [packCounts(counts, catalog.starters)];
     let map = signatureCache.get(catalog);
     if (!map) {
       map = new Map();
@@ -680,10 +681,10 @@ function residualSums(
 
 function materialize(catalog: Catalog, id: string, packed: number, bag: string): BuildStep {
   if (bag === id && !isStarter(id)) {
-    return { creatureId: id, counts: emptyCounts(), left: null, right: null, owned: true };
+    return { creatureId: id, counts: emptyCounts(catalog.starters), left: null, right: null, owned: true };
   }
   if (isStarter(id)) {
-    const counts = emptyCounts();
+    const counts = emptyCounts(catalog.starters);
     counts[id] = 1;
     return { creatureId: id, counts, left: null, right: null };
   }
@@ -691,10 +692,10 @@ function materialize(catalog: Catalog, id: string, packed: number, bag: string):
     bag === ""
       ? rawWitnessCache.get(catalog)?.get(`${id}|${packed}`)
       : placementWitnessCache.get(catalog)?.get(`${id}\n${bag}\n${packed}`);
-  if (!witness) return { creatureId: id, counts: unpackCounts(packed), left: null, right: null };
+  if (!witness) return { creatureId: id, counts: unpackCounts(packed, catalog.starters), left: null, right: null };
   return {
     creatureId: id,
-    counts: unpackCounts(packed),
+    counts: unpackCounts(packed, catalog.starters),
     left: materialize(catalog, witness.parentA, witness.left, witness.leftBag),
     right: materialize(catalog, witness.parentB, witness.right, witness.rightBag),
   };
@@ -729,7 +730,7 @@ function rankFromSignatures(
         }
         const residual = residualSums(catalog, path.parentA, path.parentB, leftBag, rightBag);
         for (let index = 0; index < residual.sums.length; index += 1) {
-          const counts = unpackCounts(residual.sums[index]);
+          const counts = unpackCounts(residual.sums[index], catalog.starters);
           if (!countsBeat(counts, bestCounts, have)) continue;
           bestCounts = counts;
           bestUses = chosen;
@@ -763,22 +764,18 @@ type TripleMix = { sum: number; counts: StarterCounts; uses: string[]; picks: Tr
 const tripleMixCache = new WeakMap<Catalog, Map<string, TripleMix | null>>();
 const pairSumCache = new WeakMap<number[], Map<number[], { sums: number[]; left: number[]; right: number[] }>>();
 
-function shortfallPacked(packed: number, have: StarterCounts): number {
-  const chick = packed % PACK;
-  const bunny = Math.floor(packed / PACK) % PACK;
-  const cat = Math.floor(packed / PACK2);
-  return (
-    Math.max(0, chick - have.chick) +
-    Math.max(0, bunny - have.bunny) +
-    Math.max(0, cat - have.cat)
-  );
+function shortfallPacked(packed: number, have: StarterCounts, starters: readonly string[]): number {
+  const counts = unpackCounts(packed, starters);
+  let total = 0;
+  for (const id of starters) total += Math.max(0, (counts[id] ?? 0) - (have[id] ?? 0));
+  return total;
 }
 
-function keepPacked(sum: number, best: number, have: StarterCounts): boolean {
-  const nextShort = shortfallPacked(sum, have);
-  const currentShort = shortfallPacked(best, have);
+function keepPacked(sum: number, best: number, have: StarterCounts, starters: readonly string[]): boolean {
+  const nextShort = shortfallPacked(sum, have, starters);
+  const currentShort = shortfallPacked(best, have, starters);
   if (nextShort !== currentShort) return nextShort < currentShort;
-  return countsBeat(unpackCounts(sum), unpackCounts(best), have);
+  return countsBeat(unpackCounts(sum, starters), unpackCounts(best, starters), have);
 }
 
 function uniquePair(left: number[], right: number[]) {
@@ -806,20 +803,25 @@ function uniquePair(left: number[], right: number[]) {
   return record;
 }
 
-function bestPacked(list: number[], have: StarterCounts): number {
+function bestPacked(list: number[], have: StarterCounts, starters: readonly string[]): number {
   let best = list[0] ?? 0;
-  for (const packed of list) if (keepPacked(packed, best, have)) best = packed;
+  for (const packed of list) if (keepPacked(packed, best, have, starters)) best = packed;
   return best;
 }
 
-function scanTwo(left: number[], right: number[], have: StarterCounts): { sum: number; left: number; right: number } {
+function scanTwo(
+  left: number[],
+  right: number[],
+  have: StarterCounts,
+  starters: readonly string[],
+): { sum: number; left: number; right: number } {
   let best = (left[0] ?? 0) + (right[0] ?? 0);
   let bestLeft = left[0] ?? 0;
   let bestRight = right[0] ?? 0;
   for (const a of left) {
     for (const b of right) {
       const sum = a + b;
-      if (!keepPacked(sum, best, have)) continue;
+      if (!keepPacked(sum, best, have, starters)) continue;
       best = sum;
       bestLeft = a;
       bestRight = b;
@@ -828,12 +830,16 @@ function scanTwo(left: number[], right: number[], have: StarterCounts): { sum: n
   return { sum: best, left: bestLeft, right: bestRight };
 }
 
-function bestSum(lists: number[][], have: StarterCounts): { sum: number; picks: number[] } | null {
+function bestSum(
+  lists: number[][],
+  have: StarterCounts,
+  starters: readonly string[],
+): { sum: number; picks: number[] } | null {
   if (lists.length === 0 || lists.some((list) => list.length === 0)) return null;
-  if (lists.length === 1) return { sum: bestPacked(lists[0], have), picks: [bestPacked(lists[0], have)] };
+  if (lists.length === 1) return { sum: bestPacked(lists[0], have, starters), picks: [bestPacked(lists[0], have, starters)] };
   const product = lists.reduce((total, list) => total * list.length, 1);
   if (lists.length === 2 && product <= 8_000_000) {
-    const scanned = scanTwo(lists[0], lists[1], have);
+    const scanned = scanTwo(lists[0], lists[1], have, starters);
     return { sum: scanned.sum, picks: [scanned.left, scanned.right] };
   }
   if (lists.length >= 3) {
@@ -843,7 +849,7 @@ function bestSum(lists: number[][], have: StarterCounts): { sum: number; picks: 
     const small = lists[order[2]];
     if (bigA.length * bigB.length <= 8_000_000) {
       const pair = uniquePair(bigA, bigB);
-      const scanned = scanTwo(pair.sums, small, have);
+      const scanned = scanTwo(pair.sums, small, have, starters);
       const pairIndex = pair.sums.indexOf(scanned.left);
       const picks = [0, 0, 0];
       picks[order[0]] = pair.left[pairIndex] ?? bigA[0];
@@ -852,7 +858,7 @@ function bestSum(lists: number[][], have: StarterCounts): { sum: number; picks: 
       return { sum: scanned.sum, picks };
     }
   }
-  const picks = lists.map((list) => bestPacked(list, have));
+  const picks = lists.map((list) => bestPacked(list, have, starters));
   return { sum: picks.reduce((total, packed) => total + packed, 0), picks };
 }
 
@@ -897,8 +903,10 @@ function bestOwnedTriple(
   owned: readonly string[],
   stack: string[] = [],
 ): TripleMix | null {
+  const starters = catalog.starters;
   const usable = owned.length <= 2 ? owned : owned.filter((id) => parents.includes(id));
-  const key = `${parents.join("|")}|${have.chick}:${have.bunny}:${have.cat}|${bagKey(usable)}|${stack.join(".")}`;
+  const haveKey = starters.map((id) => have[id] ?? 0).join(":");
+  const key = `${parents.join("|")}|${haveKey}|${bagKey(usable)}|${stack.join(".")}`;
   let saved = tripleMixCache.get(catalog);
   if (!saved) {
     saved = new Map();
@@ -920,9 +928,9 @@ function bestOwnedTriple(
       }
     }
     const lists = parents.map((id, index) => vectorsFor(catalog, id, have, bags[index], stack));
-    const picked = bestSum(lists, have);
+    const picked = bestSum(lists, have, starters);
     if (!picked) continue;
-    const counts = unpackCounts(picked.sum);
+    const counts = unpackCounts(picked.sum, starters);
     if (best && !countsBeat(counts, best.counts, have)) continue;
     best = {
       sum: picked.sum,
@@ -1155,7 +1163,12 @@ export function validateCreatureDraft(
     ? creatures.find((creature) => creature.id === ignoreId)
     : undefined;
   if (current?.locked) return null;
-  if (tier === 1) return "Only Chick, Bunny, and Cat can be tier 1.";
+  if (tier === 1) {
+    const names = creatures
+      .filter((creature) => creature.locked && creature.tier === 1)
+      .map((creature) => creature.name);
+    return `Only ${names.length > 0 ? names.join(", ") : "the tier 1 starters"} can be tier 1.`;
+  }
   return null;
 }
 
@@ -1224,22 +1237,22 @@ type CountPack =
   | { ok: true; counts: number[] }
   | { ok: false; error: "missing" | "cycle" | "not-starter"; creatureId: string };
 
-function countKey(counts: StarterCounts): string {
-  return `${counts.chick}:${counts.bunny}:${counts.cat}`;
+function countKey(counts: StarterCounts, starters: readonly string[] = Object.keys(counts)): string {
+  return starters.map((id) => counts[id] ?? 0).join(":");
 }
 
 const PACK = 4096;
 const PACK2 = PACK * PACK;
 
-function packCounts(counts: StarterCounts): number {
-  return counts.chick + counts.bunny * PACK + counts.cat * PACK2;
+function packCounts(counts: StarterCounts, starters: readonly string[]): number {
+  return (counts[starters[0]] ?? 0) + (counts[starters[1]] ?? 0) * PACK + (counts[starters[2]] ?? 0) * PACK2;
 }
 
-function unpackCounts(packed: number): StarterCounts {
+function unpackCounts(packed: number, starters: readonly string[]): StarterCounts {
   return {
-    chick: packed % PACK,
-    bunny: Math.floor(packed / PACK) % PACK,
-    cat: Math.floor(packed / PACK2),
+    [starters[0]]: packed % PACK,
+    [starters[1]]: Math.floor(packed / PACK) % PACK,
+    [starters[2]]: Math.floor(packed / PACK2),
   };
 }
 
@@ -1273,7 +1286,7 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
   const creature = creatures.get(creatureId);
   if (!creature) return { status: "missing", creatureId };
   if (isStarter(creatureId)) {
-    const counts = emptyCounts();
+    const counts = emptyCounts(catalog.starters);
     counts[creatureId] = 1;
     return { status: "ok", total: 1, counts, paths: [] };
   }
@@ -1291,9 +1304,9 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     if (!current) return { ok: false, error: "missing", creatureId: id };
     if (current.tier === 1) {
       if (!isStarter(id)) return { ok: false, error: "not-starter", creatureId: id };
-      const counts = emptyCounts();
+      const counts = emptyCounts(catalog.starters);
       counts[id] = 1;
-      const only = [packCounts(counts)];
+      const only = [packCounts(counts, catalog.starters)];
       cache.set(id, only);
       return { ok: true, counts: only };
     }
@@ -1380,7 +1393,7 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
         parentA: recipe.parentA,
         parentB: recipe.parentB,
         parentC: recipe.parentC,
-        counts: unpackCounts(left.counts[0] + right.counts[0] + third.counts[0]),
+        counts: unpackCounts(left.counts[0] + right.counts[0] + third.counts[0], catalog.starters),
       });
       continue;
     }
@@ -1394,7 +1407,7 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
           recipeId: recipe.id,
           parentA: recipe.parentA,
           parentB: recipe.parentB,
-          counts: unpackCounts(combined),
+          counts: unpackCounts(combined, catalog.starters),
         });
       }
     }
@@ -1405,7 +1418,7 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     return { status: failure.error, creatureId: failure.creatureId };
   }
   persist();
-  const counts = paths[0]?.counts ?? emptyCounts();
+  const counts = paths[0]?.counts ?? emptyCounts(catalog.starters);
   return {
     status: "ok",
     total: totalCount(counts),
@@ -1418,6 +1431,6 @@ export function expectedStarterTotal(tier: number): number {
   return starterTotal(tier);
 }
 
-export function starterLabel(id: StarterId): string {
-  return STARTER_NAMES[id];
+export function starterLabel(id: string): string {
+  return STARTER_NAMES[id] ?? id;
 }

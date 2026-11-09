@@ -19,11 +19,35 @@ import {
 } from "@/lib/merge";
 import { seedCatalog } from "@/lib/seed";
 import { COLLECTION_TOTAL, TIER_TOTALS } from "@/lib/tiers";
-import type { Catalog } from "@/lib/types";
+import type { Catalog, StarterCounts } from "@/lib/types";
 
 function catalog(): Catalog {
   return structuredClone(seedCatalog);
 }
+
+describe("sea starters", () => {
+  it("counts Clownfish and Seahorse instead of the land starters", () => {
+    const sea: Catalog = {
+      starters: ["clownfish", "seahorse", "crab"],
+      creatures: [
+        { id: "clownfish", name: "Clownfish", tier: 1, locked: true },
+        { id: "seahorse", name: "Seahorse", tier: 1, locked: true },
+        { id: "crab", name: "Crab", tier: 1, locked: true },
+        { id: "reef", name: "Reef", tier: 2 },
+      ],
+      recipes: [{ id: "reef-pair", parentA: "clownfish", parentB: "seahorse", resultId: "reef" }],
+    };
+    expect(disassemble("reef", sea)).toMatchObject({
+      status: "ok",
+      total: 2,
+      counts: { clownfish: 1, seahorse: 1, crab: 0 },
+    });
+    expect(disassemble("clownfish", sea)).toMatchObject({
+      status: "ok",
+      counts: { clownfish: 1, seahorse: 0, crab: 0 },
+    });
+  });
+});
 
 describe("collection totals", () => {
   it("matches the known roster size for each tier", () => {
@@ -68,12 +92,14 @@ describe("adviseStarters", () => {
   });
 });
 
-function leafCounts(step: BuildStep): { chick: number; bunny: number; cat: number } {
+function leafCounts(step: BuildStep): StarterCounts {
   if (!step.left || !step.right) return step.counts;
+  const left = leafCounts(step.left);
+  const right = leafCounts(step.right);
   return {
-    chick: leafCounts(step.left).chick + leafCounts(step.right).chick,
-    bunny: leafCounts(step.left).bunny + leafCounts(step.right).bunny,
-    cat: leafCounts(step.left).cat + leafCounts(step.right).cat,
+    chick: (left.chick ?? 0) + (right.chick ?? 0),
+    bunny: (left.bunny ?? 0) + (right.bunny ?? 0),
+    cat: (left.cat ?? 0) + (right.cat ?? 0),
   };
 }
 

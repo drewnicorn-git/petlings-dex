@@ -7,10 +7,15 @@ import {
   type CreatureLook,
   type Extra,
 } from "@/lib/creature-look";
+import { PREPARED_PORTRAITS } from "@/lib/portraits";
 import { slugify } from "@/lib/merge";
-import { seedCatalog } from "@/lib/seed";
+import { seaCatalog, seedCatalog } from "@/lib/seed";
 
-const PORTRAIT_IDS = new Set(seedCatalog.creatures.map((creature) => creature.id));
+const PORTRAIT_IDS = new Set([
+  ...seedCatalog.creatures.map((creature) => creature.id),
+  ...seaCatalog.creatures.map((creature) => creature.id),
+  ...PREPARED_PORTRAITS,
+]);
 
 function portraitIdFor(id: string | undefined, name: string): string | null {
   if (id && PORTRAIT_IDS.has(id)) return id;
