@@ -392,6 +392,310 @@ function compareOptions(a: StarterOption, b: StarterOption, have: StarterCounts)
   return totalCount(a.counts) - totalCount(b.counts);
 }
 
+function countsBeat(next: StarterCounts, current: StarterCounts, have: StarterCounts): boolean {
+  const nextShort = totalCount(starterShortfall(next, have));
+  const currentShort = totalCount(starterShortfall(current, have));
+  const nextAffordable = nextShort === 0;
+  const currentAffordable = currentShort === 0;
+  if (nextAffordable !== currentAffordable) return nextAffordable;
+  if (nextShort !== currentShort) return nextShort < currentShort;
+  const nextStrain = peakStrain(next, have);
+  const currentStrain = peakStrain(current, have);
+  if (nextStrain !== currentStrain) {
+    if (!Number.isFinite(nextStrain)) return false;
+    if (!Number.isFinite(currentStrain)) return true;
+    return nextStrain < currentStrain;
+  }
+  return totalCount(next) < totalCount(current);
+}
+
+type SplitWitness = {
+  parentA: string;
+  parentB: string;
+  left: number;
+  right: number;
+  leftBag: string;
+  rightBag: string;
+};
+
+const signatureCache = new WeakMap<Catalog, Map<string, number[]>>();
+const rawWitnessCache = new WeakMap<Catalog, Map<string, SplitWitness>>();
+const placementCache = new WeakMap<Catalog, Map<string, number[]>>();
+const placementWitnessCache = new WeakMap<Catalog, Map<string, SplitWitness>>();
+const residualCache = new WeakMap<Catalog, Map<string, ResidualList>>();
+const descendantCache = new WeakMap<Catalog, Map<string, Set<string>>>();
+const recipeIndexCache = new WeakMap<Catalog, Map<string, Recipe[]>>();
+
+type ResidualList = { sums: number[]; witnesses: SplitWitness[] };
+
+function bagKey(bag: readonly string[]): string {
+  return [...bag].sort().join("\0");
+}
+
+function recipeIndex(catalog: Catalog): Map<string, Recipe[]> {
+  let index = recipeIndexCache.get(catalog);
+  if (!index) {
+    index = recipesByResult(catalog.recipes);
+    recipeIndexCache.set(catalog, index);
+  }
+  return index;
+}
+
+function rememberSignatures(
+  catalog: Catalog,
+  signatures: Map<string, number[]>,
+  witnesses: Map<string, SplitWitness>,
+) {
+  let saved = signatureCache.get(catalog);
+  if (!saved) {
+    saved = new Map();
+    signatureCache.set(catalog, saved);
+  }
+  for (const [id, list] of signatures) if (!saved.has(id)) saved.set(id, list);
+  let savedWitness = rawWitnessCache.get(catalog);
+  if (!savedWitness) {
+    savedWitness = new Map();
+    rawWitnessCache.set(catalog, savedWitness);
+  }
+  for (const [key, witness] of witnesses) if (!savedWitness.has(key)) savedWitness.set(key, witness);
+}
+
+function signatureList(catalog: Catalog, id: string): number[] {
+  const saved = signatureCache.get(catalog)?.get(id);
+  if (saved) return saved;
+  if (isStarter(id)) {
+    const counts = emptyCounts();
+    counts[id] = 1;
+    const only = [packCounts(counts)];
+    let map = signatureCache.get(catalog);
+    if (!map) {
+      map = new Map();
+      signatureCache.set(catalog, map);
+    }
+    map.set(id, only);
+    return only;
+  }
+  disassemble(id, catalog);
+  return signatureCache.get(catalog)?.get(id) ?? [];
+}
+
+function descendantsOf(catalog: Catalog, id: string): Set<string> {
+  let map = descendantCache.get(catalog);
+  if (!map) {
+    map = new Map();
+    descendantCache.set(catalog, map);
+  }
+  const saved = map.get(id);
+  if (saved) return saved;
+  const found = new Set<string>();
+  map.set(id, found);
+  for (const recipe of recipeIndex(catalog).get(id) ?? []) {
+    found.add(recipe.parentA);
+    found.add(recipe.parentB);
+    for (const child of descendantsOf(catalog, recipe.parentA)) found.add(child);
+    for (const child of descendantsOf(catalog, recipe.parentB)) found.add(child);
+  }
+  return found;
+}
+
+function placementMap(catalog: Catalog): Map<string, number[]> {
+  let map = placementCache.get(catalog);
+  if (!map) {
+    map = new Map();
+    placementCache.set(catalog, map);
+  }
+  return map;
+}
+
+function placementWitnesses(catalog: Catalog): Map<string, SplitWitness> {
+  let map = placementWitnessCache.get(catalog);
+  if (!map) {
+    map = new Map();
+    placementWitnessCache.set(catalog, map);
+  }
+  return map;
+}
+
+function placements(catalog: Catalog, id: string, bag: readonly string[]): number[] {
+  const key = `${id}\n${bagKey(bag)}`;
+  const cache = placementMap(catalog);
+  const saved = cache.get(key);
+  if (saved) return saved;
+  if (bag.length === 1 && bag[0] === id && !isStarter(id)) {
+    const cover = [0];
+    cache.set(key, cover);
+    return cover;
+  }
+  const empty: number[] = [];
+  if (isStarter(id) || bag.includes(id)) {
+    cache.set(key, empty);
+    return empty;
+  }
+  const descendants = descendantsOf(catalog, id);
+  if (!bag.every((item) => descendants.has(item))) {
+    cache.set(key, empty);
+    return empty;
+  }
+  const found = new Map<number, SplitWitness>();
+  const masks = 1 << bag.length;
+  for (const recipe of recipeIndex(catalog).get(id) ?? []) {
+    for (let mask = 0; mask < masks; mask += 1) {
+      const leftBag: string[] = [];
+      const rightBag: string[] = [];
+      for (let index = 0; index < bag.length; index += 1) {
+        if (mask & (1 << index)) leftBag.push(bag[index]);
+        else rightBag.push(bag[index]);
+      }
+      const lefts = leftBag.length ? placements(catalog, recipe.parentA, leftBag) : signatureList(catalog, recipe.parentA);
+      const rights = rightBag.length
+        ? placements(catalog, recipe.parentB, rightBag)
+        : signatureList(catalog, recipe.parentB);
+      if (lefts.length === 0 || rights.length === 0) continue;
+      const leftKey = bagKey(leftBag);
+      const rightKey = bagKey(rightBag);
+      for (const left of lefts) {
+        for (const right of rights) {
+          const sum = left + right;
+          if (found.has(sum)) continue;
+          found.set(sum, {
+            parentA: recipe.parentA,
+            parentB: recipe.parentB,
+            left,
+            right,
+            leftBag: leftKey,
+            rightBag: rightKey,
+          });
+        }
+      }
+    }
+  }
+  const sums = [...found.keys()];
+  const witnesses = placementWitnesses(catalog);
+  for (const [sum, witness] of found) witnesses.set(`${id}\n${bagKey(bag)}\n${sum}`, witness);
+  cache.set(key, sums);
+  return sums;
+}
+
+function residualSums(
+  catalog: Catalog,
+  parentA: string,
+  parentB: string,
+  leftBag: readonly string[],
+  rightBag: readonly string[],
+): ResidualList {
+  const leftKey = bagKey(leftBag);
+  const rightKey = bagKey(rightBag);
+  const key = `${parentA}\0${parentB}\0${leftKey}\0${rightKey}`;
+  let cache = residualCache.get(catalog);
+  if (!cache) {
+    cache = new Map();
+    residualCache.set(catalog, cache);
+  }
+  const saved = cache.get(key);
+  if (saved) return saved;
+  const lefts = leftBag.length ? placements(catalog, parentA, leftBag) : signatureList(catalog, parentA);
+  const rights = rightBag.length ? placements(catalog, parentB, rightBag) : signatureList(catalog, parentB);
+  const found = new Map<number, SplitWitness>();
+  if (lefts.length > 0 && rights.length > 0) {
+    for (const left of lefts) {
+      for (const right of rights) {
+        const sum = left + right;
+        if (found.has(sum)) continue;
+        found.set(sum, {
+          parentA,
+          parentB,
+          left,
+          right,
+          leftBag: leftKey,
+          rightBag: rightKey,
+        });
+      }
+    }
+  }
+  const list = { sums: [...found.keys()], witnesses: [...found.values()] };
+  cache.set(key, list);
+  return list;
+}
+
+function materialize(catalog: Catalog, id: string, packed: number, bag: string): BuildStep {
+  if (bag === id && !isStarter(id)) {
+    return { creatureId: id, counts: emptyCounts(), left: null, right: null, owned: true };
+  }
+  if (isStarter(id)) {
+    const counts = emptyCounts();
+    counts[id] = 1;
+    return { creatureId: id, counts, left: null, right: null };
+  }
+  const witness =
+    bag === ""
+      ? rawWitnessCache.get(catalog)?.get(`${id}|${packed}`)
+      : placementWitnessCache.get(catalog)?.get(`${id}\n${bag}\n${packed}`);
+  if (!witness) return { creatureId: id, counts: unpackCounts(packed), left: null, right: null };
+  return {
+    creatureId: id,
+    counts: unpackCounts(packed),
+    left: materialize(catalog, witness.parentA, witness.left, witness.leftBag),
+    right: materialize(catalog, witness.parentB, witness.right, witness.rightBag),
+  };
+}
+
+function rankFromSignatures(
+  catalog: Catalog,
+  creatureId: string,
+  collapsed: StarterOption[],
+  have: StarterCounts,
+  usable: string[],
+): StarterOption[] {
+  const options = collapsed.map((source) => {
+    const path = source.path;
+    if (!path) return source;
+    let bestCounts = source.counts;
+    let bestUses: string[] = [];
+    let bestWitness: SplitWitness | null = null;
+    const masks = 1 << usable.length;
+    for (let subset = 1; subset < masks; subset += 1) {
+      const chosen: string[] = [];
+      for (let index = 0; index < usable.length; index += 1) {
+        if (subset & (1 << index)) chosen.push(usable[index]);
+      }
+      const splits = 1 << chosen.length;
+      for (let split = 0; split < splits; split += 1) {
+        const leftBag: string[] = [];
+        const rightBag: string[] = [];
+        for (let index = 0; index < chosen.length; index += 1) {
+          if (split & (1 << index)) leftBag.push(chosen[index]);
+          else rightBag.push(chosen[index]);
+        }
+        const residual = residualSums(catalog, path.parentA, path.parentB, leftBag, rightBag);
+        for (let index = 0; index < residual.sums.length; index += 1) {
+          const counts = unpackCounts(residual.sums[index]);
+          if (!countsBeat(counts, bestCounts, have)) continue;
+          bestCounts = counts;
+          bestUses = chosen;
+          bestWitness = residual.witnesses[index] ?? null;
+        }
+      }
+    }
+    const shortfall = starterShortfall(bestCounts, have);
+    return {
+      counts: bestCounts,
+      shortfall,
+      affordable: totalCount(shortfall) === 0,
+      path,
+      uses: [...bestUses],
+      tree: bestWitness
+        ? {
+            creatureId,
+            counts: bestCounts,
+            left: materialize(catalog, bestWitness.parentA, bestWitness.left, bestWitness.leftBag),
+            right: materialize(catalog, bestWitness.parentB, bestWitness.right, bestWitness.rightBag),
+          }
+        : null,
+    };
+  });
+  return options.sort((a, b) => compareOptions(a, b, have));
+}
+
 export function rankMixes(
   catalog: Catalog,
   creatureId: string,
@@ -406,6 +710,7 @@ export function rankMixes(
   });
   const collapsed = adviseStarters(paths, ownCounts, have);
   if (usable.length === 0) return collapsed;
+  if (usable.length <= 4) return rankFromSignatures(catalog, creatureId, collapsed, have, usable);
   const prefer = new Set(usable);
   const cache = treeCacheFor(catalog, prefer);
   const pricedTrees = new Map<string, PricedTree>();
@@ -651,6 +956,8 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
 
   const recipesFor = recipesByResult(catalog.recipes);
   const cache = new Map<string, number[]>();
+  const witnesses = new Map<string, SplitWitness>();
+  const persist = () => rememberSignatures(catalog, cache, witnesses);
 
   function parentCounts(id: string, stack: string[]): CountPack {
     if (stack.includes(id)) return { ok: false, error: "cycle", creatureId: id };
@@ -688,6 +995,17 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
           if (seen.has(combined)) continue;
           seen.add(combined);
           counts.push(combined);
+          const witnessKey = `${id}|${combined}`;
+          if (!witnesses.has(witnessKey)) {
+            witnesses.set(witnessKey, {
+              parentA: recipe.parentA,
+              parentB: recipe.parentB,
+              left: parentLeft,
+              right: parentRight,
+              leftBag: "",
+              rightBag: "",
+            });
+          }
         }
       }
     }
@@ -697,7 +1015,10 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
   }
 
   const recipes = recipesFor.get(creatureId) ?? [];
-  if (recipes.length === 0) return { status: "missing", creatureId };
+  if (recipes.length === 0) {
+    persist();
+    return { status: "missing", creatureId };
+  }
   const paths: PathCounts[] = [];
   let failure: CountPack | null = null;
   for (const recipe of recipes) {
@@ -727,9 +1048,11 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     }
   }
   if (paths.length === 0) {
+    persist();
     if (!failure || failure.ok) return { status: "missing", creatureId };
     return { status: failure.error, creatureId: failure.creatureId };
   }
+  persist();
   const counts = paths[0]?.counts ?? emptyCounts();
   return {
     status: "ok",

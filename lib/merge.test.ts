@@ -187,6 +187,41 @@ describe("owned creatures", () => {
     );
   });
 
+  it("keeps the sibling's best mix when an owned creature covers the other parent", () => {
+    const have = { chick: 8, bunny: 3, cat: 0 };
+    const anaconda = disassemble("anaconda", seedCatalog);
+    expect(anaconda.status).toBe("ok");
+    if (anaconda.status !== "ok") return;
+    const ranked = rankMixes(seedCatalog, "anaconda", anaconda.paths, anaconda.counts, have, ["panther"]);
+    const covered = ranked.find((option) => {
+      const parents = [option.path?.parentA, option.path?.parentB];
+      return parents.includes("panther") && parents.includes("snapping-turtle");
+    });
+    expect(covered?.uses).toEqual(["panther"]);
+    const turtle = disassemble("snapping-turtle", seedCatalog);
+    expect(turtle.status).toBe("ok");
+    if (turtle.status !== "ok" || !covered?.tree) return;
+    const [bestTurtle] = adviseStarters(turtle.paths, turtle.counts, have);
+    expect(covered.counts).toEqual(bestTurtle.counts);
+    const ownedNode = covered.tree.left?.owned ? covered.tree.left : covered.tree.right;
+    const builtNode = covered.tree.left?.owned ? covered.tree.right : covered.tree.left;
+    expect(ownedNode?.creatureId).toBe("panther");
+    expect(ownedNode?.owned).toBe(true);
+    expect(builtNode?.creatureId).toBe("snapping-turtle");
+    expect(builtNode?.left && builtNode.right).toBeTruthy();
+    if (builtNode) assertBuild(builtNode);
+    expect(leafCounts(builtNode ?? covered.tree)).toEqual(bestTurtle.counts);
+    const plain = rankMixes(seedCatalog, "anaconda", anaconda.paths, anaconda.counts, have, []);
+    for (const option of ranked) {
+      const raw = plain.find((item) => item.path?.recipeId === option.path?.recipeId);
+      expect(raw).toBeTruthy();
+      if (!raw) return;
+      const ownedShort = totalCount(option.shortfall);
+      const rawShort = totalCount(raw.shortfall);
+      expect(ownedShort).toBeLessThanOrEqual(rawShort);
+    }
+  });
+
   it("keeps the same order when nothing extra is owned", () => {
     const { hippo } = hippoFrog();
     const have = { chick: 1, bunny: 0, cat: 0 };
