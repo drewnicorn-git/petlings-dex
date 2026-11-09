@@ -12,8 +12,8 @@ describe("bundled catalog", () => {
       seedCatalog.creatures.map((creature) => creature.id),
     );
     expect(parsed.catalog.recipes).toHaveLength(seedCatalog.recipes.length);
-    expect(parsed.catalog.creatures).toHaveLength(104);
-    expect(seedCatalog.recipes).toHaveLength(883);
+    expect(parsed.catalog.creatures).toHaveLength(121);
+    expect(seedCatalog.recipes).toHaveLength(1133);
     expect(parsed.catalog.creatures.some((creature) => "note" in creature)).toBe(false);
   });
 

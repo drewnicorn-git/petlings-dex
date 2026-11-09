@@ -524,6 +524,91 @@
       "id": "water-buffalo",
       "name": "Water Buffalo",
       "tier": 6
+    },
+    {
+      "id": "hydra",
+      "name": "Hydra",
+      "tier": 7
+    },
+    {
+      "id": "phoenix",
+      "name": "Phoenix",
+      "tier": 7
+    },
+    {
+      "id": "thunderbird",
+      "name": "Thunderbird",
+      "tier": 7
+    },
+    {
+      "id": "roc",
+      "name": "Roc",
+      "tier": 7
+    },
+    {
+      "id": "ent",
+      "name": "Ent",
+      "tier": 7
+    },
+    {
+      "id": "behemoth",
+      "name": "Behemoth",
+      "tier": 7
+    },
+    {
+      "id": "fenrir",
+      "name": "Fenrir",
+      "tier": 7
+    },
+    {
+      "id": "frost-wyrm",
+      "name": "Frost Wyrm",
+      "tier": 7
+    },
+    {
+      "id": "ice-golem",
+      "name": "Ice Golem",
+      "tier": 7
+    },
+    {
+      "id": "chimera",
+      "name": "Chimera",
+      "tier": 7
+    },
+    {
+      "id": "manticore",
+      "name": "Manticore",
+      "tier": 7
+    },
+    {
+      "id": "hellhound",
+      "name": "Hellhound",
+      "tier": 7
+    },
+    {
+      "id": "griffin",
+      "name": "Griffin",
+      "tier": 7
+    },
+    {
+      "id": "kitsune",
+      "name": "Kitsune",
+      "tier": 7
+    },
+    {
+      "id": "sphinx",
+      "name": "Sphinx",
+      "tier": 7
+    },
+    {
+      "id": "ember-rhino",
+      "name": "Ember Rhino",
+      "tier": 7
+    },
+    {
+      "id": "dragon-turtle",
+      "name": "Dragon Turtle",
+      "tier": 7
     }
   ],
   "recipes": [
@@ -5824,6 +5909,1506 @@
       "parentA": "snow-monkey",
       "parentB": "snapping-turtle",
       "resultId": "water-buffalo"
+    },
+    {
+      "id": "recipe-78fde250",
+      "parentA": "fire-salamander",
+      "parentB": "anaconda",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-df58aa6c",
+      "parentA": "ibex",
+      "parentB": "anaconda",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-b8d496cb",
+      "parentA": "hippo-king",
+      "parentB": "black-panther",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-8d686be4",
+      "parentA": "river-dragon",
+      "parentB": "fire-salamander",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-f9601107",
+      "parentA": "hippo-king",
+      "parentB": "giant-sloth",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-8274099b",
+      "parentA": "water-buffalo",
+      "parentB": "glacier-elk",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-091722e3",
+      "parentA": "river-dragon",
+      "parentB": "hippo-king",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-35b31dc1",
+      "parentA": "water-buffalo",
+      "parentB": "ice-bear",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-40cd0136",
+      "parentA": "river-dragon",
+      "parentB": "koala",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-230adc62",
+      "parentA": "river-dragon",
+      "parentB": "river-dragon",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-60951a6c",
+      "parentA": "water-buffalo",
+      "parentB": "river-dragon",
+      "resultId": "hydra"
+    },
+    {
+      "id": "recipe-8c95f1c6",
+      "parentA": "anaconda",
+      "parentB": "albatross",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-efbd6cd7",
+      "parentA": "cave-bear",
+      "parentB": "albatross",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-15fff0b0",
+      "parentA": "giant-sloth",
+      "parentB": "albatross",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-f09400cc",
+      "parentA": "gorilla",
+      "parentB": "albatross",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-01d7dcbc",
+      "parentA": "peacock",
+      "parentB": "albatross",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-acc64194",
+      "parentA": "peacock",
+      "parentB": "anaconda",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-de9ad834",
+      "parentA": "peacock",
+      "parentB": "dire-wolf",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-67d78755",
+      "parentA": "secretary-bird",
+      "parentB": "elephant",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-414eea83",
+      "parentA": "secretary-bird",
+      "parentB": "giant-sloth",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-41ba9c5d",
+      "parentA": "secretary-bird",
+      "parentB": "hippo-king",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-299cdc25",
+      "parentA": "peacock",
+      "parentB": "ibex",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-892d4b2e",
+      "parentA": "macaw",
+      "parentB": "ice-bear",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-f3e1111d",
+      "parentA": "macaw",
+      "parentB": "macaw",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-33bac1ec",
+      "parentA": "shoebill",
+      "parentB": "mammoth",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-0ffa1bd2",
+      "parentA": "peacock",
+      "parentB": "peacock",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-b89e0e39",
+      "parentA": "shoebill",
+      "parentB": "secretary-bird",
+      "resultId": "phoenix"
+    },
+    {
+      "id": "recipe-bcc05186",
+      "parentA": "dire-wolf",
+      "parentB": "albatross",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-914c76d3",
+      "parentA": "hippo-king",
+      "parentB": "albatross",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-a5fd7752",
+      "parentA": "ibex",
+      "parentB": "albatross",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-0173805d",
+      "parentA": "koala",
+      "parentB": "albatross",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-88c7915f",
+      "parentA": "secretary-bird",
+      "parentB": "albatross",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-3b2af2e8",
+      "parentA": "secretary-bird",
+      "parentB": "anaconda",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-59c92812",
+      "parentA": "peacock",
+      "parentB": "cave-bear",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-d8f6d8e4",
+      "parentA": "secretary-bird",
+      "parentB": "dire-wolf",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-009a291a",
+      "parentA": "peacock",
+      "parentB": "gorilla",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-c30d4529",
+      "parentA": "secretary-bird",
+      "parentB": "ibex",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-86364ea3",
+      "parentA": "peacock",
+      "parentB": "ice-bear",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-208ee79d",
+      "parentA": "peacock",
+      "parentB": "koala",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-a9f6df2a",
+      "parentA": "river-dragon",
+      "parentB": "peacock",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-5f6c3adf",
+      "parentA": "secretary-bird",
+      "parentB": "secretary-bird",
+      "resultId": "thunderbird"
+    },
+    {
+      "id": "recipe-f9905084",
+      "parentA": "albatross",
+      "parentB": "albatross",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-ee4e501c",
+      "parentA": "elephant",
+      "parentB": "albatross",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-afba0480",
+      "parentA": "river-dragon",
+      "parentB": "albatross",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-53a36ab6",
+      "parentA": "secretary-bird",
+      "parentB": "cave-bear",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-84157139",
+      "parentA": "peacock",
+      "parentB": "elephant",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-0fa59e78",
+      "parentA": "peacock",
+      "parentB": "giant-sloth",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-97b3e3ed",
+      "parentA": "secretary-bird",
+      "parentB": "gorilla",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-d0a75131",
+      "parentA": "peacock",
+      "parentB": "hippo-king",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-13901eab",
+      "parentA": "secretary-bird",
+      "parentB": "ice-bear",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-d3875e4d",
+      "parentA": "secretary-bird",
+      "parentB": "koala",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-8cf5e3d0",
+      "parentA": "peacock",
+      "parentB": "mammoth",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-e5d35eca",
+      "parentA": "secretary-bird",
+      "parentB": "peacock",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-9f7dfd11",
+      "parentA": "shoebill",
+      "parentB": "peacock",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-93847319",
+      "parentA": "secretary-bird",
+      "parentB": "river-dragon",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-db64c867",
+      "parentA": "water-buffalo",
+      "parentB": "shoebill",
+      "resultId": "roc"
+    },
+    {
+      "id": "recipe-21dd9384",
+      "parentA": "okapi",
+      "parentB": "black-panther",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-978952f0",
+      "parentA": "giant-sloth",
+      "parentB": "cave-bear",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-636f5930",
+      "parentA": "giant-sloth",
+      "parentB": "dire-wolf",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-c1fbf5c7",
+      "parentA": "giant-sloth",
+      "parentB": "elephant",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-21bed8be",
+      "parentA": "gorilla",
+      "parentB": "giant-sloth",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-654528ad",
+      "parentA": "ibex",
+      "parentB": "giant-sloth",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-6369af75",
+      "parentA": "koala",
+      "parentB": "giant-sloth",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-47c3a3b2",
+      "parentA": "macaw",
+      "parentB": "giant-sloth",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-84d0919d",
+      "parentA": "okapi",
+      "parentB": "glacier-elk",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-3c7808b6",
+      "parentA": "koala",
+      "parentB": "koala",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-858b107b",
+      "parentA": "macaw",
+      "parentB": "koala",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-9362448f",
+      "parentA": "okapi",
+      "parentB": "koala",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-8518e035",
+      "parentA": "water-buffalo",
+      "parentB": "koala",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-635564a0",
+      "parentA": "white-tiger",
+      "parentB": "koala",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-6b25b08e",
+      "parentA": "okapi",
+      "parentB": "macaw",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-8a244a1f",
+      "parentA": "secretary-bird",
+      "parentB": "okapi",
+      "resultId": "ent"
+    },
+    {
+      "id": "recipe-88f85f7b",
+      "parentA": "cave-bear",
+      "parentB": "anaconda",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-29742f2f",
+      "parentA": "elephant",
+      "parentB": "anaconda",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-3b448f8f",
+      "parentA": "glacier-elk",
+      "parentB": "basilisk",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-c4eda348",
+      "parentA": "mammoth",
+      "parentB": "basilisk",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-14dbca9b",
+      "parentA": "bison",
+      "parentB": "bison",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-f4f8c7a0",
+      "parentA": "glacier-elk",
+      "parentB": "bison",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-8011239a",
+      "parentA": "ibex",
+      "parentB": "bison",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-128f5256",
+      "parentA": "ice-bear",
+      "parentB": "black-panther",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-e2893baf",
+      "parentA": "cave-bear",
+      "parentB": "cave-bear",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-3d991ac8",
+      "parentA": "dire-wolf",
+      "parentB": "cave-bear",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-665351db",
+      "parentA": "gorilla",
+      "parentB": "cave-bear",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-42ae7109",
+      "parentA": "hippo-king",
+      "parentB": "cave-bear",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-b594e019",
+      "parentA": "ibex",
+      "parentB": "cave-bear",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-c53f6391",
+      "parentA": "gorilla",
+      "parentB": "dire-wolf",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-5a870af7",
+      "parentA": "hippo-king",
+      "parentB": "dire-wolf",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-d4bb60b5",
+      "parentA": "elephant",
+      "parentB": "elephant",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-7a9a24df",
+      "parentA": "hippo-king",
+      "parentB": "elephant",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-d4b42700",
+      "parentA": "glacier-elk",
+      "parentB": "fire-salamander",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-6ae8d1fe",
+      "parentA": "mammoth",
+      "parentB": "fire-salamander",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-ee2e9387",
+      "parentA": "gorilla",
+      "parentB": "gorilla",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-cb107898",
+      "parentA": "hippo-king",
+      "parentB": "gorilla",
+      "resultId": "behemoth"
+    },
+    {
+      "id": "recipe-a18af76b",
+      "parentA": "dire-wolf",
+      "parentB": "anaconda",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-1150838b",
+      "parentA": "gorilla",
+      "parentB": "anaconda",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-a4faed1c",
+      "parentA": "ice-bear",
+      "parentB": "basilisk",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-8f4f9885",
+      "parentA": "ice-bear",
+      "parentB": "bison",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-e7a983fa",
+      "parentA": "glacier-elk",
+      "parentB": "black-panther",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-3403076e",
+      "parentA": "mammoth",
+      "parentB": "black-panther",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-55fd602a",
+      "parentA": "elephant",
+      "parentB": "cave-bear",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-5af97020",
+      "parentA": "glacier-elk",
+      "parentB": "cave-bear",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-355d9b8d",
+      "parentA": "ice-bear",
+      "parentB": "cave-bear",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-57a73bbc",
+      "parentA": "mammoth",
+      "parentB": "cave-bear",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-5e19b2fe",
+      "parentA": "river-dragon",
+      "parentB": "cave-bear",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-77d2693b",
+      "parentA": "dire-wolf",
+      "parentB": "dire-wolf",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-6e98a7f3",
+      "parentA": "elephant",
+      "parentB": "dire-wolf",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-5de37a3e",
+      "parentA": "river-dragon",
+      "parentB": "dire-wolf",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-c8b15e7b",
+      "parentA": "gorilla",
+      "parentB": "elephant",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-4156cce8",
+      "parentA": "river-dragon",
+      "parentB": "elephant",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-e96e96dd",
+      "parentA": "ice-bear",
+      "parentB": "fire-salamander",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-97fe7eab",
+      "parentA": "river-dragon",
+      "parentB": "gorilla",
+      "resultId": "fenrir"
+    },
+    {
+      "id": "recipe-41d95ca3",
+      "parentA": "glacier-elk",
+      "parentB": "albatross",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-bcf1fbd4",
+      "parentA": "mammoth",
+      "parentB": "albatross",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-183f64fc",
+      "parentA": "glacier-elk",
+      "parentB": "anaconda",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-34901d27",
+      "parentA": "mammoth",
+      "parentB": "anaconda",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-8421ea5e",
+      "parentA": "ice-bear",
+      "parentB": "dire-wolf",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-2f0ab839",
+      "parentA": "glacier-elk",
+      "parentB": "elephant",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-9a60afe7",
+      "parentA": "mammoth",
+      "parentB": "elephant",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-464f2e54",
+      "parentA": "mammoth",
+      "parentB": "giant-sloth",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-9d6440e0",
+      "parentA": "glacier-elk",
+      "parentB": "glacier-elk",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-7545ebae",
+      "parentA": "river-dragon",
+      "parentB": "glacier-elk",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-285812c0",
+      "parentA": "secretary-bird",
+      "parentB": "glacier-elk",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-de027b7c",
+      "parentA": "ice-bear",
+      "parentB": "gorilla",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-37e11c55",
+      "parentA": "mammoth",
+      "parentB": "hippo-king",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-4791e4d3",
+      "parentA": "koala",
+      "parentB": "ice-bear",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-c0433bf6",
+      "parentA": "mammoth",
+      "parentB": "mammoth",
+      "resultId": "frost-wyrm"
+    },
+    {
+      "id": "recipe-5383049c",
+      "parentA": "ice-bear",
+      "parentB": "albatross",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-83c6468a",
+      "parentA": "glacier-elk",
+      "parentB": "dire-wolf",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-bf9b5a0b",
+      "parentA": "mammoth",
+      "parentB": "dire-wolf",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-79e47be8",
+      "parentA": "ice-bear",
+      "parentB": "elephant",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-12bbe1a7",
+      "parentA": "ice-bear",
+      "parentB": "giant-sloth",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-61a5fe34",
+      "parentA": "gorilla",
+      "parentB": "glacier-elk",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-200cb8dd",
+      "parentA": "hippo-king",
+      "parentB": "glacier-elk",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-d173c85c",
+      "parentA": "koala",
+      "parentB": "glacier-elk",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-d05c65d1",
+      "parentA": "mammoth",
+      "parentB": "glacier-elk",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-775fe411",
+      "parentA": "mammoth",
+      "parentB": "gorilla",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-f8665738",
+      "parentA": "ice-bear",
+      "parentB": "hippo-king",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-d5acc50a",
+      "parentA": "ibex",
+      "parentB": "ibex",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-ea710e7e",
+      "parentA": "ice-bear",
+      "parentB": "ice-bear",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-e33b4aea",
+      "parentA": "river-dragon",
+      "parentB": "ice-bear",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-c828cbfb",
+      "parentA": "mammoth",
+      "parentB": "koala",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-8a3ed2b1",
+      "parentA": "mammoth",
+      "parentB": "macaw",
+      "resultId": "ice-golem"
+    },
+    {
+      "id": "recipe-711fce63",
+      "parentA": "black-panther",
+      "parentB": "albatross",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-2c209e6c",
+      "parentA": "basilisk",
+      "parentB": "basilisk",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-54e75177",
+      "parentA": "dire-wolf",
+      "parentB": "basilisk",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-833a17bc",
+      "parentA": "fire-salamander",
+      "parentB": "basilisk",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-dff0d013",
+      "parentA": "ibex",
+      "parentB": "basilisk",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-2ff773c1",
+      "parentA": "koala",
+      "parentB": "basilisk",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-6ff1f52e",
+      "parentA": "dire-wolf",
+      "parentB": "black-panther",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-68704f7e",
+      "parentA": "peacock",
+      "parentB": "black-panther",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-0243d2ab",
+      "parentA": "fire-salamander",
+      "parentB": "dire-wolf",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-f8293b9d",
+      "parentA": "white-tiger",
+      "parentB": "dire-wolf",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-a0d726e7",
+      "parentA": "koala",
+      "parentB": "fire-salamander",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-313a117f",
+      "parentA": "white-tiger",
+      "parentB": "fire-salamander",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-9a521284",
+      "parentA": "white-tiger",
+      "parentB": "okapi",
+      "resultId": "chimera"
+    },
+    {
+      "id": "recipe-3b3b4439",
+      "parentA": "fire-salamander",
+      "parentB": "albatross",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-3a963b96",
+      "parentA": "elephant",
+      "parentB": "basilisk",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-c71dff59",
+      "parentA": "black-panther",
+      "parentB": "black-panther",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-9c97a4c6",
+      "parentA": "elephant",
+      "parentB": "black-panther",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-0981d9d4",
+      "parentA": "fire-salamander",
+      "parentB": "black-panther",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-056e96d3",
+      "parentA": "giant-sloth",
+      "parentB": "black-panther",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-cf9b94aa",
+      "parentA": "ibex",
+      "parentB": "black-panther",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-3da17351",
+      "parentA": "secretary-bird",
+      "parentB": "black-panther",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-6a13403c",
+      "parentA": "fire-salamander",
+      "parentB": "elephant",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-94c38c60",
+      "parentA": "white-tiger",
+      "parentB": "elephant",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-a4e30def",
+      "parentA": "ibex",
+      "parentB": "fire-salamander",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-d035aa1c",
+      "parentA": "white-tiger",
+      "parentB": "peacock",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-9979791f",
+      "parentA": "white-tiger",
+      "parentB": "white-tiger",
+      "resultId": "manticore"
+    },
+    {
+      "id": "recipe-ced6ede0",
+      "parentA": "gorilla",
+      "parentB": "basilisk",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-d59e7c64",
+      "parentA": "peacock",
+      "parentB": "basilisk",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-7a7e1404",
+      "parentA": "gorilla",
+      "parentB": "black-panther",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-ee90a501",
+      "parentA": "koala",
+      "parentB": "black-panther",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-564b9071",
+      "parentA": "gorilla",
+      "parentB": "fire-salamander",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-1a127d82",
+      "parentA": "macaw",
+      "parentB": "fire-salamander",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-34b9fb00",
+      "parentA": "peacock",
+      "parentB": "fire-salamander",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-8e3bd547",
+      "parentA": "white-tiger",
+      "parentB": "gorilla",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-e41bb4c6",
+      "parentA": "white-tiger",
+      "parentB": "ibex",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-9621f713",
+      "parentA": "white-tiger",
+      "parentB": "ice-bear",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-53211e68",
+      "parentA": "white-tiger",
+      "parentB": "mammoth",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-1ab1109f",
+      "parentA": "white-tiger",
+      "parentB": "secretary-bird",
+      "resultId": "hellhound"
+    },
+    {
+      "id": "recipe-ed120fbc",
+      "parentA": "bison",
+      "parentB": "albatross",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-6519e225",
+      "parentA": "water-buffalo",
+      "parentB": "albatross",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-22dc4983",
+      "parentA": "peacock",
+      "parentB": "bison",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-c939cfc0",
+      "parentA": "shoebill",
+      "parentB": "bison",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-031c3c07",
+      "parentA": "shoebill",
+      "parentB": "cave-bear",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-c9305336",
+      "parentA": "shoebill",
+      "parentB": "dire-wolf",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-d96123d4",
+      "parentA": "shoebill",
+      "parentB": "elephant",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-2ca61ec9",
+      "parentA": "peacock",
+      "parentB": "glacier-elk",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-73ce9970",
+      "parentA": "shoebill",
+      "parentB": "gorilla",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-f64f69d0",
+      "parentA": "shoebill",
+      "parentB": "hippo-king",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-de289c90",
+      "parentA": "peacock",
+      "parentB": "macaw",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-18f80fb3",
+      "parentA": "secretary-bird",
+      "parentB": "macaw",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-7995afa9",
+      "parentA": "water-buffalo",
+      "parentB": "macaw",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-2402a59e",
+      "parentA": "secretary-bird",
+      "parentB": "mammoth",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-0fbe922d",
+      "parentA": "water-buffalo",
+      "parentB": "peacock",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-c5fa3ead",
+      "parentA": "shoebill",
+      "parentB": "shoebill",
+      "resultId": "griffin"
+    },
+    {
+      "id": "recipe-e8875c4e",
+      "parentA": "okapi",
+      "parentB": "albatross",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-b40fec9b",
+      "parentA": "giant-sloth",
+      "parentB": "bison",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-b4c02801",
+      "parentA": "koala",
+      "parentB": "bison",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-76c50d01",
+      "parentA": "okapi",
+      "parentB": "bison",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-2c44e937",
+      "parentA": "okapi",
+      "parentB": "cave-bear",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-a4229289",
+      "parentA": "okapi",
+      "parentB": "dire-wolf",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-3ca0b776",
+      "parentA": "okapi",
+      "parentB": "elephant",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-13d245a4",
+      "parentA": "okapi",
+      "parentB": "fire-salamander",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-ea11f3b4",
+      "parentA": "glacier-elk",
+      "parentB": "giant-sloth",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-200b0a9b",
+      "parentA": "okapi",
+      "parentB": "giant-sloth",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-5906dc6c",
+      "parentA": "okapi",
+      "parentB": "gorilla",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-ee785ba7",
+      "parentA": "okapi",
+      "parentB": "hippo-king",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-88450678",
+      "parentA": "koala",
+      "parentB": "ibex",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-9bd6c972",
+      "parentA": "shoebill",
+      "parentB": "koala",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-3f71027d",
+      "parentA": "shoebill",
+      "parentB": "okapi",
+      "resultId": "kitsune"
+    },
+    {
+      "id": "recipe-5c2c0dc5",
+      "parentA": "bison",
+      "parentB": "anaconda",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-4f1ccbec",
+      "parentA": "cave-bear",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-b56a5ba2",
+      "parentA": "dire-wolf",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-aca87b39",
+      "parentA": "elephant",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-e4f2daf1",
+      "parentA": "gorilla",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-655a506d",
+      "parentA": "hippo-king",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-b5515c49",
+      "parentA": "river-dragon",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-ac8c65f7",
+      "parentA": "water-buffalo",
+      "parentB": "bison",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-bddc9be7",
+      "parentA": "water-buffalo",
+      "parentB": "cave-bear",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-ef44c9d9",
+      "parentA": "water-buffalo",
+      "parentB": "dire-wolf",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-14296fac",
+      "parentA": "water-buffalo",
+      "parentB": "elephant",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-eb1eff89",
+      "parentA": "water-buffalo",
+      "parentB": "gorilla",
+      "resultId": "sphinx"
+    },
+    {
+      "id": "recipe-456efb6d",
+      "parentA": "white-tiger",
+      "parentB": "albatross",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-111d02c9",
+      "parentA": "bison",
+      "parentB": "basilisk",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-71e3b980",
+      "parentA": "macaw",
+      "parentB": "basilisk",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-5b2fd618",
+      "parentA": "okapi",
+      "parentB": "basilisk",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-44f91522",
+      "parentA": "shoebill",
+      "parentB": "basilisk",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-7c482a5e",
+      "parentA": "white-tiger",
+      "parentB": "basilisk",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-ed1fab45",
+      "parentA": "black-panther",
+      "parentB": "bison",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-90eaf207",
+      "parentA": "fire-salamander",
+      "parentB": "bison",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-b214aecc",
+      "parentA": "white-tiger",
+      "parentB": "bison",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-97898018",
+      "parentA": "macaw",
+      "parentB": "black-panther",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-21001d50",
+      "parentA": "shoebill",
+      "parentB": "black-panther",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-86c2b9c4",
+      "parentA": "white-tiger",
+      "parentB": "black-panther",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-1ee446cd",
+      "parentA": "white-tiger",
+      "parentB": "glacier-elk",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-c47e65c5",
+      "parentA": "white-tiger",
+      "parentB": "shoebill",
+      "resultId": "ember-rhino"
+    },
+    {
+      "id": "recipe-abd8114d",
+      "parentA": "okapi",
+      "parentB": "anaconda",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-b5cf330e",
+      "parentA": "shoebill",
+      "parentB": "anaconda",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-7da58086",
+      "parentA": "water-buffalo",
+      "parentB": "anaconda",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-935df4b2",
+      "parentA": "white-tiger",
+      "parentB": "anaconda",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-a1a124a0",
+      "parentA": "water-buffalo",
+      "parentB": "basilisk",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-c65cf2c5",
+      "parentA": "water-buffalo",
+      "parentB": "black-panther",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-9a30a62a",
+      "parentA": "water-buffalo",
+      "parentB": "fire-salamander",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-79d4efa5",
+      "parentA": "ibex",
+      "parentB": "hippo-king",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-da4f40cc",
+      "parentA": "water-buffalo",
+      "parentB": "hippo-king",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-5bb39729",
+      "parentA": "white-tiger",
+      "parentB": "hippo-king",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-79227274",
+      "parentA": "white-tiger",
+      "parentB": "river-dragon",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-75ff9b2c",
+      "parentA": "water-buffalo",
+      "parentB": "secretary-bird",
+      "resultId": "dragon-turtle"
+    },
+    {
+      "id": "recipe-a162a43b",
+      "parentA": "water-buffalo",
+      "parentB": "water-buffalo",
+      "resultId": "dragon-turtle"
     }
   ]
 }

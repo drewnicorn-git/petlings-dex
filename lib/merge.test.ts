@@ -10,6 +10,7 @@ import {
   findRecipe,
   isStarter,
   missingPartners,
+  starterShortfall,
   totalCount,
   type BuildStep,
   validateRecipe,
@@ -325,6 +326,24 @@ describe("disassemble", () => {
     ]);
     for (const path of result.paths) {
       expect(totalCount(path.counts)).toBe(4);
+    }
+  });
+
+  it("keeps one best starter mix for each combo", () => {
+    const anaconda = disassemble("anaconda", seedCatalog);
+    expect(anaconda.status).toBe("ok");
+    if (anaconda.status !== "ok") return;
+    const recipes = seedCatalog.recipes.filter((recipe) => recipe.resultId === "anaconda");
+    const have = { chick: 20, bunny: 4, cat: 0 };
+    const options = adviseStarters(anaconda.paths, anaconda.counts, have);
+    expect(options).toHaveLength(recipes.length);
+    expect(options.length).toBeLessThan(anaconda.paths.length);
+    for (const option of options) {
+      const siblings = anaconda.paths.filter((path) => path.recipeId === option.path?.recipeId);
+      const bestShort = totalCount(starterShortfall(option.counts, have));
+      for (const sibling of siblings) {
+        expect(bestShort).toBeLessThanOrEqual(totalCount(starterShortfall(sibling.counts, have)));
+      }
     }
   });
 

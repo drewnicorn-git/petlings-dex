@@ -304,8 +304,9 @@ function BreakdownView({
   if (breakdown.status !== "ok") return null;
   const options = rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
   const best = options[0];
-  const fits = options.filter((option) => option.affordable).length;
-  const ways = breakdown.paths.length;
+  const listed = options.filter((option) => option.path);
+  const fits = listed.filter((option) => option.affordable).length;
+  const ways = listed.length;
 
   function openTree() {
     if (!best?.path) return;

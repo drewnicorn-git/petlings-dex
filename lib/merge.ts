@@ -239,9 +239,37 @@ export function priceTree(
   return solve(step, owned);
 }
 
-function ownedOverlap(step: BuildStep, prefer: ReadonlySet<string>): number {
+function ownedOverlap(
+  step: BuildStep,
+  prefer: ReadonlySet<string>,
+  memo: WeakMap<BuildStep, number>,
+): number {
+  const cached = memo.get(step);
+  if (cached !== undefined) return cached;
   const here = prefer.has(step.creatureId) ? totalCount(step.counts) : 0;
-  return here + (step.left ? ownedOverlap(step.left, prefer) : 0) + (step.right ? ownedOverlap(step.right, prefer) : 0);
+  const score =
+    here +
+    (step.left ? ownedOverlap(step.left, prefer, memo) : 0) +
+    (step.right ? ownedOverlap(step.right, prefer, memo) : 0);
+  memo.set(step, score);
+  return score;
+}
+
+const builtTrees = new WeakMap<Catalog, Map<string, Map<string, Map<string, BuildStep>>>>();
+
+function treeCacheFor(catalog: Catalog, prefer: ReadonlySet<string>): Map<string, Map<string, BuildStep>> {
+  const key = [...prefer].sort().join("\0");
+  let byPrefer = builtTrees.get(catalog);
+  if (!byPrefer) {
+    byPrefer = new Map();
+    builtTrees.set(catalog, byPrefer);
+  }
+  let cache = byPrefer.get(key);
+  if (!cache) {
+    cache = new Map();
+    byPrefer.set(key, cache);
+  }
+  return cache;
 }
 
 export function buildTree(
@@ -253,6 +281,7 @@ export function buildTree(
 ): BuildStep | null {
   const creatures = creatureMap(catalog.creatures);
   const recipesFor = recipesByResult(catalog.recipes);
+  const overlapMemo = new WeakMap<BuildStep, number>();
 
   function options(id: string, stack: string[]): Map<string, BuildStep> | null {
     if (stack.includes(id)) return null;
@@ -285,7 +314,11 @@ export function buildTree(
             right: parentRight,
           };
           const previous = found.get(key);
-          if (previous && (prefer.size === 0 || ownedOverlap(previous, prefer) >= ownedOverlap(candidate, prefer))) {
+          if (
+            previous &&
+            (prefer.size === 0 ||
+              ownedOverlap(previous, prefer, overlapMemo) >= ownedOverlap(candidate, prefer, overlapMemo))
+          ) {
             continue;
           }
           found.set(key, candidate);
@@ -300,13 +333,20 @@ export function buildTree(
   const left = options(path.parentA, [creatureId]);
   const right = options(path.parentB, [creatureId]);
   if (!left || !right) return null;
-  const target = countKey(path.counts);
   for (const parentLeft of left.values()) {
-    for (const parentRight of right.values()) {
-      const counts = addCounts(parentLeft.counts, parentRight.counts);
-      if (countKey(counts) !== target) continue;
-      return { creatureId, counts, left: parentLeft, right: parentRight };
-    }
+    const complement = countKey({
+      chick: path.counts.chick - parentLeft.counts.chick,
+      bunny: path.counts.bunny - parentLeft.counts.bunny,
+      cat: path.counts.cat - parentLeft.counts.cat,
+    });
+    const parentRight = right.get(complement);
+    if (!parentRight) continue;
+    return {
+      creatureId,
+      counts: path.counts,
+      left: parentLeft,
+      right: parentRight,
+    };
   }
   return null;
 }
@@ -319,10 +359,11 @@ export function adviseStarters(
   const sources =
     paths.length > 0
       ? paths.map((path) => ({ counts: path.counts, path }))
-      : [{ counts: ownCounts, path: null }];
-  const options: StarterOption[] = sources.map((source) => {
+      : [{ counts: ownCounts, path: null as PathCounts | null }];
+  const best = new Map<string, StarterOption>();
+  for (const source of sources) {
     const shortfall = starterShortfall(source.counts, have);
-    return {
+    const option: StarterOption = {
       counts: source.counts,
       shortfall,
       affordable: totalCount(shortfall) === 0,
@@ -330,8 +371,11 @@ export function adviseStarters(
       uses: [],
       tree: null,
     };
-  });
-  return options.sort((a, b) => compareOptions(a, b, have));
+    const key = source.path?.recipeId ?? "*";
+    const previous = best.get(key);
+    if (!previous || compareOptions(option, previous, have) < 0) best.set(key, option);
+  }
+  return [...best.values()].sort((a, b) => compareOptions(a, b, have));
 }
 
 function compareOptions(a: StarterOption, b: StarterOption, have: StarterCounts): number {
@@ -360,15 +404,12 @@ export function rankMixes(
     const creature = catalog.creatures.find((item) => item.id === id);
     return creature !== undefined && creature.tier > 1;
   });
-  if (usable.length === 0) return adviseStarters(paths, ownCounts, have);
-  const sources =
-    paths.length > 0
-      ? paths.map((path) => ({ counts: path.counts, path }))
-      : [{ counts: ownCounts, path: null as PathCounts | null }];
-  const cache = new Map<string, Map<string, BuildStep>>();
-  const pricedTrees = new Map<string, PricedTree>();
+  const collapsed = adviseStarters(paths, ownCounts, have);
+  if (usable.length === 0) return collapsed;
   const prefer = new Set(usable);
-  const options = sources.map((source) => {
+  const cache = treeCacheFor(catalog, prefer);
+  const pricedTrees = new Map<string, PricedTree>();
+  const options = collapsed.map((source) => {
     const tree = source.path ? buildTree(catalog, creatureId, source.path, cache, prefer) : null;
     if (!tree) {
       const shortfall = starterShortfall(source.counts, have);
@@ -550,13 +591,30 @@ export type Breakdown =
     }
   | { status: "missing" | "cycle" | "not-starter"; creatureId: string };
 
-type CountResult =
-  | { ok: true; counts: StarterCounts[] }
+type CountPack =
+  | { ok: true; counts: number[] }
   | { ok: false; error: "missing" | "cycle" | "not-starter"; creatureId: string };
 
 function countKey(counts: StarterCounts): string {
   return `${counts.chick}:${counts.bunny}:${counts.cat}`;
 }
+
+const PACK = 1024;
+const PACK2 = PACK * PACK;
+
+function packCounts(counts: StarterCounts): number {
+  return counts.chick + counts.bunny * PACK + counts.cat * PACK2;
+}
+
+function unpackCounts(packed: number): StarterCounts {
+  return {
+    chick: packed % PACK,
+    bunny: Math.floor(packed / PACK) % PACK,
+    cat: Math.floor(packed / PACK2),
+  };
+}
+
+const breakdownCache = new WeakMap<Catalog, Map<string, Breakdown>>();
 
 function recipesByResult(recipes: Recipe[]): Map<string, Recipe[]> {
   const map = new Map<string, Recipe[]>();
@@ -569,6 +627,19 @@ function recipesByResult(recipes: Recipe[]): Map<string, Recipe[]> {
 }
 
 export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
+  let saved = breakdownCache.get(catalog);
+  if (!saved) {
+    saved = new Map();
+    breakdownCache.set(catalog, saved);
+  }
+  const hit = saved.get(creatureId);
+  if (hit) return hit;
+  const result = collectBreakdown(creatureId, catalog);
+  saved.set(creatureId, result);
+  return result;
+}
+
+function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
   const creatures = creatureMap(catalog.creatures);
   const creature = creatures.get(creatureId);
   if (!creature) return { status: "missing", creatureId };
@@ -579,9 +650,9 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
   }
 
   const recipesFor = recipesByResult(catalog.recipes);
-  const cache = new Map<string, StarterCounts[]>();
+  const cache = new Map<string, number[]>();
 
-  function parentCounts(id: string, stack: string[]): CountResult {
+  function parentCounts(id: string, stack: string[]): CountPack {
     if (stack.includes(id)) return { ok: false, error: "cycle", creatureId: id };
     const cached = cache.get(id);
     if (cached) return { ok: true, counts: cached };
@@ -591,15 +662,15 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
       if (!isStarter(id)) return { ok: false, error: "not-starter", creatureId: id };
       const counts = emptyCounts();
       counts[id] = 1;
-      const only = [counts];
+      const only = [packCounts(counts)];
       cache.set(id, only);
       return { ok: true, counts: only };
     }
     const recipes = recipesFor.get(id) ?? [];
     if (recipes.length === 0) return { ok: false, error: "missing", creatureId: id };
-    const seen = new Set<string>();
-    const counts: StarterCounts[] = [];
-    let failure: CountResult | null = null;
+    const seen = new Set<number>();
+    const counts: number[] = [];
+    let failure: CountPack | null = null;
     for (const recipe of recipes) {
       const left = parentCounts(recipe.parentA, [...stack, id]);
       if (!left.ok) {
@@ -613,10 +684,9 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
       }
       for (const parentLeft of left.counts) {
         for (const parentRight of right.counts) {
-          const combined = addCounts(parentLeft, parentRight);
-          const signature = countKey(combined);
-          if (seen.has(signature)) continue;
-          seen.add(signature);
+          const combined = parentLeft + parentRight;
+          if (seen.has(combined)) continue;
+          seen.add(combined);
           counts.push(combined);
         }
       }
@@ -629,7 +699,7 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
   const recipes = recipesFor.get(creatureId) ?? [];
   if (recipes.length === 0) return { status: "missing", creatureId };
   const paths: PathCounts[] = [];
-  let failure: CountResult | null = null;
+  let failure: CountPack | null = null;
   for (const recipe of recipes) {
     const left = parentCounts(recipe.parentA, [creatureId]);
     if (!left.ok) {
@@ -641,18 +711,17 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
       failure ??= right;
       continue;
     }
-    const seen = new Set<string>();
+    const seen = new Set<number>();
     for (const parentLeft of left.counts) {
       for (const parentRight of right.counts) {
-        const counts = addCounts(parentLeft, parentRight);
-        const signature = countKey(counts);
-        if (seen.has(signature)) continue;
-        seen.add(signature);
+        const combined = parentLeft + parentRight;
+        if (seen.has(combined)) continue;
+        seen.add(combined);
         paths.push({
           recipeId: recipe.id,
           parentA: recipe.parentA,
           parentB: recipe.parentB,
-          counts,
+          counts: unpackCounts(combined),
         });
       }
     }
