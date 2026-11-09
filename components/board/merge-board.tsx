@@ -286,6 +286,10 @@ function StockField({
   );
 }
 
+function groupedCount(value: bigint): string {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function BreakdownView({
   creatureId,
   breakdown,
@@ -319,6 +323,38 @@ function BreakdownView({
         {creatureName(catalog, breakdown.creatureId)} is tier 1, but only {starterListLabel(catalog.starters)}
         can start a line.
       </p>
+    );
+  }
+  if (breakdown.status === "tier7") {
+    const count = BigInt(breakdown.comboCount);
+    const names = breakdown.tier7Ids.map((id) => ({
+      id,
+      name: creatureName(catalog, id),
+    }));
+    return (
+      <div>
+        <p className="text-xs">
+          {groupedCount(count)} registered tier 7 {count === BigInt(1) ? "combination" : "combinations"}.
+        </p>
+        {names.length === 0 ? (
+          <p className="mt-1 text-xs text-muted-foreground">
+            No tier 7 creature is saved for this yet.
+          </p>
+        ) : (
+          <>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {names.length} unique tier 7 {names.length === 1 ? "creature" : "creatures"} can make it.
+            </p>
+            <ul className="mt-1 space-y-1">
+              {names.map((item) => (
+                <li key={item.id} className="text-xs break-words">
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
     );
   }
   if (breakdown.status !== "ok") return null;

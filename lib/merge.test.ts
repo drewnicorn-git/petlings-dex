@@ -396,22 +396,11 @@ describe("attemptMerge", () => {
         resultId: "prism",
       },
     );
-    const prism = disassemble("prism", board);
-    expect(prism.status).toBe("ok");
-    if (prism.status !== "ok") return;
-    const ranked = rankMixes(board, "prism", prism.paths, prism.counts, {
-      chick: 10,
-      bunny: 0,
-      cat: 0,
-    }, []);
-    expect(ranked[0]?.path?.parentC).toBe("blue");
-    expect(ranked[0]?.counts).toEqual({ chick: 4, bunny: 2, cat: 2 });
-    const bunnies = rankMixes(board, "prism", prism.paths, prism.counts, {
-      chick: 0,
-      bunny: 10,
-      cat: 0,
-    }, []);
-    expect(bunnies[0]?.counts).toEqual({ chick: 0, bunny: 4, cat: 2 });
+    expect(disassemble("prism", board)).toEqual({
+      status: "tier7",
+      comboCount: "1",
+      tier7Ids: ["blue", "green", "red"],
+    });
   });
 
   it("refuses a tier 10 merge", () => {
@@ -532,6 +521,37 @@ describe("disassemble", () => {
       status: "ok",
       total: 2,
       counts: { chick: 0, bunny: 0, cat: 2 },
+    });
+  });
+
+  it("counts registered tier 7 combinations for tier 8 and above", () => {
+    const board = catalog();
+    board.creatures.push(
+      { id: "t8a", name: "Tide King", tier: 8 },
+      { id: "t8b", name: "Storm King", tier: 8 },
+      { id: "t9", name: "Sky King", tier: 9 },
+      { id: "t8-empty", name: "Empty King", tier: 8 },
+    );
+    board.recipes.push(
+      { id: "r1", parentA: "hydra", parentB: "phoenix", parentC: "dragon", resultId: "t8a" },
+      { id: "r2", parentA: "hydra", parentB: "hydra", parentC: "behemoth", resultId: "t8a" },
+      { id: "r3", parentA: "phoenix", parentB: "dragon", parentC: "griffin", resultId: "t8b" },
+      { id: "r4", parentA: "t8a", parentB: "t8a", parentC: "t8b", resultId: "t9" },
+    );
+    expect(disassemble("t8a", board)).toEqual({
+      status: "tier7",
+      comboCount: "2",
+      tier7Ids: ["behemoth", "dragon", "hydra", "phoenix"],
+    });
+    expect(disassemble("t9", board)).toEqual({
+      status: "tier7",
+      comboCount: "4",
+      tier7Ids: ["behemoth", "dragon", "griffin", "hydra", "phoenix"],
+    });
+    expect(disassemble("t8-empty", board)).toEqual({
+      status: "tier7",
+      comboCount: "0",
+      tier7Ids: [],
     });
   });
 
