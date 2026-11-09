@@ -17,6 +17,7 @@ export const seedCatalog: Catalog = {
       id: recipe.id,
       parentA: recipe.parentA,
       parentB: recipe.parentB,
+      ...("parentC" in recipe && typeof recipe.parentC === "string" ? { parentC: recipe.parentC } : {}),
       resultId: recipe.resultId,
     }),
   ),

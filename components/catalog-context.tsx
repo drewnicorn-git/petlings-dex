@@ -30,7 +30,7 @@ type CatalogContextValue = {
   addCreature: (name: string, tier: number) => Result<Creature>;
   updateCreature: (id: string, patch: CreaturePatch) => Result<Creature>;
   deleteCreature: (id: string) => Result<null>;
-  addRecipe: (parentA: string, parentB: string, resultId: string) => Result<Recipe>;
+  addRecipe: (parentA: string, parentB: string, resultId: string, parentC?: string) => Result<Recipe>;
   deleteRecipe: (id: string) => void;
   replaceCatalog: (catalog: Catalog) => void;
   resetCatalog: () => void;
@@ -125,20 +125,25 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       commit({
         creatures: current.creatures.filter((creature) => creature.id !== id),
         recipes: current.recipes.filter(
-          (recipe) => recipe.parentA !== id && recipe.parentB !== id && recipe.resultId !== id,
+          (recipe) =>
+            recipe.parentA !== id &&
+            recipe.parentB !== id &&
+            recipe.parentC !== id &&
+            recipe.resultId !== id,
         ),
       });
       setTokens((currentTokens) => currentTokens.filter((token) => token.creatureId !== id));
       return { ok: true, value: null };
     },
-    addRecipe(parentA, parentB, resultId) {
+    addRecipe(parentA, parentB, resultId, parentC) {
       const current = catalogRef.current;
-      const error = validateRecipe(current, parentA, parentB, resultId);
+      const error = validateRecipe(current, parentA, parentB, resultId, undefined, parentC);
       if (error) return { ok: false, error };
       const recipe: Recipe = {
         id: newId("recipe"),
         parentA,
         parentB,
+        ...(parentC ? { parentC } : {}),
         resultId,
       };
       commit({ ...current, recipes: [...current.recipes, recipe] });

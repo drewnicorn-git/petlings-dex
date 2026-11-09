@@ -30,6 +30,7 @@ export function catalogStamp(catalog: Catalog): string {
       id: recipe.id,
       parentA: recipe.parentA,
       parentB: recipe.parentB,
+      parentC: recipe.parentC ?? "",
       resultId: recipe.resultId,
     })),
   });
@@ -130,6 +131,7 @@ export function parseImport(
       id?: unknown;
       parentA?: unknown;
       parentB?: unknown;
+      parentC?: unknown;
       resultId?: unknown;
     };
     if (
@@ -139,7 +141,8 @@ export function parseImport(
     ) {
       return { ok: false, error: "A combo in that file is incomplete." };
     }
-    const error = validateRecipe(catalog, item.parentA, item.parentB, item.resultId);
+    const parentC = typeof item.parentC === "string" && item.parentC ? item.parentC : undefined;
+    const error = validateRecipe(catalog, item.parentA, item.parentB, item.resultId, undefined, parentC);
     if (error) return { ok: false, error };
     const id =
       typeof item.id === "string" && item.id.trim() && !recipeIds.has(item.id)
@@ -150,6 +153,7 @@ export function parseImport(
       id,
       parentA: item.parentA,
       parentB: item.parentB,
+      ...(parentC ? { parentC } : {}),
       resultId: item.resultId,
     });
   }

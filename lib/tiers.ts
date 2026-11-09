@@ -22,7 +22,11 @@ export function tierStyle(tier: number): TierStyle {
 }
 
 export function starterTotal(tier: number): number {
-  return 2 ** (tier - 1);
+  if (tier <= 1) return 1;
+  if (tier <= 7) return 2 ** (tier - 1);
+  let total = 2 ** 6;
+  for (let current = 8; current <= tier; current += 1) total *= 3;
+  return total;
 }
 
 export const TIER_TOTALS: Record<number, number> = {

@@ -62,12 +62,32 @@ export function findRecipe(
   b: string,
 ): Recipe | undefined {
   const key = pairKey(a, b);
-  return recipes.find((recipe) => pairKey(recipe.parentA, recipe.parentB) === key);
+  return recipes.find(
+    (recipe) => !recipe.parentC && pairKey(recipe.parentA, recipe.parentB) === key,
+  );
+}
+
+export function trioKey(a: string, b: string, c: string): string {
+  return [a, b, c].sort().join("|");
+}
+
+export function findTrio(
+  recipes: Recipe[],
+  a: string,
+  b: string,
+  c: string,
+): Recipe | undefined {
+  const key = trioKey(a, b, c);
+  return recipes.find(
+    (recipe) =>
+      recipe.parentC !== undefined &&
+      trioKey(recipe.parentA, recipe.parentB, recipe.parentC) === key,
+  );
 }
 
 export function missingPartners(catalog: Catalog, creatureId: string): Creature[] {
   const creature = creatureMap(catalog.creatures).get(creatureId);
-  if (!creature || creature.tier >= 10) return [];
+  if (!creature || creature.tier >= 7) return [];
   return catalog.creatures
     .filter(
       (other) =>
@@ -128,6 +148,7 @@ export type BuildStep = {
   counts: StarterCounts;
   left: BuildStep | null;
   right: BuildStep | null;
+  third?: BuildStep | null;
   owned?: boolean;
 };
 
@@ -155,15 +176,23 @@ function covered(node: BuildStep): PricedTree {
   };
 }
 
-function joined(node: BuildStep, left: PricedTree, right: PricedTree): PricedTree {
+function joined(
+  node: BuildStep,
+  left: PricedTree,
+  right: PricedTree,
+  third?: PricedTree,
+): PricedTree {
+  const pair = addCounts(left.cost, right.cost);
+  const cost = third ? addCounts(pair, third.cost) : pair;
   return {
-    cost: addCounts(left.cost, right.cost),
-    uses: [...left.uses, ...right.uses],
+    cost,
+    uses: third ? [...left.uses, ...right.uses, ...third.uses] : [...left.uses, ...right.uses],
     step: {
       creatureId: node.creatureId,
-      counts: addCounts(left.cost, right.cost),
+      counts: cost,
       left: left.step,
       right: right.step,
+      ...(third ? { third: third.step } : {}),
     },
   };
 }
@@ -179,11 +208,12 @@ function priceGreedy(step: BuildStep, owned: string[]): PricedTree {
       return covered(node);
     }
     if (!node.left || !node.right) return { cost: node.counts, uses: [], step: node };
+    const third = node.third ? walk(node.third) : undefined;
     if (totalCount(node.left.counts) >= totalCount(node.right.counts)) {
-      return joined(node, walk(node.left), walk(node.right));
+      return joined(node, walk(node.left), walk(node.right), third);
     }
     const right = walk(node.right);
-    return joined(node, walk(node.left), right);
+    return joined(node, walk(node.left), right, third);
   }
 
   return walk(step);
@@ -216,8 +246,33 @@ export function priceTree(
 
     if (!node.left || !node.right) {
       consider({ cost: node.counts, uses: [], step: node });
+    } else if (node.third && items.length > 0) {
+      const ways = 3 ** items.length;
+      for (let mask = 0; mask < ways; mask += 1) {
+        const bags: string[][] = [[], [], []];
+        let value = mask;
+        for (const item of items) {
+          bags[value % 3].push(item);
+          value = Math.floor(value / 3);
+        }
+        consider(
+          joined(
+            node,
+            solve(node.left, bags[0]),
+            solve(node.right, bags[1]),
+            solve(node.third, bags[2]),
+          ),
+        );
+      }
     } else if (items.length === 0) {
-      consider(joined(node, solve(node.left, []), solve(node.right, [])));
+      consider(
+        joined(
+          node,
+          solve(node.left, []),
+          solve(node.right, []),
+          node.third ? solve(node.third, []) : undefined,
+        ),
+      );
     } else {
       const masks = 1 << items.length;
       for (let mask = 0; mask < masks; mask += 1) {
@@ -250,7 +305,8 @@ function ownedOverlap(
   const score =
     here +
     (step.left ? ownedOverlap(step.left, prefer, memo) : 0) +
-    (step.right ? ownedOverlap(step.right, prefer, memo) : 0);
+    (step.right ? ownedOverlap(step.right, prefer, memo) : 0) +
+    (step.third ? ownedOverlap(step.third, prefer, memo) : 0);
   memo.set(step, score);
   return score;
 }
@@ -300,6 +356,7 @@ export function buildTree(
     }
     const recipes = recipesFor.get(id) ?? [];
     for (const recipe of recipes) {
+      if (recipe.parentC) continue;
       const left = options(recipe.parentA, [...stack, id]);
       const right = options(recipe.parentB, [...stack, id]);
       if (!left || !right) continue;
@@ -492,8 +549,12 @@ function descendantsOf(catalog: Catalog, id: string): Set<string> {
   for (const recipe of recipeIndex(catalog).get(id) ?? []) {
     found.add(recipe.parentA);
     found.add(recipe.parentB);
+    if (recipe.parentC) found.add(recipe.parentC);
     for (const child of descendantsOf(catalog, recipe.parentA)) found.add(child);
     for (const child of descendantsOf(catalog, recipe.parentB)) found.add(child);
+    if (recipe.parentC) {
+      for (const child of descendantsOf(catalog, recipe.parentC)) found.add(child);
+    }
   }
   return found;
 }
@@ -696,6 +757,214 @@ function rankFromSignatures(
   return options.sort((a, b) => compareOptions(a, b, have));
 }
 
+type TriplePick = { id: string; packed: number; bag: string };
+type TripleMix = { sum: number; counts: StarterCounts; uses: string[]; picks: TriplePick[] };
+
+const tripleMixCache = new WeakMap<Catalog, Map<string, TripleMix | null>>();
+const pairSumCache = new WeakMap<number[], Map<number[], { sums: number[]; left: number[]; right: number[] }>>();
+
+function shortfallPacked(packed: number, have: StarterCounts): number {
+  const chick = packed % PACK;
+  const bunny = Math.floor(packed / PACK) % PACK;
+  const cat = Math.floor(packed / PACK2);
+  return (
+    Math.max(0, chick - have.chick) +
+    Math.max(0, bunny - have.bunny) +
+    Math.max(0, cat - have.cat)
+  );
+}
+
+function keepPacked(sum: number, best: number, have: StarterCounts): boolean {
+  const nextShort = shortfallPacked(sum, have);
+  const currentShort = shortfallPacked(best, have);
+  if (nextShort !== currentShort) return nextShort < currentShort;
+  return countsBeat(unpackCounts(sum), unpackCounts(best), have);
+}
+
+function uniquePair(left: number[], right: number[]) {
+  let byRight = pairSumCache.get(left);
+  if (!byRight) {
+    byRight = new Map();
+    pairSumCache.set(left, byRight);
+  }
+  const saved = byRight.get(right);
+  if (saved) return saved;
+  const found = new Map<number, { left: number; right: number }>();
+  for (const a of left) {
+    for (const b of right) {
+      const sum = a + b;
+      if (!found.has(sum)) found.set(sum, { left: a, right: b });
+    }
+  }
+  const record = { sums: [] as number[], left: [] as number[], right: [] as number[] };
+  for (const [sum, part] of found) {
+    record.sums.push(sum);
+    record.left.push(part.left);
+    record.right.push(part.right);
+  }
+  byRight.set(right, record);
+  return record;
+}
+
+function bestPacked(list: number[], have: StarterCounts): number {
+  let best = list[0] ?? 0;
+  for (const packed of list) if (keepPacked(packed, best, have)) best = packed;
+  return best;
+}
+
+function scanTwo(left: number[], right: number[], have: StarterCounts): { sum: number; left: number; right: number } {
+  let best = (left[0] ?? 0) + (right[0] ?? 0);
+  let bestLeft = left[0] ?? 0;
+  let bestRight = right[0] ?? 0;
+  for (const a of left) {
+    for (const b of right) {
+      const sum = a + b;
+      if (!keepPacked(sum, best, have)) continue;
+      best = sum;
+      bestLeft = a;
+      bestRight = b;
+    }
+  }
+  return { sum: best, left: bestLeft, right: bestRight };
+}
+
+function bestSum(lists: number[][], have: StarterCounts): { sum: number; picks: number[] } | null {
+  if (lists.length === 0 || lists.some((list) => list.length === 0)) return null;
+  if (lists.length === 1) return { sum: bestPacked(lists[0], have), picks: [bestPacked(lists[0], have)] };
+  const product = lists.reduce((total, list) => total * list.length, 1);
+  if (lists.length === 2 && product <= 8_000_000) {
+    const scanned = scanTwo(lists[0], lists[1], have);
+    return { sum: scanned.sum, picks: [scanned.left, scanned.right] };
+  }
+  if (lists.length >= 3) {
+    const order = [0, 1, 2].sort((a, b) => lists[b].length - lists[a].length);
+    const bigA = lists[order[0]];
+    const bigB = lists[order[1]];
+    const small = lists[order[2]];
+    if (bigA.length * bigB.length <= 8_000_000) {
+      const pair = uniquePair(bigA, bigB);
+      const scanned = scanTwo(pair.sums, small, have);
+      const pairIndex = pair.sums.indexOf(scanned.left);
+      const picks = [0, 0, 0];
+      picks[order[0]] = pair.left[pairIndex] ?? bigA[0];
+      picks[order[1]] = pair.right[pairIndex] ?? bigB[0];
+      picks[order[2]] = scanned.right;
+      return { sum: scanned.sum, picks };
+    }
+  }
+  const picks = lists.map((list) => bestPacked(list, have));
+  return { sum: picks.reduce((total, packed) => total + packed, 0), picks };
+}
+
+function vectorsFor(
+  catalog: Catalog,
+  id: string,
+  have: StarterCounts,
+  bag: readonly string[],
+  stack: string[],
+): number[] {
+  if (stack.includes(id)) return [];
+  if (bag.length === 1 && bag[0] === id && !isStarter(id)) return [0];
+  if (bag.includes(id) || (bag.length > 0 && isStarter(id))) return [];
+  const recipes = recipeIndex(catalog).get(id) ?? [];
+  const triples = recipes.filter((recipe) => recipe.parentC);
+  const pairs = recipes.filter((recipe) => !recipe.parentC);
+  const found = new Set<number>();
+  if (pairs.length > 0) {
+    const list = bag.length === 0 ? signatureList(catalog, id) : placements(catalog, id, [...bag]);
+    for (const packed of list) found.add(packed);
+  } else if (bag.length === 0 && (isStarter(id) || recipes.length === 0)) {
+    for (const packed of signatureList(catalog, id)) found.add(packed);
+  }
+  for (const recipe of triples) {
+    if (!recipe.parentC) continue;
+    const mix = bestOwnedTriple(
+      catalog,
+      [recipe.parentA, recipe.parentB, recipe.parentC],
+      have,
+      bag,
+      [...stack, id],
+    );
+    if (mix) found.add(mix.sum);
+  }
+  return [...found];
+}
+
+function bestOwnedTriple(
+  catalog: Catalog,
+  parents: [string, string, string],
+  have: StarterCounts,
+  owned: readonly string[],
+  stack: string[] = [],
+): TripleMix | null {
+  const usable = owned.length <= 2 ? owned : owned.filter((id) => parents.includes(id));
+  const key = `${parents.join("|")}|${have.chick}:${have.bunny}:${have.cat}|${bagKey(usable)}|${stack.join(".")}`;
+  let saved = tripleMixCache.get(catalog);
+  if (!saved) {
+    saved = new Map();
+    tripleMixCache.set(catalog, saved);
+  }
+  if (saved.has(key)) return saved.get(key) ?? null;
+  let best: TripleMix | null = null;
+  const ways = 4 ** usable.length;
+  for (let mask = 0; mask < Math.max(ways, 1); mask += 1) {
+    const bags: string[][] = [[], [], []];
+    let value = mask;
+    const uses: string[] = [];
+    for (const item of usable) {
+      const slot = usable.length === 0 ? 3 : value % 4;
+      value = Math.floor(value / 4);
+      if (slot < 3) {
+        bags[slot].push(item);
+        uses.push(item);
+      }
+    }
+    const lists = parents.map((id, index) => vectorsFor(catalog, id, have, bags[index], stack));
+    const picked = bestSum(lists, have);
+    if (!picked) continue;
+    const counts = unpackCounts(picked.sum);
+    if (best && !countsBeat(counts, best.counts, have)) continue;
+    best = {
+      sum: picked.sum,
+      counts,
+      uses,
+      picks: parents.map((id, index) => ({ id, packed: picked.picks[index] ?? 0, bag: bagKey(bags[index]) })),
+    };
+  }
+  saved.set(key, best);
+  return best;
+}
+
+function tripleOption(
+  catalog: Catalog,
+  creatureId: string,
+  path: PathCounts,
+  have: StarterCounts,
+  owned: readonly string[],
+): StarterOption {
+  const parents: [string, string, string] = [path.parentA, path.parentB, path.parentC ?? path.parentB];
+  const mix = path.parentC ? bestOwnedTriple(catalog, parents, have, owned) : null;
+  const counts = mix?.counts ?? path.counts;
+  const shortfall = starterShortfall(counts, have);
+  const tree = mix
+    ? {
+        creatureId,
+        counts,
+        left: materialize(catalog, mix.picks[0].id, mix.picks[0].packed, mix.picks[0].bag),
+        right: materialize(catalog, mix.picks[1].id, mix.picks[1].packed, mix.picks[1].bag),
+        third: materialize(catalog, mix.picks[2].id, mix.picks[2].packed, mix.picks[2].bag),
+      }
+    : null;
+  return {
+    counts,
+    shortfall,
+    affordable: totalCount(shortfall) === 0,
+    path,
+    uses: mix?.uses ?? [],
+    tree,
+  };
+}
+
 export function rankMixes(
   catalog: Catalog,
   creatureId: string,
@@ -708,9 +977,19 @@ export function rankMixes(
     const creature = catalog.creatures.find((item) => item.id === id);
     return creature !== undefined && creature.tier > 1;
   });
-  const collapsed = adviseStarters(paths, ownCounts, have);
-  if (usable.length === 0) return collapsed;
-  if (usable.length <= 4) return rankFromSignatures(catalog, creatureId, collapsed, have, usable);
+  const pairPaths = paths.filter((path) => !path.parentC);
+  const tripleOptions = paths
+    .filter((path) => path.parentC)
+    .map((path) => tripleOption(catalog, creatureId, path, have, usable));
+  if (pairPaths.length === 0) return tripleOptions.sort((a, b) => compareOptions(a, b, have));
+  const collapsed = adviseStarters(pairPaths, ownCounts, have);
+  const pairOptions =
+    usable.length === 0
+      ? collapsed
+      : usable.length <= 4
+        ? rankFromSignatures(catalog, creatureId, collapsed, have, usable)
+        : null;
+  if (pairOptions) return [...pairOptions, ...tripleOptions].sort((a, b) => compareOptions(a, b, have));
   const prefer = new Set(usable);
   const cache = treeCacheFor(catalog, prefer);
   const pricedTrees = new Map<string, PricedTree>();
@@ -738,12 +1017,12 @@ export function rankMixes(
       tree: priced.step,
     };
   });
-  return options.sort((a, b) => compareOptions(a, b, have));
+  return [...options, ...tripleOptions].sort((a, b) => compareOptions(a, b, have));
 }
 
 export type MergeAttempt =
   | { ok: true; resultId: string }
-  | { ok: false; reason: "same-tier" | "max-tier" | "unknown" };
+  | { ok: false; reason: "same-tier" | "max-tier" | "needs-third" | "unknown" };
 
 export function attemptMerge(
   catalog: Catalog,
@@ -755,7 +1034,28 @@ export function attemptMerge(
   const b = map.get(bId);
   if (!a || !b || a.tier !== b.tier) return { ok: false, reason: "same-tier" };
   if (a.tier >= 10) return { ok: false, reason: "max-tier" };
+  if (a.tier >= 7) return { ok: false, reason: "needs-third" };
   const recipe = findRecipe(catalog.recipes, aId, bId);
+  if (!recipe) return { ok: false, reason: "unknown" };
+  return { ok: true, resultId: recipe.resultId };
+}
+
+export function attemptTriple(
+  catalog: Catalog,
+  aId: string,
+  bId: string,
+  cId: string,
+): MergeAttempt {
+  const map = creatureMap(catalog.creatures);
+  const a = map.get(aId);
+  const b = map.get(bId);
+  const c = map.get(cId);
+  if (!a || !b || !c || a.tier !== b.tier || a.tier !== c.tier) {
+    return { ok: false, reason: "same-tier" };
+  }
+  if (a.tier >= 10) return { ok: false, reason: "max-tier" };
+  if (a.tier < 7) return { ok: false, reason: "unknown" };
+  const recipe = findTrio(catalog.recipes, aId, bId, cId);
   if (!recipe) return { ok: false, reason: "unknown" };
   return { ok: true, resultId: recipe.resultId };
 }
@@ -776,7 +1076,8 @@ function dependsOn(
   return recipes.some(
     (recipe) =>
       dependsOn(catalog, recipe.parentA, target, ignoreRecipeId, seen) ||
-      dependsOn(catalog, recipe.parentB, target, ignoreRecipeId, seen),
+      dependsOn(catalog, recipe.parentB, target, ignoreRecipeId, seen) ||
+      (recipe.parentC ? dependsOn(catalog, recipe.parentC, target, ignoreRecipeId, seen) : false),
   );
 }
 
@@ -786,32 +1087,49 @@ export function validateRecipe(
   parentB: string,
   resultId: string,
   ignoreRecipeId?: string,
+  parentC?: string,
 ): string | null {
   const map = creatureMap(catalog.creatures);
   const a = map.get(parentA);
   const b = map.get(parentB);
+  const c = parentC ? map.get(parentC) : undefined;
   const result = map.get(resultId);
-  if (!a || !b || !result) return "Pick creatures that are in the list.";
-  if (a.tier !== b.tier) {
-    return "Those two are different tiers. A merge needs the same tier.";
+  if (!a || !b || !result || (parentC && !c)) return "Pick creatures that are in the list.";
+  if (a.tier !== b.tier || (c && c.tier !== a.tier)) {
+    return "Those creatures are different tiers. A merge needs the same tier.";
   }
   if (a.tier >= 10) {
     return "Tier 10 creatures have no higher tier to merge into.";
   }
+  if (a.tier >= 7 && !parentC) {
+    return "Tier 7, 8, and 9 merges need a third creature.";
+  }
+  if (a.tier < 7 && parentC) {
+    return "Tiers 1 through 6 merge two creatures.";
+  }
   if (result.tier !== a.tier + 1) {
     return `The result has to be tier ${a.tier + 1}.`;
   }
-  const existing = catalog.recipes.find(
-    (recipe) =>
-      recipe.id !== ignoreRecipeId &&
-      pairKey(recipe.parentA, recipe.parentB) === pairKey(parentA, parentB),
-  );
+  const existing = parentC
+    ? catalog.recipes.find(
+        (recipe) =>
+          recipe.id !== ignoreRecipeId &&
+          recipe.parentC !== undefined &&
+          trioKey(recipe.parentA, recipe.parentB, recipe.parentC) === trioKey(parentA, parentB, parentC),
+      )
+    : catalog.recipes.find(
+        (recipe) =>
+          recipe.id !== ignoreRecipeId &&
+          !recipe.parentC &&
+          pairKey(recipe.parentA, recipe.parentB) === pairKey(parentA, parentB),
+      );
   if (existing) {
-    return `That pair already makes ${creatureName(catalog, existing.resultId)}.`;
+    return `That combo already makes ${creatureName(catalog, existing.resultId)}.`;
   }
   if (
     dependsOn(catalog, parentA, resultId, ignoreRecipeId, new Set()) ||
-    dependsOn(catalog, parentB, resultId, ignoreRecipeId, new Set())
+    dependsOn(catalog, parentB, resultId, ignoreRecipeId, new Set()) ||
+    (parentC ? dependsOn(catalog, parentC, resultId, ignoreRecipeId, new Set()) : false)
   ) {
     return "That combo loops back on itself.";
   }
@@ -861,16 +1179,21 @@ export function validateTierChange(
   if (nameError) return nameError;
   for (const recipe of catalog.recipes) {
     const involved =
-      recipe.parentA === id || recipe.parentB === id || recipe.resultId === id;
+      recipe.parentA === id ||
+      recipe.parentB === id ||
+      recipe.parentC === id ||
+      recipe.resultId === id;
     if (!involved) continue;
     const parentA = map.get(recipe.parentA);
     const parentB = map.get(recipe.parentB);
+    const parentC = recipe.parentC ? map.get(recipe.parentC) : undefined;
     const result = map.get(recipe.resultId);
-    if (!parentA || !parentB || !result) continue;
+    if (!parentA || !parentB || !result || (recipe.parentC && !parentC)) continue;
     const tierA = recipe.parentA === id ? nextTier : parentA.tier;
     const tierB = recipe.parentB === id ? nextTier : parentB.tier;
+    const tierC = recipe.parentC ? (recipe.parentC === id ? nextTier : parentC?.tier) : tierA;
     const tierResult = recipe.resultId === id ? nextTier : result.tier;
-    if (tierA !== tierB) {
+    if (tierA !== tierB || tierC !== tierA) {
       return "Changing that tier would put its combo parents on different tiers.";
     }
     if (tierResult !== tierA + 1) {
@@ -884,6 +1207,7 @@ export type PathCounts = {
   recipeId: string;
   parentA: string;
   parentB: string;
+  parentC?: string;
   counts: StarterCounts;
 };
 
@@ -904,7 +1228,7 @@ function countKey(counts: StarterCounts): string {
   return `${counts.chick}:${counts.bunny}:${counts.cat}`;
 }
 
-const PACK = 1024;
+const PACK = 4096;
 const PACK2 = PACK * PACK;
 
 function packCounts(counts: StarterCounts): number {
@@ -979,18 +1303,28 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     const counts: number[] = [];
     let failure: CountPack | null = null;
     for (const recipe of recipes) {
-      const left = parentCounts(recipe.parentA, [...stack, id]);
-      if (!left.ok) {
-        failure ??= left;
+      const slots = [recipe.parentA, recipe.parentB, ...(recipe.parentC ? [recipe.parentC] : [])];
+      const parts: number[][] = [];
+      let failed = false;
+      for (const slot of slots) {
+        const part = parentCounts(slot, [...stack, id]);
+        if (!part.ok) {
+          failure ??= part;
+          failed = true;
+          break;
+        }
+        parts.push(part.counts);
+      }
+      if (failed || parts.some((part) => part.length === 0)) continue;
+      if (parts.length === 3) {
+        const combined = parts[0][0] + parts[1][0] + parts[2][0];
+        if (seen.has(combined)) continue;
+        seen.add(combined);
+        counts.push(combined);
         continue;
       }
-      const right = parentCounts(recipe.parentB, [...stack, id]);
-      if (!right.ok) {
-        failure ??= right;
-        continue;
-      }
-      for (const parentLeft of left.counts) {
-        for (const parentRight of right.counts) {
+      for (const parentLeft of parts[0]) {
+        for (const parentRight of parts[1]) {
           const combined = parentLeft + parentRight;
           if (seen.has(combined)) continue;
           seen.add(combined);
@@ -1030,6 +1364,24 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     const right = parentCounts(recipe.parentB, [creatureId]);
     if (!right.ok) {
       failure ??= right;
+      continue;
+    }
+    if (recipe.parentC) {
+      const third = parentCounts(recipe.parentC, [creatureId]);
+      if (!third.ok) {
+        failure ??= third;
+        continue;
+      }
+      if (left.counts[0] === undefined || right.counts[0] === undefined || third.counts[0] === undefined) {
+        continue;
+      }
+      paths.push({
+        recipeId: recipe.id,
+        parentA: recipe.parentA,
+        parentB: recipe.parentB,
+        parentC: recipe.parentC,
+        counts: unpackCounts(left.counts[0] + right.counts[0] + third.counts[0]),
+      });
       continue;
     }
     const seen = new Set<number>();

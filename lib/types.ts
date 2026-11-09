@@ -13,8 +13,9 @@ export type CreaturePatch = {
 export type Recipe = {
   id: string;
   parentA: string;
-  resultId: string;
   parentB: string;
+  parentC?: string;
+  resultId: string;
 };
 
 export type Catalog = {

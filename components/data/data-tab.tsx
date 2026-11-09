@@ -50,6 +50,7 @@ export function DataTab() {
   const [creatureError, setCreatureError] = useState<string | null>(null);
   const [parentA, setParentA] = useState("");
   const [parentB, setParentB] = useState("");
+  const [parentC, setParentC] = useState("");
   const [resultChoice, setResultChoice] = useState("");
   const [resultName, setResultName] = useState("");
   const [comboError, setComboError] = useState<string | null>(null);
@@ -62,6 +63,7 @@ export function DataTab() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const parent = creatures.find((creature) => creature.id === parentA);
+  const needsThird = (parent?.tier ?? 0) >= 7;
   const partners = parent
     ? creatures.filter((creature) => creature.tier === parent.tier)
     : [];
@@ -90,6 +92,10 @@ export function DataTab() {
       setComboError("Pick the second creature.");
       return;
     }
+    if (needsThird && !parentC) {
+      setComboError("Pick the third creature.");
+      return;
+    }
     let resultId = resultChoice;
     if (resultChoice === NEW_RESULT || !resultChoice) {
       const cleaned = normalizeName(resultName);
@@ -111,7 +117,12 @@ export function DataTab() {
         resultId = created.value.id;
       }
     }
-    const saved = catalogApi.addRecipe(parentA, parentB, resultId);
+    const saved = catalogApi.addRecipe(
+      parentA,
+      parentB,
+      resultId,
+      needsThird ? parentC : undefined,
+    );
     if (!saved.ok) {
       setComboError(saved.error);
       return;
@@ -173,6 +184,7 @@ export function DataTab() {
         (recipe) =>
           recipe.parentA === pendingDelete.id ||
           recipe.parentB === pendingDelete.id ||
+          recipe.parentC === pendingDelete.id ||
           recipe.resultId === pendingDelete.id,
       ).length
     : 0;
@@ -212,7 +224,7 @@ export function DataTab() {
       <form onSubmit={addCombo} className="space-y-3 rounded-2xl border bg-card p-4">
         <h2 className="font-heading text-lg">Add a combo</h2>
         <p className="text-sm text-muted-foreground">
-          Both parents have to share a tier. The result is the next tier.
+          Parents have to share a tier. Tier 7, 8, and 9 need three. The result is the next tier.
         </p>
         <div className="space-y-1">
           <Label>First creature</Label>
@@ -222,6 +234,7 @@ export function DataTab() {
               if (!value) return;
               setParentA(value);
               setParentB("");
+              setParentC("");
               setResultChoice("");
             }}
           >
@@ -256,6 +269,23 @@ export function DataTab() {
             </SelectContent>
           </Select>
         </div>
+        {needsThird ? (
+          <div className="space-y-1">
+            <Label>Third creature</Label>
+            <Select value={parentC} onValueChange={(value) => value && setParentC(value)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Same tier" />
+              </SelectTrigger>
+              <SelectContent>
+                {partners.map((creature) => (
+                  <SelectItem key={`third-${creature.id}`} value={creature.id}>
+                    {creature.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        ) : null}
         <div className="space-y-1">
           <Label>Result</Label>
           <Select
@@ -428,7 +458,8 @@ export function DataTab() {
                 className="flex flex-wrap items-center justify-between gap-2 rounded-lg border px-3 py-2"
               >
                 <span>
-                  {creatureName(catalog, recipe.parentA)} + {creatureName(catalog, recipe.parentB)} ={" "}
+                  {creatureName(catalog, recipe.parentA)} + {creatureName(catalog, recipe.parentB)}
+                  {recipe.parentC ? ` + ${creatureName(catalog, recipe.parentC)}` : ""} ={" "}
                   <strong>{creatureName(catalog, recipe.resultId)}</strong>
                 </span>
                 <Button

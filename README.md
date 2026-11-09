@@ -6,11 +6,11 @@ This is not the game, and it is not an official guide. The creature list and com
 
 ## Rules the board keeps
 
-- Only two creatures of the same tier can combine.
-- Every creature in a tier can combine with every creature in that tier, including two of the same creature.
+- Only creatures of the same tier can combine. Tiers 1 through 6 use two creatures. Tiers 7, 8, and 9 use three: drop two, then drop the third when the board says to add it.
+- Every creature in tiers 1 through 6 can combine with every creature in that tier, including two of the same creature.
 - The result is the next tier.
-- Chick, Bunny, and Cat are the only tier 1 creatures. The counts above the board are how many of those you have. The plus adds a higher-tier creature you already own so the best mix can use it, and the trash icon clears every added creature.
-- A pair is the same combo in either order. Two of the same creature is allowed.
+- Chick, Bunny, and Cat are the only tier 1 creatures. The counts above the board are how many of those you have. The plus adds a higher-tier creature you already own so the best mix can use it. Click one of those bubbles to remove a single copy, and the trash icon clears every added creature.
+- A pair is the same combo in either order, and a trio is the same combo in any order. Two or three of the same creature is allowed.
 - A combo cannot loop back into itself.
 
 If you drop a pair that is not saved yet, the board says **New Creature ?** and you can name the result. That writes the creature and the combo.

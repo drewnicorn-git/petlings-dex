@@ -27,6 +27,7 @@ import {
 import { pickMergeTarget, type DropBox, type HitBox } from "@/lib/hit";
 import {
   attemptMerge,
+  attemptTriple,
   buildTree,
   creatureName,
   disassemble,
@@ -147,11 +148,27 @@ type Drag =
 type Mystery = {
   parentA: string;
   parentB: string;
+  parentC?: string;
   tokenA: string;
   tokenB: string;
+  tokenC?: string;
   x: number;
   y: number;
 };
+
+type Waiting = {
+  tokenA: string;
+  tokenB: string;
+  parentA: string;
+  parentB: string;
+  tier: number;
+  x: number;
+  y: number;
+};
+
+function comboNames(catalog: Parameters<typeof creatureName>[0], ids: Array<string | undefined>): string {
+  return ids.filter((id): id is string => Boolean(id)).map((id) => creatureName(catalog, id)).join(" + ");
+}
 
 function newTokenId(): string {
   return `token-${crypto.randomUUID().slice(0, 8)}`;
@@ -207,11 +224,12 @@ function BuildBranch({
     <div>
       <p className="text-xs font-semibold">{name}</p>
       <p className="text-xs text-muted-foreground">
-        {creatureName(catalog, step.left.creatureId)} + {creatureName(catalog, step.right.creatureId)}
+        {comboNames(catalog, [step.left.creatureId, step.right.creatureId, step.third?.creatureId])}
       </p>
       <div className="mt-1 ml-3 space-y-1 border-l border-foreground/15 pl-2">
         <BuildBranch step={step.left} catalog={catalog} />
         <BuildBranch step={step.right} catalog={catalog} />
+        {step.third ? <BuildBranch step={step.third} catalog={catalog} /> : null}
       </div>
     </div>
   );
@@ -327,7 +345,7 @@ function BreakdownView({
           </p>
           {best.path ? (
             <p className="text-xs break-words">
-              via {creatureName(catalog, best.path.parentA)} + {creatureName(catalog, best.path.parentB)}
+              via {comboNames(catalog, [best.path.parentA, best.path.parentB, best.path.parentC])}
             </p>
           ) : (
             <p className="text-xs">This is a starter.</p>
@@ -352,7 +370,7 @@ function BreakdownView({
             <DialogTitle>Build {creature.name}</DialogTitle>
             <DialogDescription>
               {best?.path
-                ? `${creatureName(catalog, best.path.parentA)} + ${creatureName(catalog, best.path.parentB)}${
+                ? `${comboNames(catalog, [best.path.parentA, best.path.parentB, best.path.parentC])}${
                     best.uses.length > 0
                       ? ". Pieces you already have stay closed."
                       : ", followed all the way to Chick, Bunny, and Cat."
@@ -380,8 +398,7 @@ function BreakdownView({
               className={`mt-2 ${option.affordable ? "" : "opacity-60"}`}
             >
               <p className="text-xs break-words">
-                via {creatureName(catalog, option.path.parentA)} +{" "}
-                {creatureName(catalog, option.path.parentB)}
+                via {comboNames(catalog, [option.path.parentA, option.path.parentB, option.path.parentC])}
               </p>
               <p className="text-[10px] font-semibold tracking-wide uppercase">
                 {option.affordable ? "Possible" : `Needs ${shortfallText(option)}`}
@@ -415,6 +432,10 @@ export function MergeBoard() {
   const [gapHot, setGapHot] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [mystery, setMystery] = useState<Mystery | null>(null);
+  const [waiting, setWaiting] = useState<Waiting | null>(null);
+  const waitingRef = useRef<Waiting | null>(null);
+  const waitingCardRef = useRef<HTMLDivElement>(null);
+  waitingRef.current = waiting;
   const [focusId, setFocusId] = useState<string | null>(null);
   const [gapId, setGapId] = useState<string | null>(null);
   const [stock, setStock] = useState<StarterCounts>({ chick: 0, bunny: 0, cat: 0 });
@@ -596,6 +617,16 @@ export function MergeBoard() {
       const dock = dockRef.current;
       const gap = gapRef.current;
       if (!board) return;
+      const pending = waitingRef.current;
+      const waitingCard = waitingCardRef.current;
+      if (pending && waitingCard && pointIn(waitingCard.getBoundingClientRect(), event.clientX, event.clientY)) {
+        const target = tokensRef.current.find((token) => token.id === pending.tokenA);
+        if (target) {
+          if (drag.kind === "palette") combine(drag.creatureId, null, target, event.clientX, event.clientY);
+          else combine(drag.creatureId, drag, target, event.clientX, event.clientY);
+          return;
+        }
+      }
       const overGap = !!gap && pointIn(gap.getBoundingClientRect(), event.clientX, event.clientY);
       const overDock = !!dock && pointIn(dock.getBoundingClientRect(), event.clientX, event.clientY);
       const overBoard = pointIn(board.getBoundingClientRect(), event.clientX, event.clientY);
@@ -650,7 +681,81 @@ export function MergeBoard() {
     ) {
       const board = boardRef.current;
       if (!board) return;
-      const attempt = attemptMerge(apiRef.current.catalog, incomingId, target.creatureId);
+      const catalogNow = apiRef.current.catalog;
+      const incoming = catalogNow.creatures.find((creature) => creature.id === incomingId);
+      const targetCreature = catalogNow.creatures.find((creature) => creature.id === target.creatureId);
+      if (!incoming || !targetCreature) return;
+      if (incoming.tier !== targetCreature.tier) {
+        flash("Same tier only");
+        if (drag) snapBack(drag);
+        return;
+      }
+      if (incoming.tier >= 10) {
+        flash("Tier 10 is the top. Those two can't merge higher.");
+        if (drag) snapBack(drag);
+        return;
+      }
+      if (incoming.tier >= 7) {
+        const pending = waitingRef.current;
+        const incomingToken = drag?.tokenId;
+        const isThird =
+          pending !== null &&
+          incoming.tier === pending.tier &&
+          (target.id === pending.tokenA || target.id === pending.tokenB) &&
+          incomingToken !== pending.tokenA &&
+          incomingToken !== pending.tokenB;
+        if (isThird && pending) {
+          if (drag) snapBack(drag);
+          let tokenC = incomingToken;
+          if (!tokenC) {
+            const pos = clampToken(board, target.x + TOKEN_W + 12, target.y);
+            tokenC = place(incomingId, pos.x, pos.y);
+          }
+          const attempt = attemptTriple(catalogNow, pending.parentA, pending.parentB, incomingId);
+          if (attempt.ok) {
+            finishMerge(
+              attempt.resultId,
+              [pending.tokenA, pending.tokenB, tokenC],
+              target.x,
+              target.y,
+            );
+            setWaiting(null);
+            return;
+          }
+          const local = localPoint(board, clientX, clientY);
+          setWaiting(null);
+          setMystery({
+            parentA: pending.parentA,
+            parentB: pending.parentB,
+            parentC: incomingId,
+            tokenA: pending.tokenA,
+            tokenB: pending.tokenB,
+            tokenC,
+            x: local.x,
+            y: local.y,
+          });
+          return;
+        }
+        if (drag) snapBack(drag);
+        let tokenA = incomingToken;
+        if (!tokenA) {
+          const pos = clampToken(board, target.x + TOKEN_W + 12, target.y);
+          tokenA = place(incomingId, pos.x, pos.y);
+        }
+        const local = localPoint(board, clientX, clientY);
+        setMystery(null);
+        setWaiting({
+          tokenA,
+          tokenB: target.id,
+          parentA: incomingId,
+          parentB: target.creatureId,
+          tier: incoming.tier,
+          x: local.x,
+          y: local.y,
+        });
+        return;
+      }
+      const attempt = attemptMerge(catalogNow, incomingId, target.creatureId);
       if (!attempt.ok && attempt.reason === "same-tier") {
         flash("Same tier only");
         if (drag) snapBack(drag);
@@ -663,6 +768,7 @@ export function MergeBoard() {
       }
       if (attempt.ok) {
         finishMerge(attempt.resultId, [target.id, drag?.tokenId ?? ""], target.x, target.y);
+        setWaiting(null);
         return;
       }
       let tokenA = drag?.tokenId;
@@ -672,6 +778,7 @@ export function MergeBoard() {
         tokenA = place(incomingId, pos.x, pos.y);
       }
       const local = localPoint(board, clientX, clientY);
+      setWaiting(null);
       setMystery({
         parentA: incomingId,
         parentB: target.creatureId,
@@ -695,8 +802,20 @@ export function MergeBoard() {
   useEffect(() => {
     if (!mystery) return;
     const ids = new Set(tokens.map((token) => token.id));
-    if (!ids.has(mystery.tokenA) || !ids.has(mystery.tokenB)) setMystery(null);
+    if (
+      !ids.has(mystery.tokenA) ||
+      !ids.has(mystery.tokenB) ||
+      (mystery.tokenC !== undefined && !ids.has(mystery.tokenC))
+    ) {
+      setMystery(null);
+    }
   }, [mystery, tokens]);
+
+  useEffect(() => {
+    if (!waiting) return;
+    const ids = new Set(tokens.map((token) => token.id));
+    if (!ids.has(waiting.tokenA) || !ids.has(waiting.tokenB)) setWaiting(null);
+  }, [waiting, tokens]);
 
   function startPaletteDrag(event: React.PointerEvent<HTMLButtonElement>, creatureId: string) {
     if (event.button !== 0) return;
@@ -746,7 +865,7 @@ export function MergeBoard() {
       resultId = created.value.id;
     }
     if (!resultId) return;
-    const saved = api.addRecipe(mystery.parentA, mystery.parentB, resultId);
+    const saved = api.addRecipe(mystery.parentA, mystery.parentB, resultId, mystery.parentC);
     if (!saved.ok) {
       setNameError(saved.error);
       return;
@@ -754,7 +873,12 @@ export function MergeBoard() {
     const anchor =
       tokens.find((token) => token.id === mystery.tokenB) ??
       tokens.find((token) => token.id === mystery.tokenA);
-    finishMerge(resultId, [mystery.tokenA, mystery.tokenB], anchor?.x ?? 24, anchor?.y ?? 24);
+    finishMerge(
+      resultId,
+      [mystery.tokenA, mystery.tokenB, ...(mystery.tokenC ? [mystery.tokenC] : [])],
+      anchor?.x ?? 24,
+      anchor?.y ?? 24,
+    );
     setNameOpen(false);
     setDraftName("");
     setNameError(null);
@@ -766,8 +890,8 @@ export function MergeBoard() {
     ? catalog.creatures.find((creature) => creature.id === ghost.creatureId)
     : null;
   const mysteryParents = mystery
-    ? [creatureName(catalog, mystery.parentA), creatureName(catalog, mystery.parentB)]
-    : [];
+    ? comboNames(catalog, [mystery.parentA, mystery.parentB, mystery.parentC])
+    : "";
 
   const gapCreature = gapId ? catalog.creatures.find((creature) => creature.id === gapId) : null;
   const gaps = gapCreature ? missingPartners(catalog, gapCreature.id) : [];
@@ -776,6 +900,7 @@ export function MergeBoard() {
     dragRef.current = null;
     setGhost(null);
     setMystery(null);
+    setWaiting(null);
     setTokens([]);
   }
 
@@ -835,14 +960,23 @@ export function MergeBoard() {
           {ownedTally(owned, catalog.creatures).map((chip) => {
             const colors = tierStyle(chip.tier);
             return (
-              <span
+              <button
                 key={chip.id}
+                type="button"
                 className="mb-0.5 inline-flex h-8 items-center rounded-full px-2 text-xs font-semibold"
                 style={{ backgroundColor: colors.bg, color: colors.fg }}
+                aria-label={`Remove one ${chip.name}`}
+                onClick={() =>
+                  setOwned((current) => {
+                    const index = current.lastIndexOf(chip.id);
+                    if (index < 0) return current;
+                    return current.filter((_, item) => item !== index);
+                  })
+                }
               >
                 {chip.name}
                 {chip.count > 1 ? ` × ${chip.count}` : ""}
-              </span>
+              </button>
             );
           })}
           <button
@@ -871,7 +1005,7 @@ export function MergeBoard() {
       >
         {tokens.length === 0 ? (
           <p className="pointer-events-none absolute top-6 left-6 max-w-xs text-sm text-muted-foreground">
-            Drag a creature here, then drop it on another of the same tier.
+            Drag a creature here, then drop it on another of the same tier. Tier 7 and up need a third.
           </p>
         ) : null}
         {notice ? (
@@ -914,7 +1048,13 @@ export function MergeBoard() {
                 onPointerDown={(event) => startTokenDrag(event, token)}
                 onDragStart={(event) => event.preventDefault()}
               >
-                <span className="rounded-2xl bg-background p-1 shadow-sm ring-1 ring-foreground/10">
+                <span
+                  className={`rounded-2xl bg-background p-1 shadow-sm ring-1 ring-foreground/10 ${
+                    waiting && (waiting.tokenA === token.id || waiting.tokenB === token.id)
+                      ? "ring-2 ring-primary"
+                      : ""
+                  }`}
+                >
                   <CreatureArt name={creature.name} id={creature.id} className="h-16 w-16" />
                 </span>
                 <span className="mt-1 max-w-full truncate text-center text-xs font-semibold">
@@ -930,6 +1070,25 @@ export function MergeBoard() {
             </div>
           );
         })}
+        {waiting ? (
+          <div
+            ref={waitingCardRef}
+            className="absolute z-30 w-52 rounded-2xl border bg-popover p-3 shadow-lg"
+            style={{
+              left: Math.max(8, Math.min(waiting.x, (boardRef.current?.clientWidth ?? 280) - 220)),
+              top: Math.max(12, waiting.y - 88),
+            }}
+          >
+            <p className="font-heading text-base">Add a 3rd Creature</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Drop another tier {waiting.tier} creature onto {creatureName(catalog, waiting.parentA)}{" "}
+              or {creatureName(catalog, waiting.parentB)}.
+            </p>
+            <Button type="button" size="sm" variant="outline" className="mt-2" onClick={() => setWaiting(null)}>
+              Dismiss
+            </Button>
+          </div>
+        ) : null}
         {mystery ? (
           <div
             className="absolute z-30 w-52 rounded-2xl border bg-popover p-3 shadow-lg"
@@ -943,7 +1102,7 @@ export function MergeBoard() {
           >
             <p className="font-heading text-base">New Creature ?</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              {mysteryParents[0]} and {mysteryParents[1]} don&apos;t have a saved combo.
+              {mysteryParents} don&apos;t have a saved combo.
             </p>
             <div className="mt-2 flex gap-2">
               <Button
@@ -978,6 +1137,11 @@ export function MergeBoard() {
                   {gapCreature.tier >= 10 ? (
                     <p className="mt-1 text-xs text-muted-foreground">
                       Tier 10 is the top, so nothing in that tier combines further.
+                    </p>
+                  ) : gapCreature.tier >= 7 ? (
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Tier {gapCreature.tier} combines three at a time. Drop two of them together, then
+                      add a third.
                     </p>
                   ) : gaps.length === 0 ? (
                     <p className="mt-1 text-xs text-muted-foreground">
@@ -1053,7 +1217,7 @@ export function MergeBoard() {
             <DialogTitle>Name the new creature</DialogTitle>
             <DialogDescription>
               {mystery
-                ? `${mysteryParents[0]} + ${mysteryParents[1]} will be saved as a tier ${
+                ? `${mysteryParents} will be saved as a tier ${
                     (catalog.creatures.find((creature) => creature.id === mystery.parentA)?.tier ?? 1) + 1
                   } result.`
                 : "Save this combo."}

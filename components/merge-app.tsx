@@ -38,8 +38,8 @@ export function MergeApp() {
           <h1 className="font-heading text-3xl">Merge Board</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
             Drag two creatures of the same tier together. A saved combo becomes the next
-            creature. Drop one in a corner to count the Chick, Bunny, and Cat it takes, or to
-            see which same-tier partners are still missing.
+            creature. Tier 7, 8, and 9 wait for a third creature. Drop one in a corner to count
+            the Chick, Bunny, and Cat it takes, or to see which same-tier partners are still missing.
           </p>
           <TierProgress />
         </header>

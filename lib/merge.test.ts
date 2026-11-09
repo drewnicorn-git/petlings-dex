@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   adviseStarters,
   attemptMerge,
+  attemptTriple,
   buildTree,
   disassemble,
   priceTree,
@@ -240,8 +241,12 @@ describe("missingPartners", () => {
       const sameTier = seedCatalog.creatures.filter((other) => other.tier === creature.tier);
       for (const other of sameTier) {
         const attempt = attemptMerge(seedCatalog, creature.id, other.id);
-        if (creature.tier >= 10) {
+        if (creature.tier >= 7) {
           expect(missing.has(other.id)).toBe(false);
+          expect(attempt).toEqual({
+            ok: false,
+            reason: creature.tier >= 10 ? "max-tier" : "needs-third",
+          });
           continue;
         }
         if (missing.has(other.id)) {
@@ -287,6 +292,67 @@ describe("attemptMerge", () => {
       ok: false,
       reason: "unknown",
     });
+  });
+
+  it("asks for a third creature at tier 7 and saves that trio in any order", () => {
+    expect(attemptMerge(seedCatalog, "hydra", "phoenix")).toEqual({
+      ok: false,
+      reason: "needs-third",
+    });
+    const board = catalog();
+    board.creatures.push({ id: "colossus", name: "Colossus", tier: 8 });
+    board.recipes.push({
+      id: "hydra-phoenix-dragon",
+      parentA: "phoenix",
+      parentB: "dragon",
+      parentC: "hydra",
+      resultId: "colossus",
+    });
+    expect(attemptTriple(board, "hydra", "phoenix", "dragon")).toEqual({
+      ok: true,
+      resultId: "colossus",
+    });
+    expect(validateRecipe(board, "hydra", "phoenix", "colossus", undefined, "dragon")).toMatch(/already/);
+    expect(validateRecipe(board, "hydra", "phoenix", "colossus")).toMatch(/third/);
+  });
+
+  it("counts a tier 8 as the three parents that make it", () => {
+    const board = catalog();
+    board.creatures.push(
+      { id: "red", name: "Red", tier: 7 },
+      { id: "green", name: "Green", tier: 7 },
+      { id: "blue", name: "Blue", tier: 7 },
+      { id: "prism", name: "Prism", tier: 8 },
+    );
+    board.recipes.push(
+      { id: "duck-duck-red", parentA: "duck", parentB: "duck", resultId: "red" },
+      { id: "bunny-bunny-red", parentA: "bunny", parentB: "bunny", resultId: "red" },
+      { id: "cat-cat-green", parentA: "cat", parentB: "cat", resultId: "green" },
+      { id: "bunny-bunny-blue", parentA: "bunny", parentB: "bunny", resultId: "blue" },
+      {
+        id: "rgb-prism",
+        parentA: "red",
+        parentB: "green",
+        parentC: "blue",
+        resultId: "prism",
+      },
+    );
+    const prism = disassemble("prism", board);
+    expect(prism.status).toBe("ok");
+    if (prism.status !== "ok") return;
+    const ranked = rankMixes(board, "prism", prism.paths, prism.counts, {
+      chick: 10,
+      bunny: 0,
+      cat: 0,
+    }, []);
+    expect(ranked[0]?.path?.parentC).toBe("blue");
+    expect(ranked[0]?.counts).toEqual({ chick: 4, bunny: 2, cat: 2 });
+    const bunnies = rankMixes(board, "prism", prism.paths, prism.counts, {
+      chick: 0,
+      bunny: 10,
+      cat: 0,
+    }, []);
+    expect(bunnies[0]?.counts).toEqual({ chick: 0, bunny: 4, cat: 2 });
   });
 
   it("refuses a tier 10 merge", () => {
