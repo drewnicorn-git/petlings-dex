@@ -1,3 +1,5 @@
+import type { FarmId } from "@/lib/farms";
+
 export type TierStyle = {
   tier: number;
   bg: string;
@@ -42,7 +44,26 @@ export const TIER_TOTALS: Record<number, number> = {
   10: 16,
 };
 
-export const COLLECTION_TOTAL = TIERS.reduce(
-  (sum, tier) => sum + (TIER_TOTALS[tier.tier] ?? 0),
-  0,
-);
+export const SEA_TIER_TOTALS: Record<number, number> = {
+  1: 3,
+  2: 6,
+  3: 15,
+  4: 19,
+  5: 19,
+  6: 17,
+  7: 15,
+  8: 13,
+  9: 11,
+  10: 9,
+};
+
+export function tierTotals(farm: FarmId): Record<number, number> {
+  return farm === "sea" ? SEA_TIER_TOTALS : TIER_TOTALS;
+}
+
+export function collectionTotal(farm: FarmId): number {
+  const totals = tierTotals(farm);
+  return TIERS.reduce((sum, tier) => sum + (totals[tier.tier] ?? 0), 0);
+}
+
+export const COLLECTION_TOTAL = collectionTotal("land");

@@ -18,7 +18,7 @@ import {
   validateTierChange,
 } from "@/lib/merge";
 import { seedCatalog } from "@/lib/seed";
-import { COLLECTION_TOTAL, TIER_TOTALS } from "@/lib/tiers";
+import { COLLECTION_TOTAL, collectionTotal, SEA_TIER_TOTALS, TIER_TOTALS } from "@/lib/tiers";
 import type { Catalog, StarterCounts } from "@/lib/types";
 
 function catalog(): Catalog {
@@ -64,6 +64,19 @@ describe("collection totals", () => {
       10: 16,
     });
     expect(COLLECTION_TOTAL).toBe(184);
+    expect(SEA_TIER_TOTALS).toEqual({
+      1: 3,
+      2: 6,
+      3: 15,
+      4: 19,
+      5: 19,
+      6: 17,
+      7: 15,
+      8: 13,
+      9: 11,
+      10: 9,
+    });
+    expect(collectionTotal("sea")).toBe(127);
   });
 });
 

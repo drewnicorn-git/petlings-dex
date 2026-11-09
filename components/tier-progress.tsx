@@ -1,12 +1,13 @@
 "use client";
 
 import { useCatalog } from "@/components/catalog-context";
-import { COLLECTION_TOTAL, TIERS, TIER_TOTALS } from "@/lib/tiers";
+import { collectionTotal, TIERS, tierTotals } from "@/lib/tiers";
 
 export function TierProgress() {
-  const { ready, catalog } = useCatalog();
+  const { ready, catalog, farm } = useCatalog();
   if (!ready) return null;
 
+  const totals = tierTotals(farm);
   const unlockedByTier = new Map<number, number>();
   for (const creature of catalog.creatures) {
     unlockedByTier.set(creature.tier, (unlockedByTier.get(creature.tier) ?? 0) + 1);
@@ -16,12 +17,12 @@ export function TierProgress() {
   return (
     <section className="mt-4" aria-label="Unlocked creatures by tier">
       <p className="text-sm font-semibold">
-        {unlocked} / {COLLECTION_TOTAL} unlocked
+        {unlocked} / {collectionTotal(farm)} unlocked
       </p>
       <ul className="mt-2 flex gap-2 overflow-x-auto pb-1">
         {TIERS.map((tier) => {
           const have = unlockedByTier.get(tier.tier) ?? 0;
-          const total = TIER_TOTALS[tier.tier] ?? 0;
+          const total = totals[tier.tier] ?? 0;
           const width = total === 0 ? 0 : Math.min(100, Math.round((have / total) * 100));
           return (
             <li
