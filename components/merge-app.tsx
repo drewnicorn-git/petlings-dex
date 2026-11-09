@@ -51,7 +51,8 @@ export function MergeApp() {
           <h1 className="font-heading text-3xl">Merge Board</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
             Drag two creatures of the same tier together. A saved combo becomes the next
-            creature. Tier 7, 8, and 9 wait for a third creature. Land Farm counts Chick, Bunny,
+            creature. Tier 7, 8, and 9 click together into a pair, then take a third. Drop that pair
+            on missing combos to see which third creature is still open. Land Farm counts Chick, Bunny,
             and Cat. Sea Farm counts Clownfish, Seahorse, and Crab. Switching farms keeps each
             board&apos;s materials, missing combinations, and disassembly separate.
           </p>

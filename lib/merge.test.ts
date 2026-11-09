@@ -11,6 +11,7 @@ import {
   findRecipe,
   isStarter,
   missingPartners,
+  missingThirds,
   starterShortfall,
   totalCount,
   type BuildStep,
@@ -270,6 +271,25 @@ describe("owned creatures", () => {
     expect(ranked.map((option) => option.path?.recipeId)).toEqual(
       plain.map((option) => option.path?.recipeId),
     );
+  });
+});
+
+describe("missingThirds", () => {
+  it("lists every same-tier creature that does not finish the pair", () => {
+    const board = catalog();
+    board.recipes.push({
+      id: "hydra-phoenix-dragon",
+      parentA: "hydra",
+      parentB: "phoenix",
+      parentC: "dragon",
+      resultId: "hydra",
+    });
+    const missing = missingThirds(board, "phoenix", "hydra").map((creature) => creature.id);
+    expect(missing).not.toContain("dragon");
+    expect(missing).toContain("hydra");
+    expect(missing).toContain("phoenix");
+    expect(missing).toContain("behemoth");
+    expect(missingThirds(board, "chick", "bunny")).toEqual([]);
   });
 });
 

@@ -96,6 +96,19 @@ export function missingPartners(catalog: Catalog, creatureId: string): Creature[
     .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
 }
 
+export function missingThirds(catalog: Catalog, parentA: string, parentB: string): Creature[] {
+  const map = creatureMap(catalog.creatures);
+  const first = map.get(parentA);
+  const second = map.get(parentB);
+  if (!first || !second || first.tier !== second.tier || first.tier < 7 || first.tier >= 10) return [];
+  return catalog.creatures
+    .filter(
+      (other) =>
+        other.tier === first.tier && !findTrio(catalog.recipes, first.id, second.id, other.id),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
+}
+
 export function emptyCounts(starters: readonly string[] = LAND_STARTERS): StarterCounts {
   return Object.fromEntries(starters.map((id) => [id, 0]));
 }
