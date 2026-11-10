@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, Plus, Trash2 } from "lucide-react";
 import { CreatureArt } from "@/components/creature-art";
 import { useCatalog } from "@/components/catalog-context";
 import { Palette } from "@/components/board/palette";
@@ -152,7 +152,8 @@ type Mystery = {
   y: number;
 };
 
-type Waiting = {
+type PairBond = {
+  id: string;
   tokenA: string;
   tokenB: string;
   parentA: string;
@@ -192,6 +193,31 @@ function besideTarget(board: HTMLElement, target: BoardToken): { x: number; y: n
   const right = clampToken(board, target.x + TOKEN_W - 12, target.y);
   if (right.x > target.x + 48) return right;
   return clampToken(board, target.x - (TOKEN_W - 12), target.y);
+}
+
+function pairContaining(pairs: PairBond[], tokenId: string | undefined): PairBond | null {
+  if (!tokenId) return null;
+  return pairs.find((pair) => pair.tokenA === tokenId || pair.tokenB === tokenId) ?? null;
+}
+
+function pairSpot(
+  board: HTMLElement,
+  left: BoardToken,
+  dx: number,
+  dy: number,
+  taken: BoardToken[],
+): { x: number; y: number } {
+  const blocked = (x: number, y: number) =>
+    taken.some((token) => Math.abs(token.x - x) < 56 && Math.abs(token.y - y) < 56);
+  for (let row = 1; row <= 6; row += 1) {
+    const origin = clampToken(board, left.x, left.y + (TOKEN_H + 16) * row);
+    const mate = clampToken(board, origin.x + dx, origin.y + dy);
+    const spot = { x: origin.x + (mate.x - (origin.x + dx)), y: origin.y + (mate.y - (origin.y + dy)) };
+    if (Math.abs(spot.x - left.x) < 16 && Math.abs(spot.y - left.y) < 16) continue;
+    if (blocked(spot.x, spot.y) || blocked(mate.x, mate.y)) continue;
+    return spot;
+  }
+  return clampToken(board, left.x + TOKEN_W * 2, left.y);
 }
 
 function Counts({ counts, starters }: { counts: StarterCounts; starters: readonly string[] }) {
@@ -472,9 +498,9 @@ export function MergeBoard() {
   const [gapHot, setGapHot] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [mystery, setMystery] = useState<Mystery | null>(null);
-  const [waiting, setWaiting] = useState<Waiting | null>(null);
-  const waitingRef = useRef<Waiting | null>(null);
-  waitingRef.current = waiting;
+  const [pairs, setPairs] = useState<PairBond[]>([]);
+  const pairsRef = useRef<PairBond[]>([]);
+  pairsRef.current = pairs;
   const [focusId, setFocusId] = useState<string | null>(null);
   const [gapQuery, setGapQuery] = useState<GapQuery | null>(null);
   const [stock, setStock] = useState<StarterCounts>(() => emptyCounts(starters));
@@ -502,7 +528,7 @@ export function MergeBoard() {
     setStock(readStock(farm, starters));
     setOwned(readOwned(farm));
     setMystery(null);
-    setWaiting(null);
+    setPairs([]);
     setFocusId(null);
     setGapQuery(null);
     setStockReady(true);
@@ -638,10 +664,8 @@ export function MergeBoard() {
         next.push({ id: newTokenId(), creatureId: resultId, x, y });
         return next;
       });
-      setWaiting((current) =>
-        current && (removeIds.includes(current.tokenA) || removeIds.includes(current.tokenB))
-          ? null
-          : current,
+      setPairs((current) =>
+        current.filter((pair) => !removeIds.includes(pair.tokenA) && !removeIds.includes(pair.tokenB)),
       );
       setMystery(null);
     },
@@ -727,11 +751,9 @@ export function MergeBoard() {
       const token = tokensRef.current.find((item) => item.id === drag.tokenId);
       if (!token) return;
       if (overGap) {
-        const pending = waitingRef.current;
-        const inPair =
-          pending && (drag.tokenId === pending.tokenA || drag.tokenId === pending.tokenB);
+        const pending = pairContaining(pairsRef.current, drag.tokenId);
         setGapQuery(
-          inPair && pending
+          pending
             ? { kind: "pair", parentA: pending.parentA, parentB: pending.parentB }
             : { kind: "one", creatureId: token.creatureId },
         );
@@ -774,18 +796,20 @@ export function MergeBoard() {
         return;
       }
       if (incoming.tier >= 7) {
-        const pending = waitingRef.current;
+        const bonds = pairsRef.current;
         const incomingToken = drag?.tokenId;
-        const incomingInPair =
-          pending !== null &&
-          incomingToken !== undefined &&
-          (incomingToken === pending.tokenA || incomingToken === pending.tokenB);
-        const targetInPair =
-          pending !== null && (target.id === pending.tokenA || target.id === pending.tokenB);
-        if (incomingInPair && targetInPair) return;
-        if (pending && incoming.tier === pending.tier && incomingInPair !== targetInPair) {
-          const thirdId = incomingInPair ? target.creatureId : incomingId;
-          let tokenC = incomingInPair ? target.id : incomingToken;
+        const incomingPair = pairContaining(bonds, incomingToken);
+        const targetPair = pairContaining(bonds, target.id);
+        if (incomingPair && targetPair && incomingPair.id === targetPair.id) return;
+        if (incomingPair && targetPair) {
+          flash("Drop one creature on a locked pair");
+          if (drag) snapBack(drag);
+          return;
+        }
+        const pending = incomingPair ?? targetPair;
+        if (pending && incoming.tier === pending.tier) {
+          const thirdId = incomingPair ? target.creatureId : incomingId;
+          let tokenC = incomingPair ? target.id : incomingToken;
           if (drag) snapBack(drag);
           if (!tokenC) {
             const pos = clampToken(board, target.x, target.y - TOKEN_H - 8);
@@ -820,13 +844,23 @@ export function MergeBoard() {
         }
         if (!tokenA) return;
         setMystery(null);
-        setWaiting({
-          tokenA,
-          tokenB: target.id,
-          parentA: incomingId,
-          parentB: target.creatureId,
-          tier: incoming.tier,
-        });
+        setPairs((current) => [
+          ...current.filter(
+            (pair) =>
+              pair.tokenA !== tokenA &&
+              pair.tokenB !== tokenA &&
+              pair.tokenA !== target.id &&
+              pair.tokenB !== target.id,
+          ),
+          {
+            id: `pair-${crypto.randomUUID().slice(0, 8)}`,
+            tokenA,
+            tokenB: target.id,
+            parentA: incomingId,
+            parentB: target.creatureId,
+            tier: incoming.tier,
+          },
+        ]);
         return;
       }
       const attempt = attemptMerge(catalogNow, incomingId, target.creatureId);
@@ -884,10 +918,13 @@ export function MergeBoard() {
   }, [mystery, tokens]);
 
   useEffect(() => {
-    if (!waiting) return;
-    const ids = new Set(tokens.map((token) => token.id));
-    if (!ids.has(waiting.tokenA) || !ids.has(waiting.tokenB)) setWaiting(null);
-  }, [waiting, tokens]);
+    setPairs((current) => {
+      if (current.length === 0) return current;
+      const ids = new Set(tokens.map((token) => token.id));
+      const next = current.filter((pair) => ids.has(pair.tokenA) && ids.has(pair.tokenB));
+      return next.length === current.length ? current : next;
+    });
+  }, [tokens]);
 
   function startPaletteDrag(event: React.PointerEvent<HTMLButtonElement>, creatureId: string) {
     if (event.button !== 0) return;
@@ -902,13 +939,8 @@ export function MergeBoard() {
     const board = boardRef.current;
     if (!board) return;
     const local = localPoint(board, event.clientX, event.clientY);
-    const pending = waitingRef.current;
-    const partnerId =
-      pending && (pending.tokenA === token.id || pending.tokenB === token.id)
-        ? pending.tokenA === token.id
-          ? pending.tokenB
-          : pending.tokenA
-        : undefined;
+    const pending = pairContaining(pairsRef.current, token.id);
+    const partnerId = pending ? (pending.tokenA === token.id ? pending.tokenB : pending.tokenA) : undefined;
     const partner = partnerId ? tokensRef.current.find((item) => item.id === partnerId) : undefined;
     dragRef.current = {
       kind: "token",
@@ -997,8 +1029,43 @@ export function MergeBoard() {
     dragRef.current = null;
     setGhost(null);
     setMystery(null);
-    setWaiting(null);
+    setPairs([]);
     setTokens([]);
+  }
+
+  function duplicatePair(source: PairBond) {
+    const board = boardRef.current;
+    if (!board) return;
+    const current = tokensRef.current;
+    const tokenA = current.find((token) => token.id === source.tokenA);
+    const tokenB = current.find((token) => token.id === source.tokenB);
+    if (!tokenA || !tokenB) return;
+    const left = tokenA.x <= tokenB.x ? tokenA : tokenB;
+    const right = left === tokenA ? tokenB : tokenA;
+    const spot = pairSpot(board, left, right.x - left.x, right.y - left.y, current);
+    const mate = clampToken(board, spot.x + (right.x - left.x), spot.y + (right.y - left.y));
+    const idLeft = newTokenId();
+    const idRight = newTokenId();
+    const nextTokens = [
+      ...current,
+      { id: idLeft, creatureId: left.creatureId, x: spot.x, y: spot.y },
+      { id: idRight, creatureId: right.creatureId, x: mate.x, y: mate.y },
+    ];
+    tokensRef.current = nextTokens;
+    setTokens(nextTokens);
+    const nextPairs = [
+      ...pairsRef.current,
+      {
+        id: `pair-${crypto.randomUUID().slice(0, 8)}`,
+        tokenA: idLeft,
+        tokenB: idRight,
+        parentA: left.creatureId,
+        parentB: right.creatureId,
+        tier: source.tier,
+      },
+    ];
+    pairsRef.current = nextPairs;
+    setPairs(nextPairs);
   }
 
   return (
@@ -1102,7 +1169,7 @@ export function MergeBoard() {
       >
         {tokens.length === 0 ? (
           <p className="pointer-events-none absolute top-6 left-6 max-w-xs text-sm text-muted-foreground">
-            Drag a creature here, then drop it on another of the same tier. Tier 7 and up click together, then take a third.
+            Drag a creature here, then drop it on another of the same tier. Tier 7 and up click together, then take a third. Copy a locked pair from the button on its bottom left.
           </p>
         ) : null}
         {notice ? (
@@ -1117,8 +1184,8 @@ export function MergeBoard() {
           const creature = catalog.creatures.find((item) => item.id === token.creatureId);
           if (!creature) return null;
           const colors = tierStyle(creature.tier);
-          const mateId =
-            waiting?.tokenA === token.id ? waiting.tokenB : waiting?.tokenB === token.id ? waiting.tokenA : null;
+          const bond = pairContaining(pairs, token.id);
+          const mateId = bond ? (bond.tokenA === token.id ? bond.tokenB : bond.tokenA) : null;
           const mate = mateId ? tokens.find((item) => item.id === mateId) : null;
           const joined = mate ? (token.x <= mate.x ? "left" : "right") : null;
           return (
@@ -1128,6 +1195,24 @@ export function MergeBoard() {
               className={`absolute w-28 ${joined ? "z-10" : ""}`}
               style={{ left: token.x, top: token.y }}
             >
+              {joined === "left" && bond && mate ? (
+                <button
+                  type="button"
+                  className="absolute -bottom-1 -left-1 z-20 flex size-7 items-center justify-center rounded-full border bg-popover shadow-sm hover:bg-muted"
+                  aria-label={`Duplicate ${creature.name} and ${catalog.creatures.find((item) => item.id === mate.creatureId)?.name ?? "partner"}`}
+                  onPointerDown={(event) => {
+                    event.stopPropagation();
+                    event.currentTarget.dataset.press = "1";
+                  }}
+                  onClick={(event) => {
+                    if (event.currentTarget.dataset.press !== "1") return;
+                    event.currentTarget.dataset.press = "";
+                    duplicatePair(bond);
+                  }}
+                >
+                  <Copy className="size-3.5" />
+                </button>
+              ) : null}
               <button
                 type="button"
                 className="absolute -top-2 -right-1 z-10 flex size-6 items-center justify-center rounded-full bg-foreground text-xs text-background"
