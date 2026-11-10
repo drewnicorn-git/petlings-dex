@@ -6,6 +6,7 @@ import {
   buildTree,
   disassemble,
   priceTree,
+  materialFrontier,
   rankMixes,
   expectedStarterTotal,
   findRecipe,
@@ -280,13 +281,10 @@ describe("owned creatures", () => {
     if (builtNode) assertBuild(builtNode);
     expect(leafCounts(builtNode ?? covered.tree)).toEqual(bestTurtle.counts);
     const plain = rankMixes(seedCatalog, "anaconda", anaconda.paths, anaconda.counts, have, []);
-    for (const option of ranked) {
-      const raw = plain.find((item) => item.path?.recipeId === option.path?.recipeId);
-      expect(raw).toBeTruthy();
-      if (!raw) return;
-      const ownedShort = totalCount(option.shortfall);
-      const rawShort = totalCount(raw.shortfall);
-      expect(ownedShort).toBeLessThanOrEqual(rawShort);
+    const coveredRaw = plain.find((item) => item.path?.recipeId === covered.path?.recipeId);
+    expect(coveredRaw).toBeTruthy();
+    if (coveredRaw) {
+      expect(totalCount(covered.shortfall)).toBeLessThan(totalCount(coveredRaw.shortfall));
     }
   });
 
@@ -304,16 +302,17 @@ describe("owned creatures", () => {
     expect(totalCount(ranked[0]?.counts ?? {})).toBeGreaterThan(totalCount(cub?.counts ?? {}));
   });
 
-  it("uses a finished build when the highest tier creature cannot finish", () => {
+  it("spends an owned creature even when a starter-only build is already finished", () => {
     const board = tierBoard();
     const goal = disassemble("goal", board);
     expect(goal.status).toBe("ok");
     if (goal.status !== "ok") return;
     const have = { chick: 0, bunny: 8, cat: 0 };
     const ranked = rankMixes(board, "goal", goal.paths, goal.counts, have, ["wolf"]);
-    expect(ranked[0]?.affordable).toBe(true);
-    expect(ranked[0]?.uses).not.toContain("wolf");
-    expect(ranked.some((option) => option.uses.includes("wolf") && !option.affordable)).toBe(true);
+    expect(ranked[0]?.uses).toContain("wolf");
+    expect(ranked[0]?.affordable).toBe(false);
+    const finished = ranked.find((option) => option.affordable && option.uses.length === 0);
+    expect(finished).toBeTruthy();
   });
 
   it("keeps the highest tier creature when no build can be finished", () => {
@@ -359,6 +358,28 @@ describe("owned creatures", () => {
     const plain = adviseStarters(hippo.paths, hippo.counts, have);
     expect(ranked.map((option) => option.path?.recipeId)).toEqual(
       plain.map((option) => option.path?.recipeId),
+    );
+  });
+
+  it("keeps using every owned creature that fits after more than four are added", () => {
+    const hydra = disassemble("hydra", seedCatalog);
+    expect(hydra.status).toBe("ok");
+    if (hydra.status !== "ok") return;
+    const have = { chick: 2, bunny: 8, cat: 1 };
+    const owned = ["fire-salamander", "cobra", "panda", "sloth", "walrus"];
+    const ranked = rankMixes(seedCatalog, "hydra", hydra.paths, hydra.counts, have, owned);
+    const best = ranked[0];
+    expect(best?.uses).toContain("fire-salamander");
+    expect(best?.uses.some((id) => id !== "fire-salamander")).toBe(true);
+    expect(totalCount(best?.shortfall ?? { chick: 99 })).toBeLessThan(30);
+    expect(materialFrontier(best?.tree ?? { creatureId: "hydra", counts: {}, left: null, right: null }).map((item) => item.creatureId)).toEqual(
+      expect.arrayContaining(["fire-salamander"]),
+    );
+    const needed = materialFrontier(best?.tree ?? { creatureId: "hydra", counts: {}, left: null, right: null }).filter(
+      (item) => !item.owned,
+    );
+    expect(needed.every((item) => item.creatureId !== "chick" && item.creatureId !== "bunny" && item.creatureId !== "cat")).toBe(
+      true,
     );
   });
 });

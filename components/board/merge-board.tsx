@@ -40,6 +40,7 @@ import {
   missingThirds,
   normalizeName,
   emptyCounts,
+  materialFrontier,
   rankMixes,
   sortCreatures,
   type Breakdown,
@@ -106,20 +107,71 @@ function readOwned(farm: FarmId): string[] {
   }
 }
 
-function ownedUseText(uses: string[], catalog: ReturnType<typeof useCatalog>["catalog"]): string {
-  const order: string[] = [];
-  const counts = new Map<string, number>();
-  for (const id of uses) {
-    if (!counts.has(id)) order.push(id);
-    counts.set(id, (counts.get(id) ?? 0) + 1);
+function pieceLabel(
+  id: string,
+  catalog: ReturnType<typeof useCatalog>["catalog"],
+): string {
+  const creature = catalog.creatures.find((item) => item.id === id);
+  return creature ? `${creature.name} (T${creature.tier})` : id;
+}
+
+function planPieces(option: StarterOption) {
+  if (option.tree) {
+    const frontier = materialFrontier(option.tree);
+    return {
+      have: frontier.filter((item) => item.owned).map((item) => item.creatureId),
+      need: frontier.filter((item) => !item.owned).map((item) => item.creatureId),
+    };
   }
-  const parts = order.map((id) => {
-    const count = counts.get(id) ?? 0;
-    const name = creatureName(catalog, id);
-    return count > 1 ? `${name} × ${count}` : name;
-  });
-  if (parts.length === 0) return "";
-  return `Uses your ${parts.join(", ")}.`;
+  return {
+    have: [] as string[],
+    need: [option.path?.parentA, option.path?.parentB, option.path?.parentC].filter(
+      (id): id is string => typeof id === "string",
+    ),
+  };
+}
+
+function needsBaseMaterials(
+  need: readonly string[],
+  catalog: ReturnType<typeof useCatalog>["catalog"],
+): boolean {
+  return (
+    need.length > 0 &&
+    need.every((id) => (catalog.creatures.find((item) => item.id === id)?.tier ?? 1) <= 2)
+  );
+}
+
+function PlanLines({
+  option,
+  catalog,
+}: {
+  option: StarterOption;
+  catalog: ReturnType<typeof useCatalog>["catalog"];
+}) {
+  const pieces = planPieces(option);
+  const base = needsBaseMaterials(pieces.need, catalog);
+  return (
+    <>
+      {option.path ? (
+        <p className="text-xs break-words">
+          via {comboNames(catalog, [option.path.parentA, option.path.parentB, option.path.parentC])}
+        </p>
+      ) : null}
+      {pieces.have.length > 0 ? (
+        <p className="text-xs break-words">
+          Use your {pieces.have.map((id) => pieceLabel(id, catalog)).join(", ")}.
+        </p>
+      ) : null}
+      {pieces.need.length > 0 ? (
+        <p className="text-xs break-words">
+          Need {pieces.need.map((id) => pieceLabel(id, catalog)).join(", ")}.
+        </p>
+      ) : pieces.have.length > 0 ? (
+        <p className="text-xs">You already have every piece.</p>
+      ) : null}
+      {base ? <Counts counts={option.counts} starters={catalog.starters} /> : null}
+    </>
+  );
 }
 
 function shortfallText(option: StarterOption, starters: readonly string[]): string {
@@ -371,16 +423,6 @@ function BreakdownView({
   if (breakdown.status !== "ok") return null;
   const options = rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
   const best = options[0];
-  const ownedTop = owned.reduce(
-    (max, id) => Math.max(max, catalog.creatures.find((creature) => creature.id === id)?.tier ?? 0),
-    0,
-  );
-  const bestUsesTop =
-    ownedTop > 1 &&
-    (best?.uses.some(
-      (id) => (catalog.creatures.find((creature) => creature.id === id)?.tier ?? 0) === ownedTop,
-    ) ??
-      false);
   const listed = options.filter((option) => option.path);
   const fits = listed.filter((option) => option.affordable).length;
   const ways = listed.length;
@@ -400,29 +442,22 @@ function BreakdownView({
           title={best.path ? "Double-click for the full build" : undefined}
         >
           <p className="text-xs font-semibold">
-            {best.affordable ? "Best mix you can make" : "Closest mix"}
+            {best.affordable ? "Best build you can make" : "Best build"}
           </p>
-          {best.path ? (
-            <p className="text-xs break-words">
-              via {comboNames(catalog, [best.path.parentA, best.path.parentB, best.path.parentC])}
-            </p>
+          {best.path || best.tree ? (
+            <PlanLines option={best} catalog={catalog} />
           ) : (
             <p className="text-xs">This is a starter.</p>
           )}
-          <Counts counts={best.counts} starters={catalog.starters} />
-          {best.uses.length > 0 ? (
-            <p className="text-xs text-muted-foreground">{ownedUseText(best.uses, catalog)}</p>
-          ) : null}
-          <p className="text-xs text-muted-foreground">
-            {bestUsesTop
-              ? "This uses the highest tier creature you already have."
-              : best.affordable
-                ? "This uses the starters you have the most of."
-                : `Still need ${shortfallText(best, catalog.starters)}.`}
-            {bestUsesTop && !best.affordable ? ` Still need ${shortfallText(best, catalog.starters)}.` : ""}
-          </p>
           {best.path ? (
-            <p className="text-xs text-muted-foreground">Double-click for the full build.</p>
+            <p className="text-xs text-muted-foreground">
+              {needsBaseMaterials(planPieces(best).need, catalog)
+                ? best.affordable
+                  ? "This uses the starters you have. "
+                  : `Still need ${shortfallText(best, catalog.starters)}. `
+                : ""}
+              Double-click for the full build.
+            </p>
           ) : null}
         </div>
       ) : null}
@@ -449,8 +484,6 @@ function BreakdownView({
         {ways === 0
           ? "Starter"
           : `${fits} of ${ways} ${ways === 1 ? "way" : "ways"} fit what you have`}
-        {" · "}
-        {breakdown.total} starter {breakdown.total === 1 ? "pet" : "pets"}
       </p>
       {ways === 0 ? null : (
         options.map((option, index) =>
@@ -459,16 +492,14 @@ function BreakdownView({
               key={`${option.path.recipeId}-${index}`}
               className={`mt-2 ${option.affordable ? "" : "opacity-60"}`}
             >
-              <p className="text-xs break-words">
-                via {comboNames(catalog, [option.path.parentA, option.path.parentB, option.path.parentC])}
-              </p>
+              <PlanLines option={option} catalog={catalog} />
               <p className="text-[10px] font-semibold tracking-wide uppercase">
-                {option.affordable ? "Possible" : `Needs ${shortfallText(option, catalog.starters)}`}
+                {option.affordable
+                  ? "Possible"
+                  : needsBaseMaterials(planPieces(option).need, catalog)
+                    ? `Needs ${shortfallText(option, catalog.starters)}`
+                    : "Needs those creatures"}
               </p>
-              {option.uses.length > 0 ? (
-                <p className="text-[10px] text-muted-foreground">{ownedUseText(option.uses, catalog)}</p>
-              ) : null}
-              <Counts counts={option.counts} starters={catalog.starters} />
             </div>
           ) : null,
         )
@@ -500,6 +531,7 @@ export function MergeBoard() {
   const pairsRef = useRef<PairBond[]>([]);
   pairsRef.current = pairs;
   const [focusId, setFocusId] = useState<string | null>(null);
+  const [focusVersion, setFocusVersion] = useState(0);
   const [gapQuery, setGapQuery] = useState<GapQuery | null>(null);
   const [stock, setStock] = useState<StarterCounts>(() => emptyCounts(starters));
   const [owned, setOwned] = useState<string[]>([]);
@@ -733,6 +765,7 @@ export function MergeBoard() {
         }
         if (overDock) {
           setFocusId(drag.creatureId);
+          setFocusVersion((version) => version + 1);
           return;
         }
         const hit = dropOn(drag, event.clientX, event.clientY);
@@ -762,6 +795,7 @@ export function MergeBoard() {
       }
       if (overDock) {
         setFocusId(token.creatureId);
+        setFocusVersion((version) => version + 1);
         snapBack(drag);
         return;
       }
@@ -1445,6 +1479,7 @@ export function MergeBoard() {
                 <div aria-live="polite">
                   <p className="font-semibold break-words">{focus.name}</p>
                   <BreakdownView
+                    key={`${focus.id}-${focusVersion}`}
                     creatureId={focus.id}
                     breakdown={breakdown}
                     have={stock}

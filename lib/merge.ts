@@ -383,23 +383,6 @@ function ownedOverlap(
   return score;
 }
 
-const builtTrees = new WeakMap<Catalog, Map<string, Map<string, Map<string, BuildStep>>>>();
-
-function treeCacheFor(catalog: Catalog, prefer: ReadonlySet<string>): Map<string, Map<string, BuildStep>> {
-  const key = [...prefer].sort().join("\0");
-  let byPrefer = builtTrees.get(catalog);
-  if (!byPrefer) {
-    byPrefer = new Map();
-    builtTrees.set(catalog, byPrefer);
-  }
-  let cache = byPrefer.get(key);
-  if (!cache) {
-    cache = new Map();
-    byPrefer.set(key, cache);
-  }
-  return cache;
-}
-
 export function buildTree(
   catalog: Catalog,
   creatureId: string,
@@ -554,11 +537,8 @@ const signatureCache = new WeakMap<Catalog, Map<string, number[]>>();
 const rawWitnessCache = new WeakMap<Catalog, Map<string, SplitWitness>>();
 const placementCache = new WeakMap<Catalog, Map<string, number[]>>();
 const placementWitnessCache = new WeakMap<Catalog, Map<string, SplitWitness>>();
-const residualCache = new WeakMap<Catalog, Map<string, ResidualList>>();
 const descendantCache = new WeakMap<Catalog, Map<string, Set<string>>>();
 const recipeIndexCache = new WeakMap<Catalog, Map<string, Recipe[]>>();
-
-type ResidualList = { sums: number[]; witnesses: SplitWitness[] };
 
 function bagKey(bag: readonly string[]): string {
   return [...bag].sort().join("\0");
@@ -712,47 +692,6 @@ function placements(catalog: Catalog, id: string, bag: readonly string[]): numbe
   return sums;
 }
 
-function residualSums(
-  catalog: Catalog,
-  parentA: string,
-  parentB: string,
-  leftBag: readonly string[],
-  rightBag: readonly string[],
-): ResidualList {
-  const leftKey = bagKey(leftBag);
-  const rightKey = bagKey(rightBag);
-  const key = `${parentA}\0${parentB}\0${leftKey}\0${rightKey}`;
-  let cache = residualCache.get(catalog);
-  if (!cache) {
-    cache = new Map();
-    residualCache.set(catalog, cache);
-  }
-  const saved = cache.get(key);
-  if (saved) return saved;
-  const lefts = leftBag.length ? placements(catalog, parentA, leftBag) : signatureList(catalog, parentA);
-  const rights = rightBag.length ? placements(catalog, parentB, rightBag) : signatureList(catalog, parentB);
-  const found = new Map<number, SplitWitness>();
-  if (lefts.length > 0 && rights.length > 0) {
-    for (const left of lefts) {
-      for (const right of rights) {
-        const sum = left + right;
-        if (found.has(sum)) continue;
-        found.set(sum, {
-          parentA,
-          parentB,
-          left,
-          right,
-          leftBag: leftKey,
-          rightBag: rightKey,
-        });
-      }
-    }
-  }
-  const list = { sums: [...found.keys()], witnesses: [...found.values()] };
-  cache.set(key, list);
-  return list;
-}
-
 function materialize(catalog: Catalog, id: string, packed: number, bag: string): BuildStep {
   if (bag === id && !isStarter(id)) {
     return { creatureId: id, counts: emptyCounts(catalog.starters), left: null, right: null, owned: true };
@@ -775,100 +714,166 @@ function materialize(catalog: Catalog, id: string, packed: number, bag: string):
   };
 }
 
-function rankFromSignatures(
-  catalog: Catalog,
-  creatureId: string,
-  collapsed: StarterOption[],
-  have: StarterCounts,
-  usable: string[],
-): StarterOption[] {
-  const tiers = new Map(catalog.creatures.map((creature) => [creature.id, creature.tier]));
-  const topTier = usable.reduce((max, id) => Math.max(max, tiers.get(id) ?? 0), 0);
-  const options: StarterOption[] = [];
-  for (const source of collapsed) {
-    const path = source.path;
-    if (!path) {
-      options.push(source);
-      continue;
-    }
-    let bestCounts = source.counts;
-    let bestUses: string[] = [];
-    let bestWitness: SplitWitness | null = null;
-    let topCounts: StarterCounts | null = null;
-    let topUses: string[] = [];
-    let topWitness: SplitWitness | null = null;
-    const masks = 1 << usable.length;
-    for (let subset = 1; subset < masks; subset += 1) {
-      const chosen: string[] = [];
-      for (let index = 0; index < usable.length; index += 1) {
-        if (subset & (1 << index)) chosen.push(usable[index]);
-      }
-      const hitsTop = chosen.some((id) => tiers.get(id) === topTier);
-      const splits = 1 << chosen.length;
-      for (let split = 0; split < splits; split += 1) {
-        const leftBag: string[] = [];
-        const rightBag: string[] = [];
-        for (let index = 0; index < chosen.length; index += 1) {
-          if (split & (1 << index)) leftBag.push(chosen[index]);
-          else rightBag.push(chosen[index]);
-        }
-        const residual = residualSums(catalog, path.parentA, path.parentB, leftBag, rightBag);
-        for (let index = 0; index < residual.sums.length; index += 1) {
-          const counts = unpackCounts(residual.sums[index], catalog.starters);
-          const witness = residual.witnesses[index] ?? null;
-          if (countsBeat(counts, bestCounts, have)) {
-            bestCounts = counts;
-            bestUses = chosen;
-            bestWitness = witness;
-          }
-          if (hitsTop && (!topCounts || countsBeat(counts, topCounts, have))) {
-            topCounts = counts;
-            topUses = chosen;
-            topWitness = witness;
-          }
-        }
-      }
-    }
-    options.push(finishOption(catalog, creatureId, path, bestCounts, bestUses, bestWitness, have));
-    if (
-      topCounts &&
-      (countKey(topCounts, catalog.starters) !== countKey(bestCounts, catalog.starters) ||
-        topUses.join("\0") !== bestUses.join("\0"))
-    ) {
-      options.push(finishOption(catalog, creatureId, path, topCounts, topUses, topWitness, have));
-    }
-  }
-  return options;
+function tierMap(catalog: Catalog): Map<string, number> {
+  return new Map(catalog.creatures.map((creature) => [creature.id, creature.tier]));
 }
 
-function finishOption(
-  catalog: Catalog,
-  creatureId: string,
-  path: PathCounts,
-  counts: StarterCounts,
-  uses: string[],
-  witness: SplitWitness | null,
-  have: StarterCounts,
-): StarterOption {
-  const shortfall = starterShortfall(counts, have);
-  return {
-    counts,
-    shortfall,
-    affordable: totalCount(shortfall) === 0,
-    path,
-    uses: [...uses],
-    tree: witness
-      ? {
-          creatureId,
-          counts,
-          left: materialize(catalog, witness.parentA, witness.left, witness.leftBag),
-          right: materialize(catalog, witness.parentB, witness.right, witness.rightBag),
-        }
-      : null,
+function compareUsage(
+  a: readonly string[],
+  b: readonly string[],
+  tiers: ReadonlyMap<string, number>,
+): number {
+  for (let tier = 10; tier >= 2; tier -= 1) {
+    let aCount = 0;
+    let bCount = 0;
+    for (const id of a) if ((tiers.get(id) ?? 0) === tier) aCount += 1;
+    for (const id of b) if ((tiers.get(id) ?? 0) === tier) bCount += 1;
+    if (aCount !== bCount) return bCount - aCount;
+  }
+  return 0;
+}
+
+function holdsOwned(node: BuildStep): boolean {
+  return (
+    node.owned === true ||
+    (node.left ? holdsOwned(node.left) : false) ||
+    (node.right ? holdsOwned(node.right) : false) ||
+    (node.third ? holdsOwned(node.third) : false)
+  );
+}
+
+export function materialFrontier(step: BuildStep): { creatureId: string; owned: boolean }[] {
+  const found: { creatureId: string; owned: boolean }[] = [];
+  const walk = (node: BuildStep) => {
+    if (node.owned || !node.left || !node.right || !holdsOwned(node)) {
+      found.push({ creatureId: node.creatureId, owned: node.owned === true });
+      return;
+    }
+    walk(node.left);
+    walk(node.right);
+    if (node.third) walk(node.third);
   };
+  if (!step.left || !step.right) {
+    return [{ creatureId: step.creatureId, owned: step.owned === true }];
+  }
+  walk(step.left);
+  walk(step.right);
+  if (step.third) walk(step.third);
+  return found;
+}
+
+function canLive(catalog: Catalog, item: string, parent: string): boolean {
+  return item === parent || descendantsOf(catalog, parent).has(item);
+}
+
+function parentVectors(
+  catalog: Catalog,
+  id: string,
+  bag: readonly string[],
+  have: StarterCounts,
+): number[] {
+  if (bag.length === 1 && bag[0] === id && !isStarter(id)) return [0];
+  const recipes = recipeIndex(catalog).get(id) ?? [];
+  if (recipes.some((recipe) => recipe.parentC)) return vectorsFor(catalog, id, have, bag, []);
+  if (bag.length === 0) return signatureList(catalog, id);
+  return placements(catalog, id, bag);
 }
 
 type TriplePick = { id: string; packed: number; bag: string };
+
+function coverSource(
+  catalog: Catalog,
+  creatureId: string,
+  source: StarterOption,
+  have: StarterCounts,
+  owned: readonly string[],
+  tiers: ReadonlyMap<string, number>,
+): StarterOption {
+  const path = source.path;
+  if (!path || owned.length === 0) return source;
+  const parents = [path.parentA, path.parentB, ...(path.parentC ? [path.parentC] : [])];
+  const items = owned
+    .filter((id) => parents.some((parent) => canLive(catalog, id, parent)))
+    .sort((a, b) => (tiers.get(b) ?? 0) - (tiers.get(a) ?? 0) || a.localeCompare(b));
+  if (items.length === 0) return source;
+  const exact = items.slice(0, 8);
+  const extra = items.slice(8);
+  const best: {
+    uses: string[];
+    counts: StarterCounts;
+    picks: TriplePick[] | null;
+    bags: string[][] | null;
+  } = { uses: [], counts: source.counts, picks: null, bags: null };
+
+  function consider(bags: string[][]) {
+    const uses = bags.flat();
+    if (uses.length === 0) return;
+    const lists = parents.map((id, index) => parentVectors(catalog, id, bags[index], have));
+    const picked = bestSum(lists, have, catalog.starters);
+    if (!picked) return;
+    const counts = unpackCounts(picked.sum, catalog.starters);
+    const usage = compareUsage(uses, best.uses, tiers);
+    if (usage > 0) return;
+    if (usage === 0 && !countsBeat(counts, best.counts, have)) return;
+    best.uses = [...uses];
+    best.counts = counts;
+    best.bags = bags.map((bag) => [...bag]);
+    best.picks = parents.map((id, index) => ({
+      id,
+      packed: picked.picks[index] ?? 0,
+      bag: bagKey(bags[index]),
+    }));
+  }
+
+  const bags = parents.map(() => [] as string[]);
+  function search(index: number) {
+    const placed = bags.flat();
+    const optimistic = [...placed, ...exact.slice(index), ...extra];
+    if (compareUsage(optimistic, best.uses, tiers) > 0) return;
+    if (index === exact.length) {
+      consider(bags);
+      return;
+    }
+    const item = exact[index];
+    for (let slot = 0; slot < parents.length; slot += 1) {
+      if (!canLive(catalog, item, parents[slot])) continue;
+      bags[slot].push(item);
+      if (parentVectors(catalog, parents[slot], bags[slot], have).length > 0) search(index + 1);
+      bags[slot].pop();
+    }
+    search(index + 1);
+  }
+  search(0);
+  for (const item of extra) {
+    const savedBags = best.bags;
+    if (!savedBags) break;
+    for (let slot = 0; slot < parents.length; slot += 1) {
+      if (!canLive(catalog, item, parents[slot])) continue;
+      const trial = savedBags.map((bag) => [...bag]);
+      trial[slot].push(item);
+      if (parentVectors(catalog, parents[slot], trial[slot], have).length === 0) continue;
+      consider(trial);
+    }
+  }
+  const picks = best.picks;
+  if (!picks) return source;
+  const shortfall = starterShortfall(best.counts, have);
+  return {
+    counts: best.counts,
+    shortfall,
+    affordable: totalCount(shortfall) === 0,
+    path,
+    uses: best.uses,
+    tree: {
+      creatureId,
+      counts: best.counts,
+      left: materialize(catalog, picks[0].id, picks[0].packed, picks[0].bag),
+      right: materialize(catalog, picks[1].id, picks[1].packed, picks[1].bag),
+      ...(picks[2] ? { third: materialize(catalog, picks[2].id, picks[2].packed, picks[2].bag) } : {}),
+    },
+  };
+}
+
 type TripleMix = { sum: number; counts: StarterCounts; uses: string[]; picks: TriplePick[] };
 
 const tripleMixCache = new WeakMap<Catalog, Map<string, TripleMix | null>>();
@@ -1053,60 +1058,27 @@ function bestOwnedTriple(
   return best;
 }
 
-function tripleOption(
-  catalog: Catalog,
-  creatureId: string,
-  path: PathCounts,
-  have: StarterCounts,
-  owned: readonly string[],
-): StarterOption {
-  const parents: [string, string, string] = [path.parentA, path.parentB, path.parentC ?? path.parentB];
-  const mix = path.parentC ? bestOwnedTriple(catalog, parents, have, owned) : null;
-  const counts = mix?.counts ?? path.counts;
-  const shortfall = starterShortfall(counts, have);
-  const tree = mix
-    ? {
-        creatureId,
-        counts,
-        left: materialize(catalog, mix.picks[0].id, mix.picks[0].packed, mix.picks[0].bag),
-        right: materialize(catalog, mix.picks[1].id, mix.picks[1].packed, mix.picks[1].bag),
-        third: materialize(catalog, mix.picks[2].id, mix.picks[2].packed, mix.picks[2].bag),
-      }
-    : null;
-  return {
-    counts,
-    shortfall,
-    affordable: totalCount(shortfall) === 0,
-    path,
-    uses: mix?.uses ?? [],
-    tree,
-  };
-}
-
 function orderMixes(
   options: StarterOption[],
   catalog: Catalog,
   have: StarterCounts,
 ): StarterOption[] {
-  const tiers = new Map(catalog.creatures.map((creature) => [creature.id, creature.tier]));
-  const topTier = options.reduce((max, option) => Math.max(max, highestTier(option.uses, tiers)), 0);
-  const hitsTop = (option: StarterOption) => topTier > 1 && highestTier(option.uses, tiers) === topTier;
-  const topOptions = options.filter(hitsTop);
-  const topComplete = topOptions.some((option) => option.affordable);
-  const anyComplete = options.some((option) => option.affordable);
-  const band = (option: StarterOption) => {
-    const top = hitsTop(option);
-    if (topTier <= 1 || topOptions.length === 0) return 0;
-    if (topComplete) {
-      if (top && option.affordable) return 0;
-      if (option.affordable) return 1;
-      if (top) return 2;
-      return 3;
-    }
-    if (anyComplete) return option.affordable ? 0 : top ? 1 : 2;
-    return top ? 0 : 1;
+  const tiers = tierMap(catalog);
+  return [...options].sort(
+    (a, b) => compareUsage(a.uses, b.uses, tiers) || compareOptions(a, b, have),
+  );
+}
+
+function ownedResult(catalog: Catalog, creatureId: string): StarterOption {
+  const counts = emptyCounts(catalog.starters);
+  return {
+    counts,
+    shortfall: counts,
+    affordable: true,
+    path: null,
+    uses: [creatureId],
+    tree: { creatureId, counts, left: null, right: null, owned: true },
   };
-  return [...options].sort((a, b) => band(a) - band(b) || compareOptions(a, b, have));
 }
 
 export function rankMixes(
@@ -1117,49 +1089,14 @@ export function rankMixes(
   have: StarterCounts,
   owned: string[],
 ): StarterOption[] {
-  const tiers = new Map(catalog.creatures.map((creature) => [creature.id, creature.tier]));
-  const usable = owned.filter((id) => (tiers.get(id) ?? 0) > 1);
-  const pairPaths = paths.filter((path) => !path.parentC);
-  const tripleOptions = paths
-    .filter((path) => path.parentC)
-    .map((path) => tripleOption(catalog, creatureId, path, have, usable));
-  if (pairPaths.length === 0) return orderMixes(tripleOptions, catalog, have);
-  const collapsed = adviseStarters(pairPaths, ownCounts, have);
-  const pairOptions =
-    usable.length === 0
-      ? collapsed
-      : usable.length <= 4
-        ? rankFromSignatures(catalog, creatureId, collapsed, have, usable)
-        : null;
-  if (pairOptions) return orderMixes([...pairOptions, ...tripleOptions], catalog, have);
-  const prefer = new Set(usable);
-  const cache = treeCacheFor(catalog, prefer);
-  const pricedTrees = new Map<string, PricedTree>();
-  const options = collapsed.map((source) => {
-    const tree = source.path ? buildTree(catalog, creatureId, source.path, cache, prefer) : null;
-    if (!tree) {
-      const shortfall = starterShortfall(source.counts, have);
-      return {
-        counts: source.counts,
-        shortfall,
-        affordable: totalCount(shortfall) === 0,
-        path: source.path,
-        uses: [] as string[],
-        tree: null,
-      };
-    }
-    const priced = priceTree(tree, usable, have, pricedTrees, tiers);
-    const shortfall = starterShortfall(priced.cost, have);
-    return {
-      counts: priced.cost,
-      shortfall,
-      affordable: totalCount(shortfall) === 0,
-      path: source.path,
-      uses: priced.uses,
-      tree: priced.step,
-    };
-  });
-  return orderMixes([...options, ...tripleOptions], catalog, have);
+  const tiers = tierMap(catalog);
+  const usable = owned.filter((id) => id !== creatureId && (tiers.get(id) ?? 0) > 1);
+  const collapsed = adviseStarters(paths, ownCounts, have);
+  const options = collapsed.map((source) =>
+    coverSource(catalog, creatureId, source, have, usable, tiers),
+  );
+  if (owned.includes(creatureId)) options.push(ownedResult(catalog, creatureId));
+  return orderMixes(options, catalog, have);
 }
 
 export type MergeAttempt =
