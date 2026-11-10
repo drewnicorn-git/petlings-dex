@@ -53,7 +53,8 @@ export function MergeApp() {
             Drag two creatures of the same tier together. A saved combo becomes the next
             creature. Tier 7, 8, and 9 click together into a pair, then take a third. Auto-Generate
             lists that pair with every same-tier creature from the one you dropped through the end
-            of the alphabet. Drop that pair on missing combos to see which third creature is still
+            of the alphabet, then saves each combo under the one name you enter. Drop that pair on
+            missing combos to see which third creature is still
             open. Land Farm counts Chick, Bunny,
             and Cat. Sea Farm counts Clownfish, Seahorse, and Crab. Switching farms keeps each
             board&apos;s materials, missing combinations, and disassembly separate.

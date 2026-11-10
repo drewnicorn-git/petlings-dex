@@ -204,7 +204,6 @@ function pairContaining(pairs: PairBond[], tokenId: string | undefined): PairBon
   return pairs.find((pair) => pair.tokenA === tokenId || pair.tokenB === tokenId) ?? null;
 }
 
-type BatchRow = { thirdId: string; name: string };
 
 function Counts({ counts, starters }: { counts: StarterCounts; starters: readonly string[] }) {
   return (
@@ -510,7 +509,7 @@ export function MergeBoard() {
   const [nameOpen, setNameOpen] = useState(false);
   const [draftName, setDraftName] = useState("");
   const [autoGenerate, setAutoGenerate] = useState(false);
-  const [batchNames, setBatchNames] = useState<BatchRow[]>([]);
+  const [batchThirds, setBatchThirds] = useState<string[]>([]);
   const [nameError, setNameError] = useState<string | null>(null);
   const noticeTimer = useRef<number | null>(null);
 
@@ -997,7 +996,7 @@ export function MergeBoard() {
     );
     setNameOpen(false);
     setDraftName("");
-    setBatchNames([]);
+    setBatchThirds([]);
     setNameError(null);
   }
 
@@ -1005,14 +1004,13 @@ export function MergeBoard() {
     setDraftName("");
     setNameError(null);
     if (autoGenerate && mystery?.parentC) {
-      setBatchNames(
-        autoGenerateThirds(catalog, mystery.parentA, mystery.parentB, mystery.parentC).map((creature) => ({
-          thirdId: creature.id,
-          name: "",
-        })),
+      setBatchThirds(
+        autoGenerateThirds(catalog, mystery.parentA, mystery.parentB, mystery.parentC).map(
+          (creature) => creature.id,
+        ),
       );
     } else {
-      setBatchNames([]);
+      setBatchThirds([]);
     }
     setNameOpen(true);
   }
@@ -1022,58 +1020,45 @@ export function MergeBoard() {
     const parent = catalog.creatures.find((creature) => creature.id === mystery.parentA);
     if (!parent) return;
     const tier = parent.tier + 1;
-    const filled = batchNames
-      .map((row) => ({ thirdId: row.thirdId, name: normalizeName(row.name) }))
-      .filter((row) => row.name.length > 0);
-    if (filled.length === 0) {
-      setNameError("Enter a name for at least one creature.");
+    const cleaned = normalizeName(draftName);
+    if (!cleaned) {
+      setNameError("Give the creature a name.");
       return;
     }
-    const seen = new Set<string>();
-    for (const row of filled) {
-      const key = row.name.toLowerCase();
-      if (seen.has(key)) {
-        setNameError(`${row.name} is entered more than once.`);
-        return;
-      }
-      seen.add(key);
+    const existing = findByName(catalog.creatures, cleaned);
+    if (existing && existing.tier !== tier) {
+      setNameError(`${existing.name} is tier ${existing.tier}. This merge needs a tier ${tier} result.`);
+      return;
     }
     let draft = catalog;
-    const plan: Array<{ thirdId: string; name: string; create: boolean }> = [];
-    for (const row of filled) {
-      const existing = findByName(draft.creatures, row.name);
-      if (existing && existing.tier !== tier) {
-        setNameError(`${existing.name} is tier ${existing.tier}. This merge needs a tier ${tier} result.`);
+    let resultId = existing?.id;
+    if (!existing) {
+      const nameError = validateCreatureDraft(draft.creatures, cleaned, tier);
+      if (nameError) {
+        setNameError(nameError);
         return;
       }
-      let resultId = existing?.id;
-      const create = !existing;
-      if (!existing) {
-        const nameError = validateCreatureDraft(draft.creatures, row.name, tier);
-        if (nameError) {
-          setNameError(nameError);
-          return;
-        }
-        resultId = uniqueCreatureId(
-          row.name,
-          draft.creatures.map((creature) => creature.id),
-        );
-        draft = {
-          ...draft,
-          creatures: [...draft.creatures, { id: resultId, name: row.name, tier }],
-        };
-      }
-      if (!resultId) return;
+      resultId = uniqueCreatureId(
+        cleaned,
+        draft.creatures.map((creature) => creature.id),
+      );
+      draft = {
+        ...draft,
+        creatures: [...draft.creatures, { id: resultId, name: cleaned, tier }],
+      };
+    }
+    if (!resultId) return;
+    for (const thirdId of batchThirds) {
       const recipeError = validateRecipe(
         draft,
         mystery.parentA,
         mystery.parentB,
         resultId,
         undefined,
-        row.thirdId,
+        thirdId,
       );
       if (recipeError) {
-        setNameError(`${creatureName(catalog, row.thirdId)}: ${recipeError}`);
+        setNameError(`${creatureName(catalog, thirdId)}: ${recipeError}`);
         return;
       }
       draft = {
@@ -1081,43 +1066,40 @@ export function MergeBoard() {
         recipes: [
           ...draft.recipes,
           {
-            id: `pending-${row.thirdId}`,
+            id: `pending-${thirdId}`,
             parentA: mystery.parentA,
             parentB: mystery.parentB,
-            parentC: row.thirdId,
+            parentC: thirdId,
             resultId,
           },
         ],
       };
-      plan.push({ thirdId: row.thirdId, name: row.name, create });
     }
-    let placedId: string | null = null;
-    for (const item of plan) {
-      let resultId = findByName(catalog.creatures, item.name)?.id;
-      if (item.create || !resultId) {
-        const created = api.addCreature(item.name, tier);
-        if (!created.ok) {
-          setNameError(created.error);
-          return;
-        }
-        resultId = created.value.id;
+    let savedId = resultId;
+    if (!existing) {
+      const created = api.addCreature(cleaned, tier);
+      if (!created.ok) {
+        setNameError(created.error);
+        return;
       }
-      const saved = api.addRecipe(mystery.parentA, mystery.parentB, resultId, item.thirdId);
+      savedId = created.value.id;
+    }
+    for (const thirdId of batchThirds) {
+      const saved = api.addRecipe(mystery.parentA, mystery.parentB, savedId, thirdId);
       if (!saved.ok) {
         setNameError(saved.error);
         return;
       }
-      if (item.thirdId === mystery.parentC) placedId = resultId;
     }
-    if (placedId && mystery.tokenC) {
+    if (mystery.tokenC) {
       const third = tokens.find((token) => token.id === mystery.tokenC);
-      finishMerge(placedId, [mystery.tokenC], third?.x ?? 24, third?.y ?? 24);
+      finishMerge(savedId, [mystery.tokenC], third?.x ?? 24, third?.y ?? 24);
     } else {
       setMystery(null);
     }
     setNameOpen(false);
     setDraftName("");
-    setBatchNames([]);
+    setBatchThirds([]);
     setNameError(null);
   }
 
@@ -1156,7 +1138,7 @@ export function MergeBoard() {
     setTokens([]);
   }
 
-  const batchOpen = batchNames.length > 0;
+  const batchOpen = batchThirds.length > 0;
 
   return (
     <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -1492,7 +1474,7 @@ export function MergeBoard() {
         onOpenChange={(open) => {
           if (typeof open !== "boolean") return;
           setNameOpen(open);
-          if (!open) setBatchNames([]);
+          if (!open) setBatchThirds([]);
         }}
       >
         <DialogContent className={batchOpen ? "max-h-[min(40rem,85vh)] overflow-y-auto sm:max-w-lg" : undefined}>
@@ -1501,36 +1483,26 @@ export function MergeBoard() {
               <DialogHeader>
                 <DialogTitle>Name the group</DialogTitle>
                 <DialogDescription>
-                  {lockedPairLabel} with {creatureName(catalog, mystery.parentC)} and every same-tier
-                  creature after it. Type a name on each row you want. One click saves the group.
-                  Blank rows are skipped.
+                  {lockedPairLabel} with each creature below makes the same tier{" "}
+                  {(catalog.creatures.find((creature) => creature.id === mystery.parentA)?.tier ?? 1) + 1}{" "}
+                  creature. One name is saved, and each combo is its own record.
                 </DialogDescription>
               </DialogHeader>
-              <ul className="max-h-80 space-y-2 overflow-y-auto pr-1">
-                {batchNames.map((row) => {
-                  const third = creatureName(catalog, row.thirdId);
-                  const label = `${lockedPairLabel} + ${third}`;
-                  return (
-                    <li
-                      key={row.thirdId}
-                      className="grid gap-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,11rem)] sm:items-center"
-                    >
-                      <p className="truncate text-xs">{label}</p>
-                      <Input
-                        aria-label={`Name for ${label}`}
-                        value={row.name}
-                        placeholder="Species name"
-                        onChange={(event) =>
-                          setBatchNames((current) =>
-                            current.map((item) =>
-                              item.thirdId === row.thirdId ? { ...item, name: event.target.value } : item,
-                            ),
-                          )
-                        }
-                      />
-                    </li>
-                  );
-                })}
+              <div className="space-y-1">
+                <Label htmlFor="discovery-group-name">Species name</Label>
+                <Input
+                  id="discovery-group-name"
+                  value={draftName}
+                  onChange={(event) => setDraftName(event.target.value)}
+                  placeholder="River Dragon"
+                />
+              </div>
+              <ul className="max-h-64 space-y-1 overflow-y-auto pr-1">
+                {batchThirds.map((thirdId) => (
+                  <li key={thirdId} className="text-xs break-words">
+                    {lockedPairLabel} + {creatureName(catalog, thirdId)}
+                  </li>
+                ))}
               </ul>
               {nameError ? <p className="text-sm text-destructive">{nameError}</p> : null}
               <DialogFooter>
