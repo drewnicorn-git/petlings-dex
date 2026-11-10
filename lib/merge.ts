@@ -96,6 +96,24 @@ export function missingPartners(catalog: Catalog, creatureId: string): Creature[
     .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
 }
 
+export function autoGenerateThirds(
+  catalog: Catalog,
+  parentA: string,
+  parentB: string,
+  thirdId: string,
+): Creature[] {
+  const map = creatureMap(catalog.creatures);
+  const first = map.get(parentA);
+  const third = map.get(thirdId);
+  if (!first || !third || first.tier !== third.tier || third.tier < 7 || third.tier >= 10) return [];
+  const start = third.name.toLocaleLowerCase();
+  return catalog.creatures
+    .filter((creature) => creature.tier === third.tier)
+    .filter((creature) => creature.name.toLocaleLowerCase().localeCompare(start) >= 0)
+    .filter((creature) => !findTrio(catalog.recipes, parentA, parentB, creature.id))
+    .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
+}
+
 export function missingThirds(catalog: Catalog, parentA: string, parentB: string): Creature[] {
   const map = creatureMap(catalog.creatures);
   const first = map.get(parentA);

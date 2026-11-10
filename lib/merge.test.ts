@@ -10,6 +10,7 @@ import {
   expectedStarterTotal,
   findRecipe,
   isStarter,
+  autoGenerateThirds,
   missingPartners,
   missingThirds,
   starterShortfall,
@@ -271,6 +272,28 @@ describe("owned creatures", () => {
     expect(ranked.map((option) => option.path?.recipeId)).toEqual(
       plain.map((option) => option.path?.recipeId),
     );
+  });
+});
+
+describe("autoGenerateThirds", () => {
+  it("starts at the dropped creature and continues alphabetically, skipping saved trios", () => {
+    const board = catalog();
+    board.recipes.push({
+      id: "hydra-phoenix-griffin",
+      parentA: "hydra",
+      parentB: "phoenix",
+      parentC: "griffin",
+      resultId: "hydra",
+    });
+    const names = autoGenerateThirds(board, "phoenix", "hydra", "dragon").map((creature) => creature.name);
+    expect(names[0]).toBe("Dragon");
+    expect(names).toContain("Dragon Turtle");
+    expect(names).toContain("Hydra");
+    expect(names).toContain("Phoenix");
+    expect(names).not.toContain("Griffin");
+    expect(names).not.toContain("Behemoth");
+    expect(names).not.toContain("Chimera");
+    expect(autoGenerateThirds(board, "chick", "bunny", "duck")).toEqual([]);
   });
 });
 

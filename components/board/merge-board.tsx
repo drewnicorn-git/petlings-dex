@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, Copy, Plus, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import { CreatureArt } from "@/components/creature-art";
 import { useCatalog } from "@/components/catalog-context";
 import { Palette } from "@/components/board/palette";
@@ -31,8 +31,12 @@ import {
   buildTree,
   creatureName,
   disassemble,
+  autoGenerateThirds,
   findByName,
   missingPartners,
+  uniqueCreatureId,
+  validateCreatureDraft,
+  validateRecipe,
   missingThirds,
   normalizeName,
   emptyCounts,
@@ -200,25 +204,7 @@ function pairContaining(pairs: PairBond[], tokenId: string | undefined): PairBon
   return pairs.find((pair) => pair.tokenA === tokenId || pair.tokenB === tokenId) ?? null;
 }
 
-function pairSpot(
-  board: HTMLElement,
-  left: BoardToken,
-  dx: number,
-  dy: number,
-  taken: BoardToken[],
-): { x: number; y: number } {
-  const blocked = (x: number, y: number) =>
-    taken.some((token) => Math.abs(token.x - x) < 56 && Math.abs(token.y - y) < 56);
-  for (let row = 1; row <= 6; row += 1) {
-    const origin = clampToken(board, left.x, left.y + (TOKEN_H + 16) * row);
-    const mate = clampToken(board, origin.x + dx, origin.y + dy);
-    const spot = { x: origin.x + (mate.x - (origin.x + dx)), y: origin.y + (mate.y - (origin.y + dy)) };
-    if (Math.abs(spot.x - left.x) < 16 && Math.abs(spot.y - left.y) < 16) continue;
-    if (blocked(spot.x, spot.y) || blocked(mate.x, mate.y)) continue;
-    return spot;
-  }
-  return clampToken(board, left.x + TOKEN_W * 2, left.y);
-}
+type BatchRow = { thirdId: string; name: string };
 
 function Counts({ counts, starters }: { counts: StarterCounts; starters: readonly string[] }) {
   return (
@@ -510,6 +496,8 @@ export function MergeBoard() {
   const [stockReady, setStockReady] = useState(false);
   const [nameOpen, setNameOpen] = useState(false);
   const [draftName, setDraftName] = useState("");
+  const [autoGenerate, setAutoGenerate] = useState(false);
+  const [batchNames, setBatchNames] = useState<BatchRow[]>([]);
   const [nameError, setNameError] = useState<string | null>(null);
   const noticeTimer = useRef<number | null>(null);
 
@@ -996,6 +984,127 @@ export function MergeBoard() {
     );
     setNameOpen(false);
     setDraftName("");
+    setBatchNames([]);
+    setNameError(null);
+  }
+
+  function openNaming() {
+    setDraftName("");
+    setNameError(null);
+    if (autoGenerate && mystery?.parentC) {
+      setBatchNames(
+        autoGenerateThirds(catalog, mystery.parentA, mystery.parentB, mystery.parentC).map((creature) => ({
+          thirdId: creature.id,
+          name: "",
+        })),
+      );
+    } else {
+      setBatchNames([]);
+    }
+    setNameOpen(true);
+  }
+
+  function saveBatch() {
+    if (!mystery?.parentC) return;
+    const parent = catalog.creatures.find((creature) => creature.id === mystery.parentA);
+    if (!parent) return;
+    const tier = parent.tier + 1;
+    const filled = batchNames
+      .map((row) => ({ thirdId: row.thirdId, name: normalizeName(row.name) }))
+      .filter((row) => row.name.length > 0);
+    if (filled.length === 0) {
+      setNameError("Enter a name for at least one creature.");
+      return;
+    }
+    const seen = new Set<string>();
+    for (const row of filled) {
+      const key = row.name.toLowerCase();
+      if (seen.has(key)) {
+        setNameError(`${row.name} is entered more than once.`);
+        return;
+      }
+      seen.add(key);
+    }
+    let draft = catalog;
+    const plan: Array<{ thirdId: string; name: string; create: boolean }> = [];
+    for (const row of filled) {
+      const existing = findByName(draft.creatures, row.name);
+      if (existing && existing.tier !== tier) {
+        setNameError(`${existing.name} is tier ${existing.tier}. This merge needs a tier ${tier} result.`);
+        return;
+      }
+      let resultId = existing?.id;
+      const create = !existing;
+      if (!existing) {
+        const nameError = validateCreatureDraft(draft.creatures, row.name, tier);
+        if (nameError) {
+          setNameError(nameError);
+          return;
+        }
+        resultId = uniqueCreatureId(
+          row.name,
+          draft.creatures.map((creature) => creature.id),
+        );
+        draft = {
+          ...draft,
+          creatures: [...draft.creatures, { id: resultId, name: row.name, tier }],
+        };
+      }
+      if (!resultId) return;
+      const recipeError = validateRecipe(
+        draft,
+        mystery.parentA,
+        mystery.parentB,
+        resultId,
+        undefined,
+        row.thirdId,
+      );
+      if (recipeError) {
+        setNameError(`${creatureName(catalog, row.thirdId)}: ${recipeError}`);
+        return;
+      }
+      draft = {
+        ...draft,
+        recipes: [
+          ...draft.recipes,
+          {
+            id: `pending-${row.thirdId}`,
+            parentA: mystery.parentA,
+            parentB: mystery.parentB,
+            parentC: row.thirdId,
+            resultId,
+          },
+        ],
+      };
+      plan.push({ thirdId: row.thirdId, name: row.name, create });
+    }
+    let placedId: string | null = null;
+    for (const item of plan) {
+      let resultId = findByName(catalog.creatures, item.name)?.id;
+      if (item.create || !resultId) {
+        const created = api.addCreature(item.name, tier);
+        if (!created.ok) {
+          setNameError(created.error);
+          return;
+        }
+        resultId = created.value.id;
+      }
+      const saved = api.addRecipe(mystery.parentA, mystery.parentB, resultId, item.thirdId);
+      if (!saved.ok) {
+        setNameError(saved.error);
+        return;
+      }
+      if (item.thirdId === mystery.parentC) placedId = resultId;
+    }
+    if (placedId && mystery.tokenC) {
+      const third = tokens.find((token) => token.id === mystery.tokenC);
+      finishMerge(placedId, [mystery.tokenC], third?.x ?? 24, third?.y ?? 24);
+    } else {
+      setMystery(null);
+    }
+    setNameOpen(false);
+    setDraftName("");
+    setBatchNames([]);
     setNameError(null);
   }
 
@@ -1007,6 +1116,7 @@ export function MergeBoard() {
   const mysteryParents = mystery
     ? comboNames(catalog, [mystery.parentA, mystery.parentB, mystery.parentC])
     : "";
+  const lockedPairLabel = mystery ? comboNames(catalog, [mystery.parentA, mystery.parentB]) : "";
 
   const gapCreature =
     gapQuery?.kind === "one"
@@ -1033,40 +1143,7 @@ export function MergeBoard() {
     setTokens([]);
   }
 
-  function duplicatePair(source: PairBond) {
-    const board = boardRef.current;
-    if (!board) return;
-    const current = tokensRef.current;
-    const tokenA = current.find((token) => token.id === source.tokenA);
-    const tokenB = current.find((token) => token.id === source.tokenB);
-    if (!tokenA || !tokenB) return;
-    const left = tokenA.x <= tokenB.x ? tokenA : tokenB;
-    const right = left === tokenA ? tokenB : tokenA;
-    const spot = pairSpot(board, left, right.x - left.x, right.y - left.y, current);
-    const mate = clampToken(board, spot.x + (right.x - left.x), spot.y + (right.y - left.y));
-    const idLeft = newTokenId();
-    const idRight = newTokenId();
-    const nextTokens = [
-      ...current,
-      { id: idLeft, creatureId: left.creatureId, x: spot.x, y: spot.y },
-      { id: idRight, creatureId: right.creatureId, x: mate.x, y: mate.y },
-    ];
-    tokensRef.current = nextTokens;
-    setTokens(nextTokens);
-    const nextPairs = [
-      ...pairsRef.current,
-      {
-        id: `pair-${crypto.randomUUID().slice(0, 8)}`,
-        tokenA: idLeft,
-        tokenB: idRight,
-        parentA: left.creatureId,
-        parentB: right.creatureId,
-        tier: source.tier,
-      },
-    ];
-    pairsRef.current = nextPairs;
-    setPairs(nextPairs);
-  }
+  const batchOpen = batchNames.length > 0;
 
   return (
     <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -1153,15 +1230,32 @@ export function MergeBoard() {
             <Trash2 className="size-4" />
           </button>
         </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          disabled={tokens.length === 0}
-          onClick={clearBoard}
-        >
-          Clear all
-        </Button>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 rounded-full border px-2.5 py-1">
+            <span className="text-xs font-semibold">Auto-Generate</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={autoGenerate}
+              aria-label="Auto-Generate"
+              onClick={() => setAutoGenerate((on) => !on)}
+              className={`relative h-5 w-9 rounded-full transition-colors ${autoGenerate ? "bg-primary" : "bg-muted"}`}
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 size-4 rounded-full bg-background shadow transition-transform ${autoGenerate ? "translate-x-4" : ""}`}
+              />
+            </button>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={tokens.length === 0}
+            onClick={clearBoard}
+          >
+            Clear all
+          </Button>
+        </div>
       </div>
       <div
         ref={boardRef}
@@ -1169,7 +1263,7 @@ export function MergeBoard() {
       >
         {tokens.length === 0 ? (
           <p className="pointer-events-none absolute top-6 left-6 max-w-xs text-sm text-muted-foreground">
-            Drag a creature here, then drop it on another of the same tier. Tier 7 and up click together, then take a third. Copy a locked pair from the button on its bottom left.
+            Drag a creature here, then drop it on another of the same tier. Tier 7 and up click together, then take a third. Turn on Auto-Generate to name that pair with every later creature in one pass.
           </p>
         ) : null}
         {notice ? (
@@ -1195,24 +1289,6 @@ export function MergeBoard() {
               className={`absolute w-28 ${joined ? "z-10" : ""}`}
               style={{ left: token.x, top: token.y }}
             >
-              {joined === "left" && bond && mate ? (
-                <button
-                  type="button"
-                  className="absolute -bottom-1 -left-1 z-20 flex size-7 items-center justify-center rounded-full border bg-popover shadow-sm hover:bg-muted"
-                  aria-label={`Duplicate ${creature.name} and ${catalog.creatures.find((item) => item.id === mate.creatureId)?.name ?? "partner"}`}
-                  onPointerDown={(event) => {
-                    event.stopPropagation();
-                    event.currentTarget.dataset.press = "1";
-                  }}
-                  onClick={(event) => {
-                    if (event.currentTarget.dataset.press !== "1") return;
-                    event.currentTarget.dataset.press = "";
-                    duplicatePair(bond);
-                  }}
-                >
-                  <Copy className="size-3.5" />
-                </button>
-              ) : null}
               <button
                 type="button"
                 className="absolute -top-2 -right-1 z-10 flex size-6 items-center justify-center rounded-full bg-foreground text-xs text-background"
@@ -1274,16 +1350,8 @@ export function MergeBoard() {
               {mysteryParents} don&apos;t have a saved combo.
             </p>
             <div className="mt-2 flex gap-2">
-              <Button
-                type="button"
-                size="sm"
-                onClick={() => {
-                  setDraftName("");
-                  setNameError(null);
-                  setNameOpen(true);
-                }}
-              >
-                Name it
+              <Button type="button" size="sm" onClick={openNaming}>
+                {autoGenerate && mystery.parentC ? "Name the group" : "Name it"}
               </Button>
               <Button type="button" size="sm" variant="outline" onClick={() => setMystery(null)}>
                 Dismiss
@@ -1406,36 +1474,93 @@ export function MergeBoard() {
           <p className="truncate text-center text-xs font-semibold">{ghostCreature.name}</p>
         </div>
       ) : null}
-      <Dialog open={nameOpen} onOpenChange={setNameOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Name the new creature</DialogTitle>
-            <DialogDescription>
-              {mystery
-                ? `${mysteryParents} will be saved as a tier ${
-                    (catalog.creatures.find((creature) => creature.id === mystery.parentA)?.tier ?? 1) + 1
-                  } result.`
-                : "Save this combo."}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-1">
-            <Label htmlFor="discovery-name">Species name</Label>
-            <Input
-              id="discovery-name"
-              value={draftName}
-              onChange={(event) => setDraftName(event.target.value)}
-              placeholder="River Dragon"
-            />
-          </div>
-          {nameError ? <p className="text-sm text-destructive">{nameError}</p> : null}
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setNameOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="button" onClick={saveDiscovery}>
-              Save combo
-            </Button>
-          </DialogFooter>
+      <Dialog
+        open={nameOpen}
+        onOpenChange={(open) => {
+          if (typeof open !== "boolean") return;
+          setNameOpen(open);
+          if (!open) setBatchNames([]);
+        }}
+      >
+        <DialogContent className={batchOpen ? "max-h-[min(40rem,85vh)] overflow-y-auto sm:max-w-lg" : undefined}>
+          {batchOpen && mystery?.parentC ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>Name the group</DialogTitle>
+                <DialogDescription>
+                  {lockedPairLabel} with {creatureName(catalog, mystery.parentC)} and every same-tier
+                  creature after it. Type a name on each row you want. One click saves the group.
+                  Blank rows are skipped.
+                </DialogDescription>
+              </DialogHeader>
+              <ul className="max-h-80 space-y-2 overflow-y-auto pr-1">
+                {batchNames.map((row) => {
+                  const third = creatureName(catalog, row.thirdId);
+                  const label = `${lockedPairLabel} + ${third}`;
+                  return (
+                    <li
+                      key={row.thirdId}
+                      className="grid gap-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,11rem)] sm:items-center"
+                    >
+                      <p className="truncate text-xs">{label}</p>
+                      <Input
+                        aria-label={`Name for ${label}`}
+                        value={row.name}
+                        placeholder="Species name"
+                        onChange={(event) =>
+                          setBatchNames((current) =>
+                            current.map((item) =>
+                              item.thirdId === row.thirdId ? { ...item, name: event.target.value } : item,
+                            ),
+                          )
+                        }
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+              {nameError ? <p className="text-sm text-destructive">{nameError}</p> : null}
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setNameOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="button" onClick={saveBatch}>
+                  Save group
+                </Button>
+              </DialogFooter>
+            </>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Name the new creature</DialogTitle>
+                <DialogDescription>
+                  {mystery
+                    ? `${mysteryParents} will be saved as a tier ${
+                        (catalog.creatures.find((creature) => creature.id === mystery.parentA)?.tier ?? 1) + 1
+                      } result.`
+                    : "Save this combo."}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-1">
+                <Label htmlFor="discovery-name">Species name</Label>
+                <Input
+                  id="discovery-name"
+                  value={draftName}
+                  onChange={(event) => setDraftName(event.target.value)}
+                  placeholder="River Dragon"
+                />
+              </div>
+              {nameError ? <p className="text-sm text-destructive">{nameError}</p> : null}
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setNameOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="button" onClick={saveDiscovery}>
+                  Save combo
+                </Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
