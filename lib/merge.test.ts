@@ -27,6 +27,32 @@ function catalog(): Catalog {
   return structuredClone(seedCatalog);
 }
 
+function tierBoard(): Catalog {
+  return {
+    starters: ["chick", "bunny", "cat"],
+    creatures: [
+      { id: "chick", name: "Chick", tier: 1, locked: true },
+      { id: "bunny", name: "Bunny", tier: 1, locked: true },
+      { id: "cat", name: "Cat", tier: 1, locked: true },
+      { id: "duck", name: "Duck", tier: 2 },
+      { id: "pup", name: "Pup", tier: 2 },
+      { id: "wolf", name: "Wolf", tier: 3 },
+      { id: "ace", name: "Ace", tier: 3 },
+      { id: "cub", name: "Cub", tier: 3 },
+      { id: "goal", name: "Goal", tier: 4 },
+    ],
+    recipes: [
+      { id: "duck", parentA: "chick", parentB: "chick", resultId: "duck" },
+      { id: "pup", parentA: "bunny", parentB: "bunny", resultId: "pup" },
+      { id: "wolf", parentA: "duck", parentB: "duck", resultId: "wolf" },
+      { id: "ace-wolves", parentA: "wolf", parentB: "wolf", resultId: "ace" },
+      { id: "cub", parentA: "pup", parentB: "pup", resultId: "cub" },
+      { id: "goal-ace", parentA: "ace", parentB: "ace", resultId: "goal" },
+      { id: "goal-cub", parentA: "cub", parentB: "cub", resultId: "goal" },
+    ],
+  };
+}
+
 describe("sea starters", () => {
   it("counts Clownfish and Seahorse instead of the land starters", () => {
     const sea: Catalog = {
@@ -262,6 +288,68 @@ describe("owned creatures", () => {
       const rawShort = totalCount(raw.shortfall);
       expect(ownedShort).toBeLessThanOrEqual(rawShort);
     }
+  });
+
+  it("prefers the highest tier creature when that build can be finished", () => {
+    const board = tierBoard();
+    const goal = disassemble("goal", board);
+    expect(goal.status).toBe("ok");
+    if (goal.status !== "ok") return;
+    const have = { chick: 12, bunny: 8, cat: 0 };
+    const ranked = rankMixes(board, "goal", goal.paths, goal.counts, have, ["wolf"]);
+    expect(ranked[0]?.uses).toContain("wolf");
+    expect(ranked[0]?.affordable).toBe(true);
+    const cub = ranked.find((option) => option.path?.parentA === "cub" && option.path.parentB === "cub");
+    expect(cub?.affordable).toBe(true);
+    expect(totalCount(ranked[0]?.counts ?? {})).toBeGreaterThan(totalCount(cub?.counts ?? {}));
+  });
+
+  it("uses a finished build when the highest tier creature cannot finish", () => {
+    const board = tierBoard();
+    const goal = disassemble("goal", board);
+    expect(goal.status).toBe("ok");
+    if (goal.status !== "ok") return;
+    const have = { chick: 0, bunny: 8, cat: 0 };
+    const ranked = rankMixes(board, "goal", goal.paths, goal.counts, have, ["wolf"]);
+    expect(ranked[0]?.affordable).toBe(true);
+    expect(ranked[0]?.uses).not.toContain("wolf");
+    expect(ranked.some((option) => option.uses.includes("wolf") && !option.affordable)).toBe(true);
+  });
+
+  it("keeps the highest tier creature when no build can be finished", () => {
+    const board = tierBoard();
+    const goal = disassemble("goal", board);
+    expect(goal.status).toBe("ok");
+    if (goal.status !== "ok") return;
+    const have = { chick: 0, bunny: 0, cat: 0 };
+    const ranked = rankMixes(board, "goal", goal.paths, goal.counts, have, ["wolf"]);
+    expect(ranked[0]?.uses).toContain("wolf");
+    expect(ranked[0]?.affordable).toBe(false);
+    const cheaper = ranked.find((option) => !option.uses.includes("wolf"));
+    expect(cheaper).toBeTruthy();
+    expect(totalCount(ranked[0]?.shortfall ?? {})).toBeGreaterThan(totalCount(cheaper?.shortfall ?? {}));
+  });
+
+  it("keeps every distinct starter mix and drops only the same counts twice", () => {
+    const board = tierBoard();
+    board.recipes.push({ id: "ace-mix", parentA: "wolf", parentB: "pup", resultId: "ace" });
+    const ace = disassemble("ace", board);
+    expect(ace.status).toBe("ok");
+    if (ace.status !== "ok") return;
+    const signatures = ace.paths.map(
+      (path) => `${path.counts.chick}:${path.counts.bunny}:${path.counts.cat}`,
+    );
+    expect(new Set(signatures).size).toBe(signatures.length);
+    expect(ace.paths.map((path) => path.counts)).toEqual(
+      expect.arrayContaining([
+        { chick: 8, bunny: 0, cat: 0 },
+        { chick: 4, bunny: 2, cat: 0 },
+      ]),
+    );
+    const have = { chick: 4, bunny: 2, cat: 0 };
+    const ranked = rankMixes(board, "ace", ace.paths, ace.counts, have, []);
+    expect(ranked[0]?.counts).toEqual({ chick: 4, bunny: 2, cat: 0 });
+    expect(ranked[0]?.affordable).toBe(true);
   });
 
   it("keeps the same order when nothing extra is owned", () => {

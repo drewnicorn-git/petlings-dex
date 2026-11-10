@@ -372,6 +372,16 @@ function BreakdownView({
   if (breakdown.status !== "ok") return null;
   const options = rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
   const best = options[0];
+  const ownedTop = owned.reduce(
+    (max, id) => Math.max(max, catalog.creatures.find((creature) => creature.id === id)?.tier ?? 0),
+    0,
+  );
+  const bestUsesTop =
+    ownedTop > 1 &&
+    (best?.uses.some(
+      (id) => (catalog.creatures.find((creature) => creature.id === id)?.tier ?? 0) === ownedTop,
+    ) ??
+      false);
   const listed = options.filter((option) => option.path);
   const fits = listed.filter((option) => option.affordable).length;
   const ways = listed.length;
@@ -405,9 +415,12 @@ function BreakdownView({
             <p className="text-xs text-muted-foreground">{ownedUseText(best.uses, catalog)}</p>
           ) : null}
           <p className="text-xs text-muted-foreground">
-            {best.affordable
-              ? "This uses the starters you have the most of."
-              : `Still need ${shortfallText(best, catalog.starters)}.`}
+            {bestUsesTop
+              ? "This uses the highest tier creature you already have."
+              : best.affordable
+                ? "This uses the starters you have the most of."
+                : `Still need ${shortfallText(best, catalog.starters)}.`}
+            {bestUsesTop && !best.affordable ? ` Still need ${shortfallText(best, catalog.starters)}.` : ""}
           </p>
           {best.path ? (
             <p className="text-xs text-muted-foreground">Double-click for the full build.</p>
