@@ -5,8 +5,19 @@ import type { Catalog, Creature, Recipe } from "@/lib/types";
 
 export const bundledRevision = board.revision;
 
+type BundledBoard = {
+  creatures: Array<{ id: string; name: string; tier: number; locked?: boolean }>;
+  recipes: Array<{
+    id: string;
+    parentA: string;
+    parentB: string;
+    parentC?: string;
+    resultId: string;
+  }>;
+};
+
 function toCatalog(
-  source: typeof board,
+  source: BundledBoard,
   starters: readonly [string, string, string],
 ): Catalog {
   return {
