@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import board from "@/data/merge-board.json";
+import seaBoard from "@/data/sea-board.json";
 import { seaCatalog, seedCatalog } from "@/lib/seed";
 import { catalogStamp, parseImport, resolveSavedCatalog } from "@/lib/storage";
 
@@ -14,7 +15,15 @@ describe("bundled catalog", () => {
     expect(parsed.catalog.recipes).toHaveLength(seedCatalog.recipes.length);
     expect(parsed.catalog.creatures).toHaveLength(137);
     expect(seedCatalog.recipes).toHaveLength(2276);
-    expect(seaCatalog.creatures.map((creature) => creature.id)).toEqual([
+    const seaParsed = parseImport(seaBoard, "sea");
+    expect(seaParsed.ok).toBe(true);
+    if (!seaParsed.ok) return;
+    expect(seaParsed.catalog.creatures.map((creature) => creature.id)).toEqual(
+      seaCatalog.creatures.map((creature) => creature.id),
+    );
+    expect(seaCatalog.creatures).toHaveLength(42);
+    expect(seaCatalog.recipes).toHaveLength(142);
+    expect(seaCatalog.creatures.slice(0, 3).map((creature) => creature.id)).toEqual([
       "clownfish",
       "seahorse",
       "crab",
