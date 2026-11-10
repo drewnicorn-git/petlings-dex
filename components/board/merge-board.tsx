@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import { CreatureArt } from "@/components/creature-art";
 import { useCatalog } from "@/components/catalog-context";
@@ -115,30 +115,11 @@ function pieceLabel(
   return creature ? `${creature.name} (T${creature.tier})` : id;
 }
 
-function planPieces(option: StarterOption) {
-  if (option.tree) {
-    const frontier = materialFrontier(option.tree);
-    return {
-      have: frontier.filter((item) => item.owned).map((item) => item.creatureId),
-      need: frontier.filter((item) => !item.owned).map((item) => item.creatureId),
-    };
-  }
-  return {
-    have: [] as string[],
-    need: [option.path?.parentA, option.path?.parentB, option.path?.parentC].filter(
-      (id): id is string => typeof id === "string",
-    ),
-  };
-}
-
-function needsBaseMaterials(
-  need: readonly string[],
-  catalog: ReturnType<typeof useCatalog>["catalog"],
-): boolean {
-  return (
-    need.length > 0 &&
-    need.every((id) => (catalog.creatures.find((item) => item.id === id)?.tier ?? 1) <= 2)
-  );
+function ownedPieces(option: StarterOption): string[] {
+  if (!option.tree) return option.uses;
+  return materialFrontier(option.tree)
+    .filter((item) => item.owned)
+    .map((item) => item.creatureId);
 }
 
 function PlanLines({
@@ -148,8 +129,8 @@ function PlanLines({
   option: StarterOption;
   catalog: ReturnType<typeof useCatalog>["catalog"];
 }) {
-  const pieces = planPieces(option);
-  const base = needsBaseMaterials(pieces.need, catalog);
+  const have = ownedPieces(option);
+  const starters = catalog.starters.filter((id) => (option.shortfall[id] ?? 0) > 0);
   return (
     <>
       {option.path ? (
@@ -157,28 +138,27 @@ function PlanLines({
           via {comboNames(catalog, [option.path.parentA, option.path.parentB, option.path.parentC])}
         </p>
       ) : null}
-      {pieces.have.length > 0 ? (
+      {have.length > 0 ? (
         <p className="text-xs break-words">
-          Use your {pieces.have.map((id) => pieceLabel(id, catalog)).join(", ")}.
+          Use your {have.map((id) => pieceLabel(id, catalog)).join(", ")}.
         </p>
       ) : null}
-      {pieces.need.length > 0 ? (
-        <p className="text-xs break-words">
-          Need {pieces.need.map((id) => pieceLabel(id, catalog)).join(", ")}.
-        </p>
-      ) : pieces.have.length > 0 ? (
-        <p className="text-xs">You already have every piece.</p>
-      ) : null}
-      {base ? <Counts counts={option.counts} starters={catalog.starters} /> : null}
+      {starters.length === 0 ? (
+        <p className="text-xs">No extra tier 1 pets.</p>
+      ) : (
+        <>
+          <p className="text-xs">Still need</p>
+          <ul className="mt-1 space-y-0.5">
+            {starters.map((id) => (
+              <li key={id}>
+                {STARTER_NAMES[id] ?? id} × {option.shortfall[id]}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </>
   );
-}
-
-function shortfallText(option: StarterOption, starters: readonly string[]): string {
-  const parts = starters
-    .filter((id) => (option.shortfall[id] ?? 0) > 0)
-    .map((id) => `${STARTER_NAMES[id] ?? id} × ${option.shortfall[id]}`);
-  return parts.join(", ");
 }
 
 type Drag =
@@ -256,18 +236,6 @@ function pairContaining(pairs: PairBond[], tokenId: string | undefined): PairBon
   return pairs.find((pair) => pair.tokenA === tokenId || pair.tokenB === tokenId) ?? null;
 }
 
-
-function Counts({ counts, starters }: { counts: StarterCounts; starters: readonly string[] }) {
-  return (
-    <ul className="mt-1 space-y-0.5">
-      {starters.map((id) => (
-        <li key={id}>
-          {STARTER_NAMES[id] ?? id} × {counts[id] ?? 0}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 function BuildBranch({
   step,
@@ -367,6 +335,10 @@ function BreakdownView({
   const { catalog } = useCatalog();
   const [tree, setTree] = useState<BuildStep | null>(null);
   const [treeOpen, setTreeOpen] = useState(false);
+  const options = useMemo(() => {
+    if (breakdown.status !== "ok") return [];
+    return rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
+  }, [breakdown, catalog, creatureId, have, owned]);
   const creature = catalog.creatures.find((item) => item.id === creatureId);
   if (!creature) return null;
   if (breakdown.status === "missing") {
@@ -421,7 +393,6 @@ function BreakdownView({
     );
   }
   if (breakdown.status !== "ok") return null;
-  const options = rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
   const best = options[0];
   const listed = options.filter((option) => option.path);
   const fits = listed.filter((option) => option.affordable).length;
@@ -450,14 +421,7 @@ function BreakdownView({
             <p className="text-xs">This is a starter.</p>
           )}
           {best.path ? (
-            <p className="text-xs text-muted-foreground">
-              {needsBaseMaterials(planPieces(best).need, catalog)
-                ? best.affordable
-                  ? "This uses the starters you have. "
-                  : `Still need ${shortfallText(best, catalog.starters)}. `
-                : ""}
-              Double-click for the full build.
-            </p>
+            <p className="text-xs text-muted-foreground">Double-click for the full build.</p>
           ) : null}
         </div>
       ) : null}
@@ -494,11 +458,7 @@ function BreakdownView({
             >
               <PlanLines option={option} catalog={catalog} />
               <p className="text-[10px] font-semibold tracking-wide uppercase">
-                {option.affordable
-                  ? "Possible"
-                  : needsBaseMaterials(planPieces(option).need, catalog)
-                    ? `Needs ${shortfallText(option, catalog.starters)}`
-                    : "Needs those creatures"}
+                {option.affordable ? "Possible" : "Short"}
               </p>
             </div>
           ) : null,
@@ -532,9 +492,14 @@ export function MergeBoard() {
   pairsRef.current = pairs;
   const [focusId, setFocusId] = useState<string | null>(null);
   const [focusVersion, setFocusVersion] = useState(0);
+  const [plan, setPlan] = useState<{ have: StarterCounts; owned: string[] } | null>(null);
   const [gapQuery, setGapQuery] = useState<GapQuery | null>(null);
   const [stock, setStock] = useState<StarterCounts>(() => emptyCounts(starters));
   const [owned, setOwned] = useState<string[]>([]);
+  const stockRef = useRef(stock);
+  const ownedRef = useRef(owned);
+  stockRef.current = stock;
+  ownedRef.current = owned;
   const stockFarm = useRef(farm);
   const [pickerKey, setPickerKey] = useState(0);
   const [stockReady, setStockReady] = useState(false);
@@ -562,6 +527,7 @@ export function MergeBoard() {
     setMystery(null);
     setPairs([]);
     setFocusId(null);
+    setPlan(null);
     setGapQuery(null);
     setStockReady(true);
   }, [farm, starters]);
@@ -765,6 +731,7 @@ export function MergeBoard() {
         }
         if (overDock) {
           setFocusId(drag.creatureId);
+          setPlan({ have: { ...stockRef.current }, owned: [...ownedRef.current] });
           setFocusVersion((version) => version + 1);
           return;
         }
@@ -795,6 +762,7 @@ export function MergeBoard() {
       }
       if (overDock) {
         setFocusId(token.creatureId);
+        setPlan({ have: { ...stockRef.current }, owned: [...ownedRef.current] });
         setFocusVersion((version) => version + 1);
         snapBack(drag);
         return;
@@ -1482,8 +1450,8 @@ export function MergeBoard() {
                     key={`${focus.id}-${focusVersion}`}
                     creatureId={focus.id}
                     breakdown={breakdown}
-                    have={stock}
-                    owned={owned}
+                    have={plan?.have ?? stock}
+                    owned={plan?.owned ?? owned}
                   />
                 </div>
               ) : (
