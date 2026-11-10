@@ -384,9 +384,22 @@ describe("owned creatures", () => {
   });
 });
 
+function tier7Board(): Catalog {
+  const names = ["Behemoth", "Chimera", "Dragon", "Dragon Turtle", "Griffin", "Hydra", "Phoenix"];
+  return {
+    starters: ["chick", "bunny", "cat"],
+    creatures: [
+      { id: "chick", name: "Chick", tier: 1, locked: true },
+      { id: "bunny", name: "Bunny", tier: 1, locked: true },
+      ...names.map((name) => ({ id: name.toLowerCase().replace(/ /g, "-"), name, tier: 7 })),
+    ],
+    recipes: [],
+  };
+}
+
 describe("autoGenerateThirds", () => {
   it("starts at the dropped creature and continues alphabetically, skipping saved trios", () => {
-    const board = catalog();
+    const board = tier7Board();
     board.recipes.push({
       id: "hydra-phoenix-griffin",
       parentA: "hydra",
@@ -408,7 +421,7 @@ describe("autoGenerateThirds", () => {
 
 describe("missingThirds", () => {
   it("lists every same-tier creature that does not finish the pair", () => {
-    const board = catalog();
+    const board = tier7Board();
     board.recipes.push({
       id: "hydra-phoenix-dragon",
       parentA: "hydra",
@@ -490,7 +503,7 @@ describe("attemptMerge", () => {
       ok: false,
       reason: "needs-third",
     });
-    const board = catalog();
+    const board = tier7Board();
     board.creatures.push({ id: "colossus", name: "Colossus", tier: 8 });
     board.recipes.push({
       id: "hydra-phoenix-dragon",

@@ -21,7 +21,7 @@ Every saved creature uses a chibi portrait when one is already prepared for that
 
 Creatures, combos, and the tokens on each farm are saved separately in this browser’s local storage. Edit names, tiers, and combos from Land Data or Sea Data.
 
-Export writes a `merge-board.json` file. To make a newer list part of the project, replace `data/merge-board.json` with that export. The next time the app loads, it uses the new file and drops browser-only creatures that were not in it. Until that file changes, creatures you add in the browser stay put. Import still replaces the list in this browser only.
+Land Data exports `merge-board-land.json`. Sea Data exports `merge-board-sea.json`. To make a newer list part of the project, replace `data/merge-board.json` or `data/sea-board.json` with that export. The next time the app loads, it uses the new file and drops browser-only creatures that were not in it. Until that file changes, creatures you add in the browser stay put. Import still replaces the list in this browser only.
 
 ## Run it locally
 

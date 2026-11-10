@@ -12,8 +12,8 @@ describe("bundled catalog", () => {
       seedCatalog.creatures.map((creature) => creature.id),
     );
     expect(parsed.catalog.recipes).toHaveLength(seedCatalog.recipes.length);
-    expect(parsed.catalog.creatures).toHaveLength(127);
-    expect(seedCatalog.recipes).toHaveLength(1208);
+    expect(parsed.catalog.creatures).toHaveLength(137);
+    expect(seedCatalog.recipes).toHaveLength(2276);
     expect(seaCatalog.creatures.map((creature) => creature.id)).toEqual([
       "clownfish",
       "seahorse",

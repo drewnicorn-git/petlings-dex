@@ -151,7 +151,7 @@ export function DataTab() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "merge-board.json";
+    link.download = `merge-board-${farm}.json`;
     link.click();
     URL.revokeObjectURL(url);
   }
@@ -326,7 +326,7 @@ export function DataTab() {
           <h2 className="font-heading text-lg">Saved list</h2>
           <div className="flex flex-wrap gap-2">
             <Button type="button" variant="outline" onClick={download}>
-              Export
+              Export {farm === "sea" ? "sea" : "land"}
             </Button>
             <Button type="button" variant="outline" onClick={() => fileRef.current?.click()}>
               Import
@@ -344,9 +344,11 @@ export function DataTab() {
           </div>
         </div>
         <p className="text-sm text-muted-foreground">
-          The copy kept with the project is <span className="font-medium">data/merge-board.json</span>.
-          Export a newer file and replace that one when you add more creatures. The board picks up the
-          new file the next time it loads.
+          Land Data exports <span className="font-medium">merge-board-land.json</span>. Sea Data exports{" "}
+          <span className="font-medium">merge-board-sea.json</span>. The copies kept with the project
+          are <span className="font-medium">data/merge-board.json</span> and{" "}
+          <span className="font-medium">data/sea-board.json</span>. Replace the matching file when you
+          add more creatures. The board picks up the new file the next time it loads.
         </p>
         {importError ? <p className="text-sm text-destructive">{importError}</p> : null}
         <ul className="grid gap-2 md:grid-cols-2">
