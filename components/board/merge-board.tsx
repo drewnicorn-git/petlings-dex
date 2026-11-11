@@ -42,6 +42,7 @@ import {
   emptyCounts,
   materialFrontier,
   rankMixes,
+  sortMixes,
   sortCreatures,
   type Breakdown,
   type BuildStep,
@@ -335,10 +336,59 @@ function BreakdownView({
   const { catalog } = useCatalog();
   const [tree, setTree] = useState<BuildStep | null>(null);
   const [treeOpen, setTreeOpen] = useState(false);
-  const options = useMemo(() => {
-    if (breakdown.status !== "ok") return [];
+  const [covered, setCovered] = useState<StarterOption[] | null>(null);
+  const [pending, setPending] = useState(false);
+  const immediate = useMemo(() => {
+    if (breakdown.status !== "ok" || owned.length > 0) return null;
     return rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
   }, [breakdown, catalog, creatureId, have, owned]);
+  useEffect(() => {
+    if (breakdown.status !== "ok" || owned.length === 0) {
+      setCovered(null);
+      setPending(false);
+      return;
+    }
+    let cancelled = false;
+    const groups = new Map<string, typeof breakdown.paths>();
+    for (const path of breakdown.paths) {
+      const list = groups.get(path.recipeId) ?? [];
+      list.push(path);
+      groups.set(path.recipeId, list);
+    }
+    const recipes = [...groups.values()];
+    const found: StarterOption[] = [];
+    let self: StarterOption | null = null;
+    let index = 0;
+    setPending(true);
+    setCovered([]);
+    function step() {
+      if (cancelled || breakdown.status !== "ok") return;
+      const group = recipes[index];
+      index += 1;
+      if (group) {
+        const ranked = rankMixes(catalog, creatureId, group, breakdown.counts, have, owned);
+        for (const option of ranked) {
+          if (option.path) found.push(option);
+          else self = option;
+        }
+        setCovered(sortMixes(found, catalog, have));
+      }
+      if (index < recipes.length) {
+        timer = window.setTimeout(step, 0);
+        return;
+      }
+      if (self) found.push(self);
+      setCovered(sortMixes(found, catalog, have));
+      setPending(false);
+    }
+    let timer = window.setTimeout(step, 0);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [breakdown, catalog, creatureId, have, owned]);
+  const options = immediate ?? covered ?? [];
+  const searching = pending || (owned.length > 0 && covered === null);
   const creature = catalog.creatures.find((item) => item.id === creatureId);
   if (!creature) return null;
   if (breakdown.status === "missing") {
@@ -406,6 +456,11 @@ function BreakdownView({
 
   return (
     <div>
+      {searching ? (
+        <p className="text-xs text-muted-foreground">
+          {options.length === 0 ? "Finding the best build…" : "Checking the other ways…"}
+        </p>
+      ) : null}
       {best ? (
         <div
           className={`mt-2 rounded-xl bg-muted px-2 py-1.5 ${best.path ? "cursor-pointer" : ""}`}
@@ -446,7 +501,9 @@ function BreakdownView({
       </Dialog>
       <p className="mt-2 text-xs text-muted-foreground">
         {ways === 0
-          ? "Starter"
+          ? searching
+            ? "Looking through the saved ways."
+            : "Starter"
           : `${fits} of ${ways} ${ways === 1 ? "way" : "ways"} fit what you have`}
       </p>
       {ways === 0 ? null : (

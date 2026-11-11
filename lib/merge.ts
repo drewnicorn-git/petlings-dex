@@ -534,9 +534,12 @@ type SplitWitness = {
 };
 
 const signatureCache = new WeakMap<Catalog, Map<string, number[]>>();
+const signatureFrontCache = new WeakMap<Catalog, Map<string, number[]>>();
 const rawWitnessCache = new WeakMap<Catalog, Map<string, SplitWitness>>();
 const placementCache = new WeakMap<Catalog, Map<string, number[]>>();
 const placementWitnessCache = new WeakMap<Catalog, Map<string, SplitWitness>>();
+const placeableCache = new WeakMap<Catalog, Map<string, boolean>>();
+const tierCache = new WeakMap<Catalog, Map<string, number>>();
 const descendantCache = new WeakMap<Catalog, Map<string, Set<string>>>();
 const recipeIndexCache = new WeakMap<Catalog, Map<string, Recipe[]>>();
 
@@ -572,7 +575,43 @@ function rememberSignatures(
   for (const [key, witness] of witnesses) if (!savedWitness.has(key)) savedWitness.set(key, witness);
 }
 
-function signatureList(catalog: Catalog, id: string): number[] {
+function packedDominates(better: number, worse: number): boolean {
+  const betterFirst = better % PACK;
+  const betterSecond = Math.floor(better / PACK) % PACK;
+  const betterThird = Math.floor(better / PACK2);
+  const worseFirst = worse % PACK;
+  const worseSecond = Math.floor(worse / PACK) % PACK;
+  const worseThird = Math.floor(worse / PACK2);
+  return (
+    betterFirst <= worseFirst &&
+    betterSecond <= worseSecond &&
+    betterThird <= worseThird &&
+    (betterFirst < worseFirst || betterSecond < worseSecond || betterThird < worseThird)
+  );
+}
+
+function paretoPacked(list: readonly number[]): number[] {
+  if (list.length <= 1) return [...list];
+  const front: number[] = [];
+  for (const candidate of list) {
+    let dominated = false;
+    for (let index = 0; index < front.length; index += 1) {
+      const current = front[index];
+      if (current === candidate || packedDominates(current, candidate)) {
+        dominated = true;
+        break;
+      }
+      if (packedDominates(candidate, current)) {
+        front.splice(index, 1);
+        index -= 1;
+      }
+    }
+    if (!dominated) front.push(candidate);
+  }
+  return front;
+}
+
+function fullSignatureList(catalog: Catalog, id: string): number[] {
   const saved = signatureCache.get(catalog)?.get(id);
   if (saved) return saved;
   if (isStarter(id)) {
@@ -589,6 +628,19 @@ function signatureList(catalog: Catalog, id: string): number[] {
   }
   disassemble(id, catalog);
   return signatureCache.get(catalog)?.get(id) ?? [];
+}
+
+function signatureList(catalog: Catalog, id: string): number[] {
+  let fronts = signatureFrontCache.get(catalog);
+  if (!fronts) {
+    fronts = new Map();
+    signatureFrontCache.set(catalog, fronts);
+  }
+  const saved = fronts.get(id);
+  if (saved) return saved;
+  const front = paretoPacked(fullSignatureList(catalog, id));
+  fronts.set(id, front);
+  return front;
 }
 
 function descendantsOf(catalog: Catalog, id: string): Set<string> {
@@ -632,6 +684,14 @@ function placementWitnesses(catalog: Catalog): Map<string, SplitWitness> {
   return map;
 }
 
+function rememberSum(found: Map<number, SplitWitness>, sum: number, witness: SplitWitness) {
+  for (const current of [...found.keys()]) {
+    if (current === sum || packedDominates(current, sum)) return;
+    if (packedDominates(sum, current)) found.delete(current);
+  }
+  found.set(sum, witness);
+}
+
 function placements(catalog: Catalog, id: string, bag: readonly string[]): number[] {
   const key = `${id}\n${bagKey(bag)}`;
   const cache = placementMap(catalog);
@@ -653,16 +713,35 @@ function placements(catalog: Catalog, id: string, bag: readonly string[]): numbe
     return empty;
   }
   const found = new Map<number, SplitWitness>();
-  const masks = 1 << bag.length;
   for (const recipe of recipeIndex(catalog).get(id) ?? []) {
-    for (let mask = 0; mask < masks; mask += 1) {
-      const leftBag: string[] = [];
-      const rightBag: string[] = [];
-      for (let index = 0; index < bag.length; index += 1) {
-        if (mask & (1 << index)) leftBag.push(bag[index]);
-        else rightBag.push(bag[index]);
+    if (recipe.parentC) continue;
+    const pinnedLeft: string[] = [];
+    const pinnedRight: string[] = [];
+    const shared: string[] = [];
+    let hosted = true;
+    for (const item of bag) {
+      const inLeft = item === recipe.parentA || descendantsOf(catalog, recipe.parentA).has(item);
+      const inRight = item === recipe.parentB || descendantsOf(catalog, recipe.parentB).has(item);
+      if (inLeft && inRight) shared.push(item);
+      else if (inLeft) pinnedLeft.push(item);
+      else if (inRight) pinnedRight.push(item);
+      else {
+        hosted = false;
+        break;
       }
-      const lefts = leftBag.length ? placements(catalog, recipe.parentA, leftBag) : signatureList(catalog, recipe.parentA);
+    }
+    if (!hosted) continue;
+    const masks = 1 << shared.length;
+    for (let mask = 0; mask < masks; mask += 1) {
+      const leftBag = pinnedLeft.slice();
+      const rightBag = pinnedRight.slice();
+      for (let index = 0; index < shared.length; index += 1) {
+        if (mask & (1 << index)) leftBag.push(shared[index]);
+        else rightBag.push(shared[index]);
+      }
+      const lefts = leftBag.length
+        ? placements(catalog, recipe.parentA, leftBag)
+        : signatureList(catalog, recipe.parentA);
       const rights = rightBag.length
         ? placements(catalog, recipe.parentB, rightBag)
         : signatureList(catalog, recipe.parentB);
@@ -671,9 +750,7 @@ function placements(catalog: Catalog, id: string, bag: readonly string[]): numbe
       const rightKey = bagKey(rightBag);
       for (const left of lefts) {
         for (const right of rights) {
-          const sum = left + right;
-          if (found.has(sum)) continue;
-          found.set(sum, {
+          rememberSum(found, left + right, {
             parentA: recipe.parentA,
             parentB: recipe.parentB,
             left,
@@ -687,9 +764,98 @@ function placements(catalog: Catalog, id: string, bag: readonly string[]): numbe
   }
   const sums = [...found.keys()];
   const witnesses = placementWitnesses(catalog);
-  for (const [sum, witness] of found) witnesses.set(`${id}\n${bagKey(bag)}\n${sum}`, witness);
+  for (const [sum, witness] of found) witnesses.set(`${key}\n${sum}`, witness);
   cache.set(key, sums);
   return sums;
+}
+
+function canPlace(catalog: Catalog, id: string, bag: readonly string[]): boolean {
+  const key = `${id}\n${bagKey(bag)}`;
+  let cache = placeableCache.get(catalog);
+  if (!cache) {
+    cache = new Map();
+    placeableCache.set(catalog, cache);
+  }
+  const saved = cache.get(key);
+  if (saved !== undefined) return saved;
+  const answer = bag.length === 0 ? signatureList(catalog, id).length > 0 : placeable(catalog, id, bag);
+  cache.set(key, answer);
+  return answer;
+}
+
+function catalogTiers(catalog: Catalog): Map<string, number> {
+  let tiers = tierCache.get(catalog);
+  if (!tiers) {
+    tiers = new Map(catalog.creatures.map((creature) => [creature.id, creature.tier]));
+    tierCache.set(catalog, tiers);
+  }
+  return tiers;
+}
+
+function fitsCapacity(catalog: Catalog, id: string, bag: readonly string[]): boolean {
+  const tiers = catalogTiers(catalog);
+  const tier = tiers.get(id) ?? 0;
+  const branch = (recipeIndex(catalog).get(id) ?? []).some((recipe) => recipe.parentC) ? 3 : 2;
+  const counts = new Map<number, number>();
+  for (const item of bag) {
+    const itemTier = tiers.get(item) ?? 0;
+    if (itemTier > tier) return false;
+    counts.set(itemTier, (counts.get(itemTier) ?? 0) + 1);
+  }
+  for (const [itemTier, count] of counts) {
+    let room = 1;
+    for (let step = itemTier; step < tier; step += 1) room *= branch;
+    if (count > room) return false;
+  }
+  return true;
+}
+
+function placeable(catalog: Catalog, id: string, bag: readonly string[]): boolean {
+  if (bag.length === 1 && bag[0] === id && !isStarter(id)) return true;
+  if (isStarter(id) || bag.includes(id)) return false;
+  if (!fitsCapacity(catalog, id, bag)) return false;
+  if (!bag.every((item) => descendantsOf(catalog, id).has(item))) return false;
+  if (bag.length === 1) return true;
+  const recipes = recipeIndex(catalog).get(id) ?? [];
+  if (recipes.some((recipe) => recipe.parentC)) {
+    return parentVectors(catalog, id, bag, emptyCounts(catalog.starters)).length > 0;
+  }
+  const hostedRecipes: { parentA: string; parentB: string; pinnedLeft: string[]; pinnedRight: string[]; shared: string[] }[] = [];
+  for (const recipe of recipes) {
+    if (recipe.parentC) continue;
+    const pinnedLeft: string[] = [];
+    const pinnedRight: string[] = [];
+    const shared: string[] = [];
+    let hosted = true;
+    for (const item of bag) {
+      const inLeft = item === recipe.parentA || descendantsOf(catalog, recipe.parentA).has(item);
+      const inRight = item === recipe.parentB || descendantsOf(catalog, recipe.parentB).has(item);
+      if (inLeft && inRight) shared.push(item);
+      else if (inLeft) pinnedLeft.push(item);
+      else if (inRight) pinnedRight.push(item);
+      else {
+        hosted = false;
+        break;
+      }
+    }
+    if (hosted) hostedRecipes.push({ parentA: recipe.parentA, parentB: recipe.parentB, pinnedLeft, pinnedRight, shared });
+  }
+  hostedRecipes.sort((a, b) => a.shared.length - b.shared.length);
+  for (const recipe of hostedRecipes) {
+    const masks = 1 << recipe.shared.length;
+    for (let mask = 0; mask < masks; mask += 1) {
+      const leftBag = recipe.pinnedLeft.slice();
+      const rightBag = recipe.pinnedRight.slice();
+      for (let index = 0; index < recipe.shared.length; index += 1) {
+        if (mask & (1 << index)) leftBag.push(recipe.shared[index]);
+        else rightBag.push(recipe.shared[index]);
+      }
+      const leftOk = leftBag.length === 0 || canPlace(catalog, recipe.parentA, leftBag);
+      const rightOk = rightBag.length === 0 || canPlace(catalog, recipe.parentB, rightBag);
+      if (leftOk && rightOk) return true;
+    }
+  }
+  return false;
 }
 
 function materialize(catalog: Catalog, id: string, packed: number, bag: string): BuildStep {
@@ -715,7 +881,7 @@ function materialize(catalog: Catalog, id: string, packed: number, bag: string):
 }
 
 function tierMap(catalog: Catalog): Map<string, number> {
-  return new Map(catalog.creatures.map((creature) => [creature.id, creature.tier]));
+  return catalogTiers(catalog);
 }
 
 function compareUsage(
@@ -796,8 +962,6 @@ function coverSource(
     .filter((id) => parents.some((parent) => canLive(catalog, id, parent)))
     .sort((a, b) => (tiers.get(b) ?? 0) - (tiers.get(a) ?? 0) || a.localeCompare(b));
   if (items.length === 0) return source;
-  const exact = items.slice(0, 8);
-  const extra = items.slice(8);
   const best: {
     uses: string[];
     counts: StarterCounts;
@@ -826,35 +990,60 @@ function coverSource(
   }
 
   const bags = parents.map(() => [] as string[]);
-  function search(index: number) {
-    const placed = bags.flat();
-    const optimistic = [...placed, ...exact.slice(index), ...extra];
-    if (compareUsage(optimistic, best.uses, tiers) > 0) return;
-    if (index === exact.length) {
-      consider(bags);
-      return;
-    }
-    const item = exact[index];
+  function roomFor(parent: string, itemTier: number): number {
+    const parentTier = tiers.get(parent) ?? 0;
+    if (itemTier > parentTier) return 0;
+    const branch = (recipeIndex(catalog).get(parent) ?? []).some((recipe) => recipe.parentC) ? 3 : 2;
+    let room = 1;
+    for (let step = itemTier; step < parentTier; step += 1) room *= branch;
+    return room;
+  }
+  function absorb(item: string): boolean {
+    const itemTier = tiers.get(item) ?? 0;
     for (let slot = 0; slot < parents.length; slot += 1) {
       if (!canLive(catalog, item, parents[slot])) continue;
+      const sameTier = bags[slot].reduce(
+        (count, id) => count + ((tiers.get(id) ?? 0) === itemTier ? 1 : 0),
+        0,
+      );
+      if (sameTier >= roomFor(parents[slot], itemTier)) continue;
       bags[slot].push(item);
-      if (parentVectors(catalog, parents[slot], bags[slot], have).length > 0) search(index + 1);
+      if (canPlace(catalog, parents[slot], bags[slot])) return true;
       bags[slot].pop();
     }
-    search(index + 1);
-  }
-  search(0);
-  for (const item of extra) {
-    const savedBags = best.bags;
-    if (!savedBags) break;
     for (let slot = 0; slot < parents.length; slot += 1) {
       if (!canLive(catalog, item, parents[slot])) continue;
-      const trial = savedBags.map((bag) => [...bag]);
-      trial[slot].push(item);
-      if (parentVectors(catalog, parents[slot], trial[slot], have).length === 0) continue;
-      consider(trial);
+      for (let index = 0; index < bags[slot].length; index += 1) {
+        const moved = bags[slot][index];
+        if ((tiers.get(moved) ?? 0) > itemTier) continue;
+        bags[slot].splice(index, 1);
+        bags[slot].push(item);
+        if (!canPlace(catalog, parents[slot], bags[slot])) {
+          bags[slot].pop();
+          bags[slot].splice(index, 0, moved);
+          continue;
+        }
+        let parked = false;
+        for (let dest = 0; dest < parents.length; dest += 1) {
+          if (dest === slot || !canLive(catalog, moved, parents[dest])) continue;
+          bags[dest].push(moved);
+          if (canPlace(catalog, parents[dest], bags[dest])) {
+            parked = true;
+            break;
+          }
+          bags[dest].pop();
+        }
+        if (parked) return true;
+        bags[slot].pop();
+        bags[slot].splice(index, 0, moved);
+      }
     }
+    return false;
   }
+  const skipped: string[] = [];
+  for (const item of items) if (!absorb(item)) skipped.push(item);
+  for (const item of skipped) absorb(item);
+  consider(bags);
   const picks = best.picks;
   if (!picks) return source;
   const shortfall = starterShortfall(best.counts, have);
@@ -1008,7 +1197,7 @@ function vectorsFor(
     );
     if (mix) found.add(mix.sum);
   }
-  return [...found];
+  return paretoPacked([...found]);
 }
 
 function bestOwnedTriple(
@@ -1067,6 +1256,14 @@ function orderMixes(
   return [...options].sort(
     (a, b) => compareUsage(a.uses, b.uses, tiers) || compareOptions(a, b, have),
   );
+}
+
+export function sortMixes(
+  options: StarterOption[],
+  catalog: Catalog,
+  have: StarterCounts,
+): StarterOption[] {
+  return orderMixes(options, catalog, have);
 }
 
 function ownedResult(catalog: Catalog, creatureId: string): StarterOption {
