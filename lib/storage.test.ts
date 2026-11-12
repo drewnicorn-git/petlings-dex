@@ -21,8 +21,8 @@ describe("bundled catalog", () => {
     expect(seaParsed.catalog.creatures.map((creature) => creature.id)).toEqual(
       seaCatalog.creatures.map((creature) => creature.id),
     );
-    expect(seaCatalog.creatures).toHaveLength(59);
-    expect(seaCatalog.recipes).toHaveLength(308);
+    expect(seaCatalog.creatures).toHaveLength(62);
+    expect(seaCatalog.recipes).toHaveLength(337);
     expect(seaCatalog.creatures.slice(0, 3).map((creature) => creature.id)).toEqual([
       "clownfish",
       "seahorse",

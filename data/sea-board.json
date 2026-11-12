@@ -299,6 +299,21 @@
       "id": "sawfish",
       "name": "Sawfish",
       "tier": 5
+    },
+    {
+      "id": "goblin-shark",
+      "name": "Goblin Shark",
+      "tier": 5
+    },
+    {
+      "id": "vampire-squid",
+      "name": "Vampire Squid",
+      "tier": 5
+    },
+    {
+      "id": "sea-angel",
+      "name": "Sea Angel",
+      "tier": 5
     }
   ],
   "recipes": [
@@ -2149,6 +2164,180 @@
       "parentA": "triggerfish",
       "parentB": "manta-ray",
       "resultId": "sawfish"
+    },
+    {
+      "id": "recipe-9d9ca641",
+      "parentA": "viperfish",
+      "parentB": "barracuda",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-660e2f1d",
+      "parentA": "viperfish",
+      "parentB": "dolphin",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-cc31ff89",
+      "parentA": "viperfish",
+      "parentB": "dugong",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-b53ca682",
+      "parentA": "hammerhead",
+      "parentB": "electric-eel",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-79b4690b",
+      "parentA": "viperfish",
+      "parentB": "marine-iguana",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-ab6a81d3",
+      "parentA": "viperfish",
+      "parentB": "sailfish",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-3ca98f7a",
+      "parentA": "viperfish",
+      "parentB": "sea-snake",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-04d32a87",
+      "parentA": "viperfish",
+      "parentB": "sunfish",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-edd1259c",
+      "parentA": "viperfish",
+      "parentB": "triggerfish",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-2732b513",
+      "parentA": "viperfish",
+      "parentB": "viperfish",
+      "resultId": "goblin-shark"
+    },
+    {
+      "id": "recipe-751233af",
+      "parentA": "hammerhead",
+      "parentB": "cuttlefish",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-2090275f",
+      "parentA": "man-o-war",
+      "parentB": "cuttlefish",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-ac77a415",
+      "parentA": "marine-iguana",
+      "parentB": "cuttlefish",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-6cc39476",
+      "parentA": "octopus",
+      "parentB": "dugong",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-b7e789e9",
+      "parentA": "octopus",
+      "parentB": "electric-eel",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-1163c4f4",
+      "parentA": "manta-ray",
+      "parentB": "man-o-war",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-2f765548",
+      "parentA": "nautilus",
+      "parentB": "man-o-war",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-1e85ecfa",
+      "parentA": "octopus",
+      "parentB": "man-o-war",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-9a1b8957",
+      "parentA": "octopus",
+      "parentB": "octopus",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-a66c4026",
+      "parentA": "triggerfish",
+      "parentB": "octopus",
+      "resultId": "vampire-squid"
+    },
+    {
+      "id": "recipe-e516585e",
+      "parentA": "dolphin",
+      "parentB": "cuttlefish",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-5ca9aba0",
+      "parentA": "manta-ray",
+      "parentB": "cuttlefish",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-a702fdb5",
+      "parentA": "octopus",
+      "parentB": "cuttlefish",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-a4f2e184",
+      "parentA": "sea-urchin",
+      "parentB": "cuttlefish",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-4303c5ff",
+      "parentA": "triggerfish",
+      "parentB": "cuttlefish",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-a2c242a1",
+      "parentA": "octopus",
+      "parentB": "hammerhead",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-420d6b80",
+      "parentA": "viperfish",
+      "parentB": "man-o-war",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-ca9a80ad",
+      "parentA": "octopus",
+      "parentB": "marine-iguana",
+      "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-57b049aa",
+      "parentA": "sea-urchin",
+      "parentB": "octopus",
+      "resultId": "sea-angel"
     }
   ],
   "starters": [
