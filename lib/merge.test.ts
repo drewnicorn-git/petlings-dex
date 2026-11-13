@@ -7,6 +7,7 @@ import {
   disassemble,
   priceTree,
   materialFrontier,
+  firstOwnedBuild,
   rankMixes,
   expectedStarterTotal,
   findRecipe,
@@ -361,17 +362,16 @@ describe("owned creatures", () => {
     );
   });
 
-  it("keeps using every owned creature that fits after more than four are added", () => {
+  it("stops at the first tier 7 build that can spend owned creatures", () => {
     const hydra = disassemble("hydra", seedCatalog);
     expect(hydra.status).toBe("ok");
     if (hydra.status !== "ok") return;
     const have = { chick: 2, bunny: 8, cat: 1 };
     const owned = ["fire-salamander", "cobra", "panda", "sloth", "walrus"];
     const ranked = rankMixes(seedCatalog, "hydra", hydra.paths, hydra.counts, have, owned);
+    expect(ranked).toHaveLength(1);
     const best = ranked[0];
     expect(best?.uses).toContain("fire-salamander");
-    expect(best?.uses.some((id) => id !== "fire-salamander")).toBe(true);
-    expect(totalCount(best?.shortfall ?? { chick: 99 })).toBeLessThan(30);
     expect(materialFrontier(best?.tree ?? { creatureId: "hydra", counts: {}, left: null, right: null }).map((item) => item.creatureId)).toEqual(
       expect.arrayContaining(["fire-salamander"]),
     );
@@ -381,6 +381,9 @@ describe("owned creatures", () => {
     expect(needed.every((item) => item.creatureId !== "chick" && item.creatureId !== "bunny" && item.creatureId !== "cat")).toBe(
       true,
     );
+    const fast = firstOwnedBuild(seedCatalog, "hydra", have, owned);
+    expect(fast).toHaveLength(1);
+    expect(fast[0]?.uses).toContain("fire-salamander");
   });
 });
 

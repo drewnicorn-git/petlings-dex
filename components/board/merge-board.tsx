@@ -31,6 +31,7 @@ import {
   buildTree,
   creatureName,
   disassemble,
+  firstOwnedBuild,
   autoGenerateThirds,
   findByName,
   missingPartners,
@@ -329,28 +330,34 @@ function BreakdownView({
   owned,
 }: {
   creatureId: string;
-  breakdown: Breakdown;
+  breakdown: Breakdown | null;
   have: StarterCounts;
   owned: string[];
 }) {
   const { catalog } = useCatalog();
+  const creatureTier = catalog.creatures.find((item) => item.id === creatureId)?.tier ?? 0;
   const [tree, setTree] = useState<BuildStep | null>(null);
   const [treeOpen, setTreeOpen] = useState(false);
   const [covered, setCovered] = useState<StarterOption[] | null>(null);
   const [pending, setPending] = useState(false);
   const immediate = useMemo(() => {
-    if (breakdown.status !== "ok" || owned.length > 0) return null;
+    if (creatureTier >= 7 && owned.length > 0) {
+      return firstOwnedBuild(catalog, creatureId, have, owned);
+    }
+    if (!breakdown || breakdown.status !== "ok") return null;
+    if (owned.length > 0 && creatureTier < 7) return null;
     return rankMixes(catalog, creatureId, breakdown.paths, breakdown.counts, have, owned);
-  }, [breakdown, catalog, creatureId, have, owned]);
+  }, [breakdown, catalog, creatureId, creatureTier, have, owned]);
   useEffect(() => {
-    if (breakdown.status !== "ok" || owned.length === 0) {
+    if (!breakdown || breakdown.status !== "ok" || owned.length === 0 || creatureTier >= 7) {
       setCovered(null);
       setPending(false);
       return;
     }
+    const ready = breakdown;
     let cancelled = false;
-    const groups = new Map<string, typeof breakdown.paths>();
-    for (const path of breakdown.paths) {
+    const groups = new Map<string, typeof ready.paths>();
+    for (const path of ready.paths) {
       const list = groups.get(path.recipeId) ?? [];
       list.push(path);
       groups.set(path.recipeId, list);
@@ -362,11 +369,11 @@ function BreakdownView({
     setPending(true);
     setCovered([]);
     function step() {
-      if (cancelled || breakdown.status !== "ok") return;
+      if (cancelled) return;
       const group = recipes[index];
       index += 1;
       if (group) {
-        const ranked = rankMixes(catalog, creatureId, group, breakdown.counts, have, owned);
+        const ranked = rankMixes(catalog, creatureId, group, ready.counts, have, owned);
         for (const option of ranked) {
           if (option.path) found.push(option);
           else self = option;
@@ -386,12 +393,13 @@ function BreakdownView({
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [breakdown, catalog, creatureId, have, owned]);
+  }, [breakdown, catalog, creatureId, creatureTier, have, owned]);
   const options = immediate ?? covered ?? [];
-  const searching = pending || (owned.length > 0 && covered === null);
+  const searching = creatureTier < 7 && (pending || (owned.length > 0 && covered === null));
   const creature = catalog.creatures.find((item) => item.id === creatureId);
   if (!creature) return null;
-  if (breakdown.status === "missing") {
+  if (!breakdown && creatureTier !== 7) return null;
+  if (breakdown?.status === "missing") {
     return (
       <p>
         {creatureName(catalog, breakdown.creatureId)} has no combo yet, so the starter count
@@ -399,10 +407,10 @@ function BreakdownView({
       </p>
     );
   }
-  if (breakdown.status === "cycle") {
+  if (breakdown?.status === "cycle") {
     return <p>This combo loops, so it can&apos;t be counted.</p>;
   }
-  if (breakdown.status === "not-starter") {
+  if (breakdown?.status === "not-starter") {
     return (
       <p>
         {creatureName(catalog, breakdown.creatureId)} is tier 1, but only {starterListLabel(catalog.starters)}
@@ -410,7 +418,7 @@ function BreakdownView({
       </p>
     );
   }
-  if (breakdown.status === "tier7") {
+  if (breakdown?.status === "tier7") {
     const count = BigInt(breakdown.comboCount);
     const names = breakdown.tier7Ids.map((id) => ({
       id,
@@ -442,7 +450,7 @@ function BreakdownView({
       </div>
     );
   }
-  if (breakdown.status !== "ok") return null;
+  if (breakdown && breakdown.status !== "ok") return null;
   const best = options[0];
   const listed = options.filter((option) => option.path);
   const fits = listed.filter((option) => option.affordable).length;
@@ -468,7 +476,11 @@ function BreakdownView({
           title={best.path ? "Double-click for the full build" : undefined}
         >
           <p className="text-xs font-semibold">
-            {best.affordable ? "Best build you can make" : "Best build"}
+            {creature.tier >= 7 && best.uses.length > 0
+              ? "A build that uses what you have"
+              : best.affordable
+                ? "Best build you can make"
+                : "Best build"}
           </p>
           {best.path || best.tree ? (
             <PlanLines option={best} catalog={catalog} />
@@ -500,11 +512,13 @@ function BreakdownView({
         </DialogContent>
       </Dialog>
       <p className="mt-2 text-xs text-muted-foreground">
-        {ways === 0
-          ? searching
-            ? "Looking through the saved ways."
-            : "Starter"
-          : `${fits} of ${ways} ${ways === 1 ? "way" : "ways"} fit what you have`}
+        {creature.tier >= 7 && best?.uses.length
+          ? "Stopped at the first build that spends creatures you already own."
+          : ways === 0
+            ? searching
+              ? "Looking through the saved ways."
+              : "Starter"
+            : `${fits} of ${ways} ${ways === 1 ? "way" : "ways"} fit what you have`}
       </p>
       {ways === 0 ? null : (
         options.map((option, index) =>
@@ -1163,7 +1177,11 @@ export function MergeBoard() {
   }
 
   const focus = focusId ? catalog.creatures.find((creature) => creature.id === focusId) : null;
-  const breakdown = focusId ? disassemble(focusId, catalog) : null;
+  const dockOwned = plan?.owned ?? owned;
+  const breakdown =
+    focusId && !(focus && focus.tier === 7 && dockOwned.length > 0)
+      ? disassemble(focusId, catalog)
+      : null;
   const ghostCreature = ghost
     ? catalog.creatures.find((creature) => creature.id === ghost.creatureId)
     : null;
@@ -1500,7 +1518,7 @@ export function MergeBoard() {
               <p className="text-xs text-muted-foreground">Drop a creature here.</p>
             </div>
             <div className="mt-2 min-h-0 flex-1 overflow-y-auto px-3 pb-3">
-              {focus && breakdown ? (
+              {focus && (breakdown || (focus.tier === 7 && dockOwned.length > 0)) ? (
                 <div aria-live="polite">
                   <p className="font-semibold break-words">{focus.name}</p>
                   <BreakdownView

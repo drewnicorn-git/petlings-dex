@@ -1278,6 +1278,93 @@ function ownedResult(catalog: Catalog, creatureId: string): StarterOption {
   };
 }
 
+function materialScore(
+  catalog: Catalog,
+  source: StarterOption,
+  owned: readonly string[],
+  tiers: ReadonlyMap<string, number>,
+): number {
+  const path = source.path;
+  if (!path) return -1;
+  const parents = [path.parentA, path.parentB, ...(path.parentC ? [path.parentC] : [])];
+  let bestTier = 0;
+  let atBest = 0;
+  let total = 0;
+  let exact = 0;
+  for (const item of owned) {
+    const tier = tiers.get(item) ?? 0;
+    const direct = parents.includes(item);
+    if (!direct && !parents.some((parent) => canLive(catalog, item, parent))) continue;
+    total += 1;
+    if (direct) exact += tier;
+    if (tier > bestTier) {
+      bestTier = tier;
+      atBest = 1;
+    } else if (tier === bestTier) atBest += 1;
+  }
+  if (total === 0) return 0;
+  return bestTier * 1_000_000 + exact * 1_000 + atBest * 50 + total;
+}
+
+function firstFeasibleMix(
+  catalog: Catalog,
+  creatureId: string,
+  collapsed: StarterOption[],
+  have: StarterCounts,
+  owned: readonly string[],
+  tiers: ReadonlyMap<string, number>,
+): StarterOption[] {
+  const ordered = collapsed
+    .map((source) => ({ source, score: materialScore(catalog, source, owned, tiers) }))
+    .sort((a, b) => b.score - a.score || compareOptions(a.source, b.source, have));
+  for (const { source, score } of ordered) {
+    if (score <= 0) break;
+    const covered = coverSource(catalog, creatureId, source, have, owned, tiers);
+    if (covered.uses.length > 0) return [covered];
+  }
+  const fallback = ordered[0]?.source ?? collapsed[0];
+  return fallback ? [withStarterCounts(catalog, fallback, have)] : [];
+}
+
+function withStarterCounts(catalog: Catalog, source: StarterOption, have: StarterCounts): StarterOption {
+  const path = source.path;
+  if (!path || totalCount(source.counts) > 0) return source;
+  const left = disassemble(path.parentA, catalog);
+  const right = disassemble(path.parentB, catalog);
+  if (left.status !== "ok" || right.status !== "ok") return source;
+  let counts = addCounts(left.counts, right.counts);
+  if (path.parentC) {
+    const third = disassemble(path.parentC, catalog);
+    if (third.status !== "ok") return source;
+    counts = addCounts(counts, third.counts);
+  }
+  const shortfall = starterShortfall(counts, have);
+  return {
+    ...source,
+    counts,
+    shortfall,
+    affordable: totalCount(shortfall) === 0,
+    path: { ...path, counts },
+  };
+}
+
+export function firstOwnedBuild(
+  catalog: Catalog,
+  creatureId: string,
+  have: StarterCounts,
+  owned: string[],
+): StarterOption[] {
+  const counts = emptyCounts(catalog.starters);
+  const paths = (recipeIndex(catalog).get(creatureId) ?? []).map((recipe) => ({
+    recipeId: recipe.id,
+    parentA: recipe.parentA,
+    parentB: recipe.parentB,
+    ...(recipe.parentC ? { parentC: recipe.parentC } : {}),
+    counts,
+  }));
+  return rankMixes(catalog, creatureId, paths, counts, have, owned);
+}
+
 export function rankMixes(
   catalog: Catalog,
   creatureId: string,
@@ -1289,6 +1376,11 @@ export function rankMixes(
   const tiers = tierMap(catalog);
   const usable = owned.filter((id) => id !== creatureId && (tiers.get(id) ?? 0) > 1);
   const collapsed = adviseStarters(paths, ownCounts, have);
+  const tier = tiers.get(creatureId) ?? 0;
+  if (tier >= 7 && owned.includes(creatureId)) return [ownedResult(catalog, creatureId)];
+  if (tier >= 7 && usable.length > 0) {
+    return firstFeasibleMix(catalog, creatureId, collapsed, have, usable, tiers);
+  }
   const options = collapsed.map((source) =>
     coverSource(catalog, creatureId, source, have, usable, tiers),
   );
