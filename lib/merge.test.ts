@@ -21,7 +21,7 @@ import {
   validateRecipe,
   validateTierChange,
 } from "@/lib/merge";
-import { seedCatalog } from "@/lib/seed";
+import { seaCatalog, seedCatalog } from "@/lib/seed";
 import { COLLECTION_TOTAL, collectionTotal, SEA_TIER_TOTALS, TIER_TOTALS } from "@/lib/tiers";
 import type { Catalog, StarterCounts } from "@/lib/types";
 
@@ -414,6 +414,22 @@ describe("owned creatures", () => {
     const fast = firstOwnedBuild(seedCatalog, "hydra", have, owned);
     expect(fast).toHaveLength(1);
     expect(fast[0]?.uses).toContain("fire-salamander");
+  });
+
+  it("spends sea creatures you already own when a tier 7 is dropped", () => {
+    const have = { clownfish: 0, seahorse: 0, crab: 0 };
+    const result = firstOwnedBuild(seaCatalog, "dragon-koi", have, ["octopus", "jellyfish"]);
+    const best = result[0];
+    expect(best?.uses).toEqual(expect.arrayContaining(["octopus", "jellyfish"]));
+    const frontier = materialFrontier(
+      best?.tree ?? { creatureId: "dragon-koi", counts: {}, left: null, right: null },
+    );
+    expect(frontier.filter((item) => item.owned).map((item) => item.creatureId)).toEqual(
+      expect.arrayContaining(["octopus", "jellyfish"]),
+    );
+    const stillNeeded =
+      (best?.shortfall.clownfish ?? 0) + (best?.shortfall.seahorse ?? 0) + (best?.shortfall.crab ?? 0);
+    expect(stillNeeded).toBeLessThan(64);
   });
 });
 

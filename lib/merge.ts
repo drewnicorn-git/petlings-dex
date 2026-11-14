@@ -1763,7 +1763,17 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     return { status: "missing", creatureId };
   }
   const paths: PathCounts[] = [];
+  const rootCounts: number[] = [];
+  const rootSeen = new Set<number>();
   let failure: CountPack | null = null;
+  function keepRoot(combined: number, witness?: SplitWitness) {
+    if (rootSeen.has(combined)) return;
+    rootSeen.add(combined);
+    rootCounts.push(combined);
+    if (!witness) return;
+    const witnessKey = `${creatureId}|${combined}`;
+    if (!witnesses.has(witnessKey)) witnesses.set(witnessKey, witness);
+  }
   for (const recipe of recipes) {
     const left = parentCounts(recipe.parentA, [creatureId]);
     if (!left.ok) {
@@ -1784,12 +1794,14 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
       if (left.counts[0] === undefined || right.counts[0] === undefined || third.counts[0] === undefined) {
         continue;
       }
+      const combined = left.counts[0] + right.counts[0] + third.counts[0];
+      keepRoot(combined);
       paths.push({
         recipeId: recipe.id,
         parentA: recipe.parentA,
         parentB: recipe.parentB,
         parentC: recipe.parentC,
-        counts: unpackCounts(left.counts[0] + right.counts[0] + third.counts[0], catalog.starters),
+        counts: unpackCounts(combined, catalog.starters),
       });
       continue;
     }
@@ -1799,6 +1811,14 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
         const combined = parentLeft + parentRight;
         if (seen.has(combined)) continue;
         seen.add(combined);
+        keepRoot(combined, {
+          parentA: recipe.parentA,
+          parentB: recipe.parentB,
+          left: parentLeft,
+          right: parentRight,
+          leftBag: "",
+          rightBag: "",
+        });
         paths.push({
           recipeId: recipe.id,
           parentA: recipe.parentA,
@@ -1813,6 +1833,7 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
     if (!failure || failure.ok) return { status: "missing", creatureId };
     return { status: failure.error, creatureId: failure.creatureId };
   }
+  if (rootCounts.length > 0) cache.set(creatureId, rootCounts);
   persist();
   const counts = paths[0]?.counts ?? emptyCounts(catalog.starters);
   return {
