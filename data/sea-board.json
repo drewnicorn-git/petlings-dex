@@ -314,6 +314,91 @@
       "id": "sea-angel",
       "name": "Sea Angel",
       "tier": 5
+    },
+    {
+      "id": "giant-grouper",
+      "name": "Giant Grouper",
+      "tier": 6
+    },
+    {
+      "id": "opah",
+      "name": "Opah",
+      "tier": 6
+    },
+    {
+      "id": "giant-oarfish",
+      "name": "Giant Oarfish",
+      "tier": 6
+    },
+    {
+      "id": "orca",
+      "name": "Orca",
+      "tier": 6
+    },
+    {
+      "id": "great-white-shark",
+      "name": "Great White Shark",
+      "tier": 6
+    },
+    {
+      "id": "thresher-shark",
+      "name": "Thresher Shark",
+      "tier": 6
+    },
+    {
+      "id": "giant-octopus",
+      "name": "Giant Octopus",
+      "tier": 6
+    },
+    {
+      "id": "phantom-jelly",
+      "name": "Phantom Jelly",
+      "tier": 6
+    },
+    {
+      "id": "giant-isopod",
+      "name": "Giant Isopod",
+      "tier": 6
+    },
+    {
+      "id": "ammonite",
+      "name": "Ammonite",
+      "tier": 6
+    },
+    {
+      "id": "basking-shark",
+      "name": "Basking Shark",
+      "tier": 6
+    },
+    {
+      "id": "sperm-whale",
+      "name": "Sperm Whale",
+      "tier": 6
+    },
+    {
+      "id": "humpback-whale",
+      "name": "Humpback Whale",
+      "tier": 6
+    },
+    {
+      "id": "whale-shark",
+      "name": "Whale Shark",
+      "tier": 6
+    },
+    {
+      "id": "spider-crab",
+      "name": "Spider Crab",
+      "tier": 6
+    },
+    {
+      "id": "leatherback",
+      "name": "Leatherback",
+      "tier": 6
+    },
+    {
+      "id": "giant-squid",
+      "name": "Giant Squid",
+      "tier": 6
     }
   ],
   "recipes": [
@@ -2338,6 +2423,1146 @@
       "parentA": "sea-urchin",
       "parentB": "octopus",
       "resultId": "sea-angel"
+    },
+    {
+      "id": "recipe-e1ad9da3",
+      "parentA": "mantis-shrimp",
+      "parentB": "coelacanth",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-5751c6c7",
+      "parentA": "sea-angel",
+      "parentB": "coelacanth",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-63da01e1",
+      "parentA": "vampire-squid",
+      "parentB": "coelacanth",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-3615c4ee",
+      "parentA": "marlin",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-c778a6a3",
+      "parentA": "tuna",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-60165505",
+      "parentA": "wolffish",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-080b8288",
+      "parentA": "marlin",
+      "parentB": "king-crab",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-f4e84918",
+      "parentA": "tuna",
+      "parentB": "king-crab",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-100b83bc",
+      "parentA": "wolffish",
+      "parentB": "king-crab",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-241732fc",
+      "parentA": "wolffish",
+      "parentB": "marlin",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-39a6bb29",
+      "parentA": "tuna",
+      "parentB": "tuna",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-2adc0f71",
+      "parentA": "wolffish",
+      "parentB": "tuna",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-2e921baf",
+      "parentA": "wolffish",
+      "parentB": "wolffish",
+      "resultId": "giant-grouper"
+    },
+    {
+      "id": "recipe-13987d2d",
+      "parentA": "giant-clam",
+      "parentB": "coelacanth",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-1d6a0e37",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "coelacanth",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-5c6f6578",
+      "parentA": "marlin",
+      "parentB": "mantis-shrimp",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-5bc9fb71",
+      "parentA": "tuna",
+      "parentB": "mantis-shrimp",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-a34369dc",
+      "parentA": "wolffish",
+      "parentB": "mantis-shrimp",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-8beca840",
+      "parentA": "marlin",
+      "parentB": "marlin",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-e58c7f49",
+      "parentA": "sea-angel",
+      "parentB": "marlin",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-dc89721e",
+      "parentA": "tuna",
+      "parentB": "marlin",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-8f02df60",
+      "parentA": "vampire-squid",
+      "parentB": "marlin",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-2865e246",
+      "parentA": "tuna",
+      "parentB": "sea-angel",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-3bbb78b3",
+      "parentA": "wolffish",
+      "parentB": "sea-angel",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-2ab1fd69",
+      "parentA": "vampire-squid",
+      "parentB": "tuna",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-313d73c5",
+      "parentA": "wolffish",
+      "parentB": "vampire-squid",
+      "resultId": "opah"
+    },
+    {
+      "id": "recipe-be885015",
+      "parentA": "coelacanth",
+      "parentB": "coelacanth",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-6ad28718",
+      "parentA": "dumbo-octopus",
+      "parentB": "coelacanth",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-9c4ecbdf",
+      "parentA": "king-crab",
+      "parentB": "coelacanth",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-b336e619",
+      "parentA": "marlin",
+      "parentB": "coelacanth",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-e6da4b47",
+      "parentA": "tuna",
+      "parentB": "coelacanth",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-19a8f69f",
+      "parentA": "wolffish",
+      "parentB": "coelacanth",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-1dabd423",
+      "parentA": "marlin",
+      "parentB": "giant-clam",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-78def8c1",
+      "parentA": "tuna",
+      "parentB": "giant-clam",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-2427e522",
+      "parentA": "wolffish",
+      "parentB": "giant-clam",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-65c64799",
+      "parentA": "marlin",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-1f616e90",
+      "parentA": "tuna",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-523c15dd",
+      "parentA": "wolffish",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-oarfish"
+    },
+    {
+      "id": "recipe-501d8b11",
+      "parentA": "beluga",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-e2c07e18",
+      "parentA": "coelacanth",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-b4b9b3ad",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-46dd9c41",
+      "parentA": "marlin",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-4077a19c",
+      "parentA": "narwhal",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-79ba6865",
+      "parentA": "tuna",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-8fccc185",
+      "parentA": "wolffish",
+      "parentB": "beluga",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-9ff72e32",
+      "parentA": "elephant-seal",
+      "parentB": "dumbo-octopus",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-0d493754",
+      "parentA": "leopard-seal",
+      "parentB": "dumbo-octopus",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-6e4ae4f5",
+      "parentA": "narwhal",
+      "parentB": "elephant-seal",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-9d4ce2f7",
+      "parentA": "sea-angel",
+      "parentB": "narwhal",
+      "resultId": "orca"
+    },
+    {
+      "id": "recipe-20b926ca",
+      "parentA": "tiger-shark",
+      "parentB": "beluga",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-0d14f987",
+      "parentA": "tiger-shark",
+      "parentB": "coelacanth",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-3cb4e681",
+      "parentA": "tiger-shark",
+      "parentB": "elephant-seal",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-8d0261e4",
+      "parentA": "sawfish",
+      "parentB": "gulper-eel",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-475f5e9a",
+      "parentA": "tiger-shark",
+      "parentB": "leopard-seal",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-4204b33d",
+      "parentA": "tiger-shark",
+      "parentB": "marlin",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-80ff2e15",
+      "parentA": "tiger-shark",
+      "parentB": "narwhal",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-234ee26c",
+      "parentA": "tiger-shark",
+      "parentB": "sawfish",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-8452c84e",
+      "parentA": "tiger-shark",
+      "parentB": "tiger-shark",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-cffd56c4",
+      "parentA": "tuna",
+      "parentB": "tiger-shark",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-7506b071",
+      "parentA": "wolffish",
+      "parentB": "tiger-shark",
+      "resultId": "great-white-shark"
+    },
+    {
+      "id": "recipe-cdf16254",
+      "parentA": "gulper-eel",
+      "parentB": "beluga",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-9aabfc8d",
+      "parentA": "gulper-eel",
+      "parentB": "coelacanth",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-d61f2a54",
+      "parentA": "gulper-eel",
+      "parentB": "elephant-seal",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-81fc0e9c",
+      "parentA": "sawfish",
+      "parentB": "goblin-shark",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-9a7cea7e",
+      "parentA": "gulper-eel",
+      "parentB": "gulper-eel",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-c3ef556d",
+      "parentA": "leopard-seal",
+      "parentB": "gulper-eel",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-192fd5a8",
+      "parentA": "marlin",
+      "parentB": "gulper-eel",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-ab313c11",
+      "parentA": "narwhal",
+      "parentB": "gulper-eel",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-302bbc04",
+      "parentA": "tuna",
+      "parentB": "gulper-eel",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-a5ce5eea",
+      "parentA": "wolffish",
+      "parentB": "gulper-eel",
+      "resultId": "thresher-shark"
+    },
+    {
+      "id": "recipe-6fe61257",
+      "parentA": "mantis-shrimp",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-70102089",
+      "parentA": "sawfish",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-6887bbb9",
+      "parentA": "sea-angel",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-84e40097",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "giant-clam",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-d6820925",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "goblin-shark",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-f725d79c",
+      "parentA": "sea-angel",
+      "parentB": "gulper-eel",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-4bc7b22b",
+      "parentA": "vampire-squid",
+      "parentB": "gulper-eel",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-f131e20f",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-c55e5087",
+      "parentA": "sea-angel",
+      "parentB": "mantis-shrimp",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-eec731db",
+      "parentA": "vampire-squid",
+      "parentB": "mantis-shrimp",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-eed8d109",
+      "parentA": "tiger-shark",
+      "parentB": "sea-angel",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-3381eb72",
+      "parentA": "vampire-squid",
+      "parentB": "sea-angel",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-9aa9ee94",
+      "parentA": "vampire-squid",
+      "parentB": "tiger-shark",
+      "resultId": "giant-octopus"
+    },
+    {
+      "id": "recipe-32c2578b",
+      "parentA": "dumbo-octopus",
+      "parentB": "dumbo-octopus",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-3a871c18",
+      "parentA": "giant-clam",
+      "parentB": "dumbo-octopus",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-fad96658",
+      "parentA": "goblin-shark",
+      "parentB": "dumbo-octopus",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-cca28090",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "dumbo-octopus",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-1325c2cd",
+      "parentA": "sea-angel",
+      "parentB": "giant-clam",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-71e7f4a4",
+      "parentA": "vampire-squid",
+      "parentB": "giant-clam",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-e4bf5534",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "gulper-eel",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-3057bd2d",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "king-crab",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-1a19e8b7",
+      "parentA": "tiger-shark",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-9f84ede1",
+      "parentA": "vampire-squid",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-6557774a",
+      "parentA": "sea-angel",
+      "parentB": "sawfish",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-977ba2f3",
+      "parentA": "vampire-squid",
+      "parentB": "sawfish",
+      "resultId": "phantom-jelly"
+    },
+    {
+      "id": "recipe-a38d097e",
+      "parentA": "king-crab",
+      "parentB": "beluga",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-bf41477d",
+      "parentA": "king-crab",
+      "parentB": "elephant-seal",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-35fce745",
+      "parentA": "mantis-shrimp",
+      "parentB": "giant-clam",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-51eea58a",
+      "parentA": "king-crab",
+      "parentB": "goblin-shark",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-5fbadd19",
+      "parentA": "king-crab",
+      "parentB": "gulper-eel",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-ac354743",
+      "parentA": "king-crab",
+      "parentB": "king-crab",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-36e9be79",
+      "parentA": "leopard-seal",
+      "parentB": "king-crab",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-00684a79",
+      "parentA": "narwhal",
+      "parentB": "king-crab",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-405c105b",
+      "parentA": "sawfish",
+      "parentB": "king-crab",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-f2a821e2",
+      "parentA": "tiger-shark",
+      "parentB": "king-crab",
+      "resultId": "giant-isopod"
+    },
+    {
+      "id": "recipe-bd394c1d",
+      "parentA": "mantis-shrimp",
+      "parentB": "beluga",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-1c6ea89a",
+      "parentA": "mantis-shrimp",
+      "parentB": "elephant-seal",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-429aff13",
+      "parentA": "mantis-shrimp",
+      "parentB": "goblin-shark",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-b3e19a3f",
+      "parentA": "mantis-shrimp",
+      "parentB": "gulper-eel",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-b8bb3f83",
+      "parentA": "mantis-shrimp",
+      "parentB": "king-crab",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-5f10437e",
+      "parentA": "mantis-shrimp",
+      "parentB": "leopard-seal",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-e06d6cab",
+      "parentA": "mantis-shrimp",
+      "parentB": "mantis-shrimp",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-a720bcba",
+      "parentA": "narwhal",
+      "parentB": "mantis-shrimp",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-8afff280",
+      "parentA": "sawfish",
+      "parentB": "mantis-shrimp",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-dac8c498",
+      "parentA": "tiger-shark",
+      "parentB": "mantis-shrimp",
+      "resultId": "ammonite"
+    },
+    {
+      "id": "recipe-2e9dc80b",
+      "parentA": "goblin-shark",
+      "parentB": "beluga",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-173fcf25",
+      "parentA": "goblin-shark",
+      "parentB": "coelacanth",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-2866f827",
+      "parentA": "goblin-shark",
+      "parentB": "elephant-seal",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-c47910ca",
+      "parentA": "goblin-shark",
+      "parentB": "goblin-shark",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-45b6a6ab",
+      "parentA": "leopard-seal",
+      "parentB": "goblin-shark",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-8cff402d",
+      "parentA": "marlin",
+      "parentB": "goblin-shark",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-2dcafa16",
+      "parentA": "narwhal",
+      "parentB": "goblin-shark",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-19c1f309",
+      "parentA": "tuna",
+      "parentB": "goblin-shark",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-a7a90522",
+      "parentA": "wolffish",
+      "parentB": "goblin-shark",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-d399a877",
+      "parentA": "tiger-shark",
+      "parentB": "gulper-eel",
+      "resultId": "basking-shark"
+    },
+    {
+      "id": "recipe-0b6949f7",
+      "parentA": "elephant-seal",
+      "parentB": "beluga",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-103dcf81",
+      "parentA": "sea-angel",
+      "parentB": "beluga",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-7e318c84",
+      "parentA": "leopard-seal",
+      "parentB": "coelacanth",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-27785a98",
+      "parentA": "vampire-squid",
+      "parentB": "elephant-seal",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-0535ad61",
+      "parentA": "leopard-seal",
+      "parentB": "leopard-seal",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-5c481af6",
+      "parentA": "marlin",
+      "parentB": "leopard-seal",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-567a73d9",
+      "parentA": "tuna",
+      "parentB": "leopard-seal",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-9884b342",
+      "parentA": "vampire-squid",
+      "parentB": "leopard-seal",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-001722c1",
+      "parentA": "wolffish",
+      "parentB": "leopard-seal",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-1468a441",
+      "parentA": "narwhal",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "sperm-whale"
+    },
+    {
+      "id": "recipe-d54ab17d",
+      "parentA": "dumbo-octopus",
+      "parentB": "beluga",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-f8a69523",
+      "parentA": "leopard-seal",
+      "parentB": "beluga",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-cdb9ac07",
+      "parentA": "narwhal",
+      "parentB": "coelacanth",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-101fed1f",
+      "parentA": "leopard-seal",
+      "parentB": "elephant-seal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-cf20b510",
+      "parentA": "sea-angel",
+      "parentB": "elephant-seal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-55ae663c",
+      "parentA": "sea-angel",
+      "parentB": "leopard-seal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-12b5fcfa",
+      "parentA": "narwhal",
+      "parentB": "marlin",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-5ec6a6d9",
+      "parentA": "narwhal",
+      "parentB": "narwhal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-ed6dc63c",
+      "parentA": "tuna",
+      "parentB": "narwhal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-4b2a233c",
+      "parentA": "vampire-squid",
+      "parentB": "narwhal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-21f0de94",
+      "parentA": "wolffish",
+      "parentB": "narwhal",
+      "resultId": "humpback-whale"
+    },
+    {
+      "id": "recipe-be256ea5",
+      "parentA": "sawfish",
+      "parentB": "beluga",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-95eb2ea5",
+      "parentA": "sawfish",
+      "parentB": "coelacanth",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-1a7063a8",
+      "parentA": "sawfish",
+      "parentB": "elephant-seal",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-d096793f",
+      "parentA": "gulper-eel",
+      "parentB": "goblin-shark",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-c5e8bd71",
+      "parentA": "tiger-shark",
+      "parentB": "goblin-shark",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-b62c1555",
+      "parentA": "sawfish",
+      "parentB": "leopard-seal",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-4217b374",
+      "parentA": "sawfish",
+      "parentB": "marlin",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-21ad7deb",
+      "parentA": "sawfish",
+      "parentB": "narwhal",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-b4547321",
+      "parentA": "sawfish",
+      "parentB": "sawfish",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-93ef29b7",
+      "parentA": "tuna",
+      "parentB": "sawfish",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-a1bc0fb9",
+      "parentA": "wolffish",
+      "parentB": "sawfish",
+      "resultId": "whale-shark"
+    },
+    {
+      "id": "recipe-391519d8",
+      "parentA": "giant-clam",
+      "parentB": "beluga",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-a021927f",
+      "parentA": "giant-clam",
+      "parentB": "elephant-seal",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-a89b73e5",
+      "parentA": "giant-clam",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-8c1ec1ab",
+      "parentA": "goblin-shark",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-2c0430fa",
+      "parentA": "gulper-eel",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-17b9dfdc",
+      "parentA": "king-crab",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-be29d64c",
+      "parentA": "leopard-seal",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-35fb7bec",
+      "parentA": "narwhal",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-9174fd42",
+      "parentA": "sawfish",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-1a2fc700",
+      "parentA": "tiger-shark",
+      "parentB": "giant-clam",
+      "resultId": "spider-crab"
+    },
+    {
+      "id": "recipe-7c2698ca",
+      "parentA": "vampire-squid",
+      "parentB": "beluga",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-c4c277e0",
+      "parentA": "elephant-seal",
+      "parentB": "coelacanth",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-c615a7c4",
+      "parentA": "narwhal",
+      "parentB": "dumbo-octopus",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-10f9857f",
+      "parentA": "elephant-seal",
+      "parentB": "elephant-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-6bddd446",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "elephant-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-33f435bd",
+      "parentA": "marlin",
+      "parentB": "elephant-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-4fdf628f",
+      "parentA": "tuna",
+      "parentB": "elephant-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-41c174d7",
+      "parentA": "wolffish",
+      "parentB": "elephant-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-07d395b3",
+      "parentA": "lion-s-mane-jelly",
+      "parentB": "leopard-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-af166b7e",
+      "parentA": "narwhal",
+      "parentB": "leopard-seal",
+      "resultId": "leatherback"
+    },
+    {
+      "id": "recipe-ebc957ae",
+      "parentA": "gulper-eel",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-4f147d0c",
+      "parentA": "king-crab",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-83e554db",
+      "parentA": "tiger-shark",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-6249227c",
+      "parentA": "vampire-squid",
+      "parentB": "dumbo-octopus",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-7225c8a6",
+      "parentA": "sea-angel",
+      "parentB": "goblin-shark",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-60c6a47b",
+      "parentA": "vampire-squid",
+      "parentB": "goblin-shark",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-412a36a8",
+      "parentA": "sea-angel",
+      "parentB": "king-crab",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-59233d9d",
+      "parentA": "vampire-squid",
+      "parentB": "king-crab",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-f7863fc1",
+      "parentA": "mantis-shrimp",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-4036092e",
+      "parentA": "sawfish",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-4aa8d81e",
+      "parentA": "sea-angel",
+      "parentB": "lion-s-mane-jelly",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-f577161d",
+      "parentA": "sea-angel",
+      "parentB": "sea-angel",
+      "resultId": "giant-squid"
+    },
+    {
+      "id": "recipe-e44d74f6",
+      "parentA": "vampire-squid",
+      "parentB": "vampire-squid",
+      "resultId": "giant-squid"
     }
   ],
   "starters": [
