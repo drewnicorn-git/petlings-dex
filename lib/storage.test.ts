@@ -13,16 +13,16 @@ describe("bundled catalog", () => {
       seedCatalog.creatures.map((creature) => creature.id),
     );
     expect(parsed.catalog.recipes).toHaveLength(seedCatalog.recipes.length);
-    expect(parsed.catalog.creatures).toHaveLength(150);
-    expect(seedCatalog.recipes).toHaveLength(3588);
+    expect(parsed.catalog.creatures).toHaveLength(156);
+    expect(seedCatalog.recipes).toHaveLength(4262);
     const seaParsed = parseImport(seaBoard, "sea");
     expect(seaParsed.ok).toBe(true);
     if (!seaParsed.ok) return;
     expect(seaParsed.catalog.creatures.map((creature) => creature.id)).toEqual(
       seaCatalog.creatures.map((creature) => creature.id),
     );
-    expect(seaCatalog.creatures).toHaveLength(79);
-    expect(seaCatalog.recipes).toHaveLength(527);
+    expect(seaCatalog.creatures).toHaveLength(95);
+    expect(seaCatalog.recipes).toHaveLength(692);
     expect(seaCatalog.creatures.slice(0, 3).map((creature) => creature.id)).toEqual([
       "clownfish",
       "seahorse",

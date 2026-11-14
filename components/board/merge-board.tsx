@@ -341,7 +341,8 @@ function BreakdownView({
   const [covered, setCovered] = useState<StarterOption[] | null>(null);
   const [pending, setPending] = useState(false);
   const immediate = useMemo(() => {
-    if (creatureTier >= 7 && owned.length > 0) {
+    if (creatureTier >= 8 || breakdown?.status === "combinations") return null;
+    if (creatureTier === 7 && owned.length > 0) {
       return firstOwnedBuild(catalog, creatureId, have, owned);
     }
     if (!breakdown || breakdown.status !== "ok") return null;

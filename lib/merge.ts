@@ -1354,6 +1354,8 @@ export function firstOwnedBuild(
   have: StarterCounts,
   owned: string[],
 ): StarterOption[] {
+  const tier = catalog.creatures.find((creature) => creature.id === creatureId)?.tier ?? 0;
+  if (tier >= 8) return [];
   const counts = emptyCounts(catalog.starters);
   const paths = (recipeIndex(catalog).get(creatureId) ?? []).map((recipe) => ({
     recipeId: recipe.id,
@@ -1377,6 +1379,7 @@ export function rankMixes(
   const usable = owned.filter((id) => id !== creatureId && (tiers.get(id) ?? 0) > 1);
   const collapsed = adviseStarters(paths, ownCounts, have);
   const tier = tiers.get(creatureId) ?? 0;
+  if (tier >= 8) return [];
   if (tier >= 7 && owned.includes(creatureId)) return [ownedResult(catalog, creatureId)];
   if (tier >= 7 && usable.length > 0) {
     return firstFeasibleMix(catalog, creatureId, collapsed, have, usable, tiers);

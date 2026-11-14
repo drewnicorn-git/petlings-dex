@@ -56,6 +56,36 @@ function tierBoard(): Catalog {
 }
 
 describe("sea starters", () => {
+  it("counts a tier 8 sea creature as tier 7 combinations", () => {
+    const sea: Catalog = {
+      starters: ["clownfish", "seahorse", "crab"],
+      creatures: [
+        { id: "clownfish", name: "Clownfish", tier: 1, locked: true },
+        { id: "seahorse", name: "Seahorse", tier: 1, locked: true },
+        { id: "crab", name: "Crab", tier: 1, locked: true },
+        { id: "reef", name: "Reef", tier: 6 },
+        { id: "a", name: "Alpha", tier: 7 },
+        { id: "b", name: "Beta", tier: 7 },
+        { id: "c", name: "Gamma", tier: 7 },
+        { id: "crystal", name: "Crystal Angelfish", tier: 8 },
+      ],
+      recipes: [
+        { id: "reef-pair", parentA: "clownfish", parentB: "seahorse", resultId: "reef" },
+        { id: "trio", parentA: "reef", parentB: "reef", parentC: "reef", resultId: "a" },
+        { id: "top", parentA: "a", parentB: "b", parentC: "c", resultId: "crystal" },
+      ],
+    };
+    expect(disassemble("crystal", sea)).toEqual({
+      status: "combinations",
+      comboCount: "1",
+      tier: 7,
+      creatureIds: ["a", "b", "c"],
+    });
+    expect(
+      firstOwnedBuild(sea, "crystal", { clownfish: 4, seahorse: 4, crab: 0 }, ["reef", "a"]),
+    ).toEqual([]);
+  });
+
   it("counts Clownfish and Seahorse instead of the land starters", () => {
     const sea: Catalog = {
       starters: ["clownfish", "seahorse", "crab"],
