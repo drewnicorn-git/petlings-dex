@@ -1591,7 +1591,7 @@ export type Breakdown =
       counts: StarterCounts;
       paths: PathCounts[];
     }
-  | { status: "tier7"; comboCount: string; tier7Ids: string[] }
+  | { status: "combinations"; comboCount: string; tier: number; creatureIds: string[] }
   | { status: "missing" | "cycle" | "not-starter"; creatureId: string };
 
 type CountPack =
@@ -1642,54 +1642,27 @@ export function disassemble(creatureId: string, catalog: Catalog): Breakdown {
   return result;
 }
 
-function summarizeTier7(
+function summarizeLevel(
   creatureId: string,
   catalog: Catalog,
-): { comboCount: string; tier7Ids: string[] } {
+): { comboCount: string; tier: number; creatureIds: string[] } {
   const creatures = creatureMap(catalog.creatures);
-  const recipesFor = recipesByResult(catalog.recipes);
-  const memo = new Map<string, { ways: bigint; tier7: string[] }>();
-
-  function walk(id: string, stack: string[]): { ways: bigint; tier7: string[] } {
-    const cached = memo.get(id);
-    if (cached) return cached;
-    if (stack.includes(id)) return { ways: BigInt(0), tier7: [] };
-    const current = creatures.get(id);
-    if (!current || current.tier < 7) return { ways: BigInt(0), tier7: [] };
-    if (current.tier === 7) {
-      const leaf = { ways: BigInt(1), tier7: [id] };
-      memo.set(id, leaf);
-      return leaf;
-    }
-    const recipes = recipesFor.get(id) ?? [];
-    let ways = BigInt(0);
-    const tier7 = new Set<string>();
-    const nextStack = [...stack, id];
-    for (const recipe of recipes) {
-      const slots = [recipe.parentA, recipe.parentB, ...(recipe.parentC ? [recipe.parentC] : [])];
-      const parts = slots.map((slot) => walk(slot, nextStack));
-      if (parts.some((part) => part.ways === BigInt(0))) continue;
-      let product = BigInt(1);
-      for (const part of parts) {
-        product *= part.ways;
-        for (const item of part.tier7) tier7.add(item);
-      }
-      ways += product;
-    }
-    const summary = { ways, tier7: [...tier7] };
-    memo.set(id, summary);
-    return summary;
+  const current = creatures.get(creatureId);
+  const tier = Math.max(1, (current?.tier ?? 1) - 1);
+  const parents = new Set<string>();
+  for (const recipe of recipeIndex(catalog).get(creatureId) ?? []) {
+    parents.add(recipe.parentA);
+    parents.add(recipe.parentB);
+    if (recipe.parentC) parents.add(recipe.parentC);
   }
-
-  const summary = walk(creatureId, []);
-  const tier7Ids = summary.tier7
+  const creatureIds = [...parents]
     .flatMap((id) => {
       const creature = creatures.get(id);
       return creature ? [creature] : [];
     })
     .sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id))
     .map((creature) => creature.id);
-  return { comboCount: summary.ways.toString(), tier7Ids };
+  return { comboCount: String(recipeIndex(catalog).get(creatureId)?.length ?? 0), tier, creatureIds };
 }
 
 function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
@@ -1697,8 +1670,13 @@ function collectBreakdown(creatureId: string, catalog: Catalog): Breakdown {
   const creature = creatures.get(creatureId);
   if (!creature) return { status: "missing", creatureId };
   if (creature.tier >= 8) {
-    const summary = summarizeTier7(creatureId, catalog);
-    return { status: "tier7", comboCount: summary.comboCount, tier7Ids: summary.tier7Ids };
+    const summary = summarizeLevel(creatureId, catalog);
+    return {
+      status: "combinations",
+      comboCount: summary.comboCount,
+      tier: summary.tier,
+      creatureIds: summary.creatureIds,
+    };
   }
   if (isStarter(creatureId)) {
     const counts = emptyCounts(catalog.starters);

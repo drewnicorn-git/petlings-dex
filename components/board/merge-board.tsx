@@ -418,25 +418,27 @@ function BreakdownView({
       </p>
     );
   }
-  if (breakdown?.status === "tier7") {
+  if (breakdown?.status === "combinations") {
     const count = BigInt(breakdown.comboCount);
-    const names = breakdown.tier7Ids.map((id) => ({
+    const names = breakdown.creatureIds.map((id) => ({
       id,
       name: creatureName(catalog, id),
     }));
     return (
       <div>
         <p className="text-xs">
-          {groupedCount(count)} registered tier 7 {count === BigInt(1) ? "combination" : "combinations"}.
+          {groupedCount(count)} registered tier {breakdown.tier}{" "}
+          {count === BigInt(1) ? "combination" : "combinations"}.
         </p>
         {names.length === 0 ? (
           <p className="mt-1 text-xs text-muted-foreground">
-            No tier 7 creature is saved for this yet.
+            No tier {breakdown.tier} creature is saved for this yet.
           </p>
         ) : (
           <>
             <p className="mt-2 text-xs text-muted-foreground">
-              {names.length} unique tier 7 {names.length === 1 ? "creature" : "creatures"} can make it.
+              {names.length} unique tier {breakdown.tier}{" "}
+              {names.length === 1 ? "creature" : "creatures"} can make it.
             </p>
             <ul className="mt-1 space-y-1">
               {names.map((item) => (

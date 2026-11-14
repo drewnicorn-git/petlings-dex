@@ -704,6 +704,56 @@
       "id": "world-tree-sprite",
       "name": "World Tree Sprite",
       "tier": 8
+    },
+    {
+      "id": "storm-roc",
+      "name": "Storm Roc",
+      "tier": 8
+    },
+    {
+      "id": "gale-griffin",
+      "name": "Gale Griffin",
+      "tier": 8
+    },
+    {
+      "id": "moss-colossus",
+      "name": "Moss Colossus",
+      "tier": 8
+    },
+    {
+      "id": "aurora-elk",
+      "name": "Aurora Elk",
+      "tier": 8
+    },
+    {
+      "id": "inferno-lion",
+      "name": "Inferno Lion",
+      "tier": 8
+    },
+    {
+      "id": "jackalope",
+      "name": "Jackalope",
+      "tier": 8
+    },
+    {
+      "id": "cerberus",
+      "name": "Cerberus",
+      "tier": 8
+    },
+    {
+      "id": "golden-boar",
+      "name": "Golden Boar",
+      "tier": 8
+    },
+    {
+      "id": "carbuncle",
+      "name": "Carbuncle",
+      "tier": 8
+    },
+    {
+      "id": "tempest-phoenix",
+      "name": "Tempest Phoenix",
+      "tier": 9
     }
   ],
   "recipes": [
@@ -17838,6 +17888,6782 @@
       "parentB": "kitsune",
       "parentC": "thunderbird",
       "resultId": "world-tree-sprite"
+    },
+    {
+      "id": "recipe-7766a01c",
+      "parentA": "phoenix",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-80fb6067",
+      "parentA": "phoenix",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-e4c2c719",
+      "parentA": "phoenix",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-758fea75",
+      "parentA": "phoenix",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-c7201bf9",
+      "parentA": "thunderbird",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-df0756c1",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "griffin",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-d77ad210",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "hellhound",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-23943694",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "hydra",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-c5547410",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "ice-golem",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-1299f5b6",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "kitsune",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-9c44ecf3",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "kraken",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6f0b803a",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "leviathan",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-e73821fc",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "manticore",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-8e40c422",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-f4df67c8",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-9a7c5f4f",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-49cee363",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-f5612ceb",
+      "parentA": "griffin",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-83a15488",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "griffin",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-5720fad2",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-67f95f3f",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-8eabfb25",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-0efeb482",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-987deaec",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-cca29018",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-cf97ead0",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-bbf5fe31",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-21b2c9ba",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6825bf23",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-a26774b4",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-86307315",
+      "parentA": "griffin",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6f4e2a26",
+      "parentA": "phoenix",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-4cbd94e5",
+      "parentA": "phoenix",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-90faef32",
+      "parentA": "phoenix",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-078aba6f",
+      "parentA": "phoenix",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-30f3ef30",
+      "parentA": "thunderbird",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-30696c3a",
+      "parentA": "roc",
+      "parentB": "fenrir",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-2fd07fef",
+      "parentA": "roc",
+      "parentB": "fenrir",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-2dafc8d9",
+      "parentA": "roc",
+      "parentB": "fenrir",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-5a53fdd1",
+      "parentA": "roc",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-98567708",
+      "parentA": "roc",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-f66ca911",
+      "parentA": "roc",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-3955835f",
+      "parentA": "pegasus",
+      "parentB": "frost-wyrm",
+      "parentC": "pegasus",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-1e48a6e1",
+      "parentA": "pegasus",
+      "parentB": "frost-wyrm",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6d6577c9",
+      "parentA": "pegasus",
+      "parentB": "frost-wyrm",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-64d28696",
+      "parentA": "pegasus",
+      "parentB": "frost-wyrm",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-66257f2c",
+      "parentA": "pegasus",
+      "parentB": "frost-wyrm",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6cfe0f41",
+      "parentA": "phoenix",
+      "parentB": "hydra",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-c55bef49",
+      "parentA": "phoenix",
+      "parentB": "hydra",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-35a8be74",
+      "parentA": "phoenix",
+      "parentB": "hydra",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-aa110165",
+      "parentA": "phoenix",
+      "parentB": "hydra",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-ec3f2ce9",
+      "parentA": "thunderbird",
+      "parentB": "hydra",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-f2f06238",
+      "parentA": "pegasus",
+      "parentB": "kitsune",
+      "parentC": "pegasus",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-cd617f24",
+      "parentA": "pegasus",
+      "parentB": "kitsune",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-15ffdb0c",
+      "parentA": "pegasus",
+      "parentB": "kitsune",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-108a7db5",
+      "parentA": "pegasus",
+      "parentB": "kitsune",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-2ceab1b2",
+      "parentA": "pegasus",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6abb98d8",
+      "parentA": "roc",
+      "parentB": "kraken",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-3f5fa77c",
+      "parentA": "roc",
+      "parentB": "kraken",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-d1321229",
+      "parentA": "roc",
+      "parentB": "kraken",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-7067d8e1",
+      "parentA": "phoenix",
+      "parentB": "leviathan",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-006a37d0",
+      "parentA": "phoenix",
+      "parentB": "leviathan",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-88d17f1d",
+      "parentA": "phoenix",
+      "parentB": "leviathan",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-5cbafb78",
+      "parentA": "phoenix",
+      "parentB": "leviathan",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-0fe17f77",
+      "parentA": "thunderbird",
+      "parentB": "leviathan",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-62e9557d",
+      "parentA": "phoenix",
+      "parentB": "phoenix",
+      "parentC": "phoenix",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-e9d098e8",
+      "parentA": "phoenix",
+      "parentB": "phoenix",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-ee68a90a",
+      "parentA": "phoenix",
+      "parentB": "phoenix",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-19af9b68",
+      "parentA": "phoenix",
+      "parentB": "phoenix",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-dfc7dc3b",
+      "parentA": "roc",
+      "parentB": "phoenix",
+      "parentC": "roc",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-9bb71a9f",
+      "parentA": "roc",
+      "parentB": "phoenix",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-5a25e332",
+      "parentA": "roc",
+      "parentB": "phoenix",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-e7bb73eb",
+      "parentA": "sphinx",
+      "parentB": "roc",
+      "parentC": "sphinx",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-6b2a3574",
+      "parentA": "sphinx",
+      "parentB": "roc",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-a260bd8c",
+      "parentA": "thunderbird",
+      "parentB": "roc",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-f2811585",
+      "parentA": "thunderbird",
+      "parentB": "thunderbird",
+      "parentC": "thunderbird",
+      "resultId": "storm-roc"
+    },
+    {
+      "id": "recipe-1b4aef7f",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "griffin",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d3be0ab8",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "hellhound",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-1338cf5f",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "hydra",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-523a1b5c",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "ice-golem",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-c3cd1998",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-faf8e9c3",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-c282c000",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-fa725f5d",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-c81916b2",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-20e2a923",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-ac2978a2",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-4964425d",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-4cb85d7b",
+      "parentA": "griffin",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-8040854e",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "griffin",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-c9035694",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "hellhound",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-a375be66",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "hydra",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-94382200",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "ice-golem",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-6959ef8f",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "kitsune",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-41684da3",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "kraken",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-9b15ccb4",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "leviathan",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-e3c5e350",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "manticore",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d1aa594a",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-b4a97c46",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d27e86af",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-ed03c0fb",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-19964c5e",
+      "parentA": "griffin",
+      "parentB": "dragon-turtle",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-4c55aeea",
+      "parentA": "phoenix",
+      "parentB": "dragon-turtle",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-4bd1495c",
+      "parentA": "phoenix",
+      "parentB": "dragon-turtle",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-0825bc4a",
+      "parentA": "phoenix",
+      "parentB": "dragon-turtle",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-ef059175",
+      "parentA": "phoenix",
+      "parentB": "dragon-turtle",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-5235353f",
+      "parentA": "pegasus",
+      "parentB": "fenrir",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-a91c32be",
+      "parentA": "pegasus",
+      "parentB": "fenrir",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-b173f2d8",
+      "parentA": "pegasus",
+      "parentB": "fenrir",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-b2f2ea0c",
+      "parentA": "pegasus",
+      "parentB": "fenrir",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-08aaa07d",
+      "parentA": "pegasus",
+      "parentB": "fenrir",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-89305742",
+      "parentA": "pegasus",
+      "parentB": "forest-spirit",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-817b915e",
+      "parentA": "pegasus",
+      "parentB": "forest-spirit",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-c107b513",
+      "parentA": "pegasus",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-b54d9cfe",
+      "parentA": "pegasus",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-66cb0e11",
+      "parentA": "pegasus",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-5c2625cd",
+      "parentA": "thunderbird",
+      "parentB": "frost-moth",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-ece37f63",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "griffin",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-47d797d2",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "hellhound",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-eb7a3c51",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "hydra",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-780b4da1",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "ice-golem",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-58c2af7b",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "kitsune",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-def0c7ba",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "kraken",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-4fcef45f",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "leviathan",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-2ef74c20",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "manticore",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-7251a0e3",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d13c23b9",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-722706db",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-249333f0",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-437d0604",
+      "parentA": "griffin",
+      "parentB": "griffin",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-de13a85b",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "leviathan",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-f66e9ed0",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "manticore",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-e6065586",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-09e393e2",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d046227f",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-f212d411",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-ed814f83",
+      "parentA": "leviathan",
+      "parentB": "griffin",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d0882e60",
+      "parentA": "phoenix",
+      "parentB": "griffin",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-6c0b6104",
+      "parentA": "phoenix",
+      "parentB": "griffin",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-a496ae39",
+      "parentA": "phoenix",
+      "parentB": "griffin",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d5e92161",
+      "parentA": "phoenix",
+      "parentB": "griffin",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-5718a46e",
+      "parentA": "sphinx",
+      "parentB": "griffin",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-17e57b8d",
+      "parentA": "sphinx",
+      "parentB": "griffin",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-acf9bd1a",
+      "parentA": "pegasus",
+      "parentB": "hydra",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-9566bd38",
+      "parentA": "pegasus",
+      "parentB": "hydra",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-3eca3456",
+      "parentA": "pegasus",
+      "parentB": "hydra",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-0721ba64",
+      "parentA": "pegasus",
+      "parentB": "hydra",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d39487a9",
+      "parentA": "pegasus",
+      "parentB": "hydra",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-0bdb5250",
+      "parentA": "phoenix",
+      "parentB": "kitsune",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-8e592954",
+      "parentA": "phoenix",
+      "parentB": "kitsune",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-7e68b3a3",
+      "parentA": "phoenix",
+      "parentB": "kitsune",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-c061fdba",
+      "parentA": "phoenix",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-8870f43c",
+      "parentA": "pegasus",
+      "parentB": "leviathan",
+      "parentC": "pegasus",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-cc23b315",
+      "parentA": "pegasus",
+      "parentB": "leviathan",
+      "parentC": "phoenix",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-a166c1da",
+      "parentA": "pegasus",
+      "parentB": "leviathan",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-71d13dd7",
+      "parentA": "pegasus",
+      "parentB": "leviathan",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-d83a7a31",
+      "parentA": "pegasus",
+      "parentB": "leviathan",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-1ff135d8",
+      "parentA": "roc",
+      "parentB": "pegasus",
+      "parentC": "roc",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-60de5c6e",
+      "parentA": "roc",
+      "parentB": "pegasus",
+      "parentC": "sphinx",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-b2ce9b58",
+      "parentA": "roc",
+      "parentB": "pegasus",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-aafb430c",
+      "parentA": "thunderbird",
+      "parentB": "pegasus",
+      "parentC": "thunderbird",
+      "resultId": "gale-griffin"
+    },
+    {
+      "id": "recipe-9fc7906d",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "forest-spirit",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-765b9d3e",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "frost-moth",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9fc78a42",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "frost-wyrm",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-777560d4",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "griffin",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-636d0ac8",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "hellhound",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-b4f1549a",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "hydra",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-850c5ad5",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "ice-golem",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-4deaa71b",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-80b7b1bf",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-5b6df871",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ea0c6c75",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-0f2152bf",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ea9dc2cc",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-00675896",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-0954f977",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-6c3afc96",
+      "parentA": "forest-spirit",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-b3eaca55",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "ent",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-df399779",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "fenrir",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-a4ad75c0",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "forest-spirit",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9945270d",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "frost-moth",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-b6f7eead",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "frost-wyrm",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-b47f7630",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "griffin",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ba9ce44a",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "hellhound",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-18192a51",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "hydra",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-27097656",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "ice-golem",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-df4855d0",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "kitsune",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-bbfcb383",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "kraken",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9a5c811f",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "leviathan",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-cff3c5f2",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "manticore",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-1d7c1d20",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "pegasus",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-df420153",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "phoenix",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ec826e3a",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-3b045e98",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-919ddf05",
+      "parentA": "ent",
+      "parentB": "dragon-turtle",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-4b40163b",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-6464fe68",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-e123721e",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-f523e15e",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-12db441c",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-f491bcfd",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9118dd35",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-0a0458b3",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-fca8f902",
+      "parentA": "kitsune",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-f54f7790",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "griffin",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ebeebe44",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "hellhound",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-265053a7",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "hydra",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ae881364",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "ice-golem",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-6356ab18",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "kitsune",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-d927bdc6",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "kraken",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-b0108e3c",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "leviathan",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-43c8dfdc",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "manticore",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-033e8426",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "pegasus",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-01888566",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-bd1249b5",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-d02f1341",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-16dcdd3c",
+      "parentA": "griffin",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9c5e5bb0",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "forest-spirit",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-2819ba96",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "frost-moth",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-d48b2529",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "frost-wyrm",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-d4c56dc7",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "griffin",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-094e429f",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "hellhound",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-6971592b",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "hydra",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-c87c2e1a",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "ice-golem",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-3dcb4b4b",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "kitsune",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-e639630c",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "kraken",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-33fce3d1",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "leviathan",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-a8f2965e",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "manticore",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-16ea4d03",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "pegasus",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-4abb9e63",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "phoenix",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9af7e52f",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-da4a654a",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9a4300e1",
+      "parentA": "forest-spirit",
+      "parentB": "fenrir",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9ae61f50",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "forest-spirit",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-a8b0fd73",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "frost-moth",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-0dbfbad2",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "frost-wyrm",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-f748041d",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "griffin",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-b5650529",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "hellhound",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-e4316b02",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "hydra",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-d0d634d4",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "ice-golem",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-9df5aa02",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "kitsune",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-6f4e705a",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "kraken",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-2e95f0a0",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "leviathan",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-ca329088",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "manticore",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-e7c5247f",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "pegasus",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-a5ad3abb",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "phoenix",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-7c30879c",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-2221f2fc",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-a7bad544",
+      "parentA": "forest-spirit",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-19cb320e",
+      "parentA": "roc",
+      "parentB": "kitsune",
+      "parentC": "roc",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-85eef807",
+      "parentA": "roc",
+      "parentB": "kitsune",
+      "parentC": "sphinx",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-24ba0379",
+      "parentA": "roc",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "moss-colossus"
+    },
+    {
+      "id": "recipe-4472f7ad",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-8a530251",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-230bb9d6",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-3bc67456",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-63140a69",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-173250be",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-682900ae",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-fefaf334",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-2c27a92d",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-bfb504f3",
+      "parentA": "ice-golem",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-7accba22",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-1618ee15",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-13c0c071",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-cf81543e",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-c63f2add",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-415bb483",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b061f826",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-52f512db",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-fbac9100",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-5e8a9ef0",
+      "parentA": "ice-golem",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-8d7e24a4",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-d6e402b0",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-7f1543c5",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-0cdec540",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-d552536c",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-fd258ea7",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-43a7f5fe",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-9c14f6c1",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-87697aa5",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-40575dee",
+      "parentA": "ice-golem",
+      "parentB": "fenrir",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-e415a4b6",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-541f875c",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-2e319c8a",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-0ababb9a",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-287e1f50",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-68a51c9d",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a3cf82a2",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-027b9770",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a9df839d",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-5aa4ffee",
+      "parentA": "ice-golem",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-5072c040",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "frost-moth",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-3e8794ee",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "frost-wyrm",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a3e15b88",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "griffin",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-f98a89b5",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "hellhound",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-c3fbba12",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "hydra",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-ac608536",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-981790aa",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-4cea594e",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-cbfbb230",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-21bbf20b",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-87ecaf83",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b34930b9",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a8f6304c",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a56eae82",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b61ea05e",
+      "parentA": "frost-moth",
+      "parentB": "frost-moth",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b4e56fe1",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-ffe11326",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-d0fea3ca",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-cf1df110",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-74e99f0b",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b6d6f8fe",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-bb69afad",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-3bf854b9",
+      "parentA": "kraken",
+      "parentB": "frost-wyrm",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-eca28f89",
+      "parentA": "roc",
+      "parentB": "frost-wyrm",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a3ee2684",
+      "parentA": "roc",
+      "parentB": "frost-wyrm",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-2e686fa3",
+      "parentA": "roc",
+      "parentB": "frost-wyrm",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-da245ac2",
+      "parentA": "sphinx",
+      "parentB": "frost-wyrm",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-72a3634b",
+      "parentA": "sphinx",
+      "parentB": "frost-wyrm",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-0e341414",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-3e9135e4",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-c9ba4893",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-f9e88583",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-bbffc433",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-dc1da6dc",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-40afde73",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-e450097a",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-90ec3558",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-dc4b84c6",
+      "parentA": "ice-golem",
+      "parentB": "hydra",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-e23477c6",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "ice-golem",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-d8106266",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "kitsune",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-57209251",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "kraken",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-61e2a43f",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-ab920e14",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-72fe578f",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b50f6591",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-75e4d0e7",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-a960b903",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-f9a7c2ce",
+      "parentA": "ice-golem",
+      "parentB": "ice-golem",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-3a880662",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "leviathan",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-5c4d8a8d",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "manticore",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-784c1ca7",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-95be4499",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-201c9204",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-7da651b9",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-b0dd16a7",
+      "parentA": "leviathan",
+      "parentB": "ice-golem",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-498a84f4",
+      "parentA": "pegasus",
+      "parentB": "ice-golem",
+      "parentC": "pegasus",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-3a97aa3b",
+      "parentA": "pegasus",
+      "parentB": "ice-golem",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-ab76ce8e",
+      "parentA": "pegasus",
+      "parentB": "ice-golem",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-af7098fb",
+      "parentA": "pegasus",
+      "parentB": "ice-golem",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-7eafe99b",
+      "parentA": "pegasus",
+      "parentB": "ice-golem",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-50aba166",
+      "parentA": "phoenix",
+      "parentB": "ice-golem",
+      "parentC": "phoenix",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-419b5bd0",
+      "parentA": "phoenix",
+      "parentB": "ice-golem",
+      "parentC": "roc",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-814fa95d",
+      "parentA": "phoenix",
+      "parentB": "ice-golem",
+      "parentC": "sphinx",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-1410b2d3",
+      "parentA": "phoenix",
+      "parentB": "ice-golem",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-4dbef6f3",
+      "parentA": "thunderbird",
+      "parentB": "ice-golem",
+      "parentC": "thunderbird",
+      "resultId": "aurora-elk"
+    },
+    {
+      "id": "recipe-e7fb89f3",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "chimera",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-1ebe1b98",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "dragon",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-1e44dc1d",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "dragon-turtle",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-6d33df8e",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "ember-rhino",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-7e24af4a",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "ent",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-9f25cae9",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "fenrir",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-9349d081",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "forest-spirit",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-86e7d202",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "frost-moth",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-8fa68312",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "frost-wyrm",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-e4db280e",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "griffin",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-80882afd",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-c5560b52",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-bb1b152c",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-70d17ef9",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d69de8ba",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-76004a17",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-7ee9c9fd",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-84d4330a",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-52dc7c03",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-67b1086a",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d96124a7",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-a599c46c",
+      "parentA": "chimera",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-e282f3e8",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "dragon",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-44390aa6",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "dragon-turtle",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-87bdf724",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "ember-rhino",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-0885982c",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "ent",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-45cf2d5d",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "fenrir",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-7d843313",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "forest-spirit",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-44868669",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "frost-moth",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-098e76cc",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "frost-wyrm",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-e8097390",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "griffin",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-1063e7ae",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-316877c6",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-c0cd9a9e",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-828629e2",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-3b8c131b",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-2b7bb341",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-a990ee19",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-a3633d9e",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-a241180c",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-0d11cdbf",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-dc40ecf1",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-c808fba9",
+      "parentA": "dragon",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-3851b20d",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "ent",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-907f4936",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "fenrir",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-65e92b31",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "forest-spirit",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-bd4fe36e",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "frost-moth",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-30104399",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "frost-wyrm",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-b7cb8c94",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "griffin",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-21f4920e",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-55b7c320",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-9c23e2ef",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-5ce01d7f",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-0dd37ffc",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-a17517d5",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-6fb3844a",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d7ea35d8",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-16b1adcb",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-1bf64517",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-bd91c8f3",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-5370cc2f",
+      "parentA": "ent",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-0b5224fb",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "fenrir",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-5816425f",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "forest-spirit",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-bf5d9945",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "frost-moth",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-870c6476",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "frost-wyrm",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-872637ef",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "griffin",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-92191fae",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-4f88c6b4",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-63618424",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-128b13b3",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-b5c08871",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-fae1ead6",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-80c48b0e",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-06d4793c",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-14d2dba7",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-7d50f6fd",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-29f0bbf3",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d97c6681",
+      "parentA": "fenrir",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-100d3a47",
+      "parentA": "phoenix",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-786d630f",
+      "parentA": "phoenix",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-2faf8d7a",
+      "parentA": "phoenix",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-549dd789",
+      "parentA": "phoenix",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d8210083",
+      "parentA": "manticore",
+      "parentB": "dragon",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-fdb630dd",
+      "parentA": "manticore",
+      "parentB": "dragon",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-6d02e877",
+      "parentA": "manticore",
+      "parentB": "dragon",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-75fd4d72",
+      "parentA": "manticore",
+      "parentB": "dragon",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-65bc72b1",
+      "parentA": "manticore",
+      "parentB": "dragon",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d71a788f",
+      "parentA": "manticore",
+      "parentB": "dragon",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-cba51d24",
+      "parentA": "roc",
+      "parentB": "dragon",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-888d9016",
+      "parentA": "roc",
+      "parentB": "dragon",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-161ac937",
+      "parentA": "roc",
+      "parentB": "dragon",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-c6d2fea9",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-b48cccd1",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-f9fd017e",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-6efd15c0",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-e94c2859",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-73fcb123",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-92e8f63e",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-f3f8333f",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-a4b77500",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-4e804853",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-3ee4c4bc",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d0fa040a",
+      "parentA": "hellhound",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-79a09d5d",
+      "parentA": "roc",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-ea038882",
+      "parentA": "roc",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-cad18f5e",
+      "parentA": "roc",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-98400847",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-1265c41c",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-471c8c20",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-24ac453d",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-be6af84d",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-948eac37",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d81b2282",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-ebbf2532",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-9690ea6d",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-bed93ab7",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-33e9f9da",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-57ac50fd",
+      "parentA": "hellhound",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d875f4d1",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "hellhound",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-61d1ecfb",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "hydra",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-b3586672",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "ice-golem",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d059d6ad",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "kitsune",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-2f963e82",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "kraken",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-c1e0afd2",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "leviathan",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-3a53e39b",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "manticore",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-61e31ed5",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "pegasus",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-ce557373",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "phoenix",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-72aed18c",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "roc",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-ea29422c",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-b42e64a7",
+      "parentA": "hellhound",
+      "parentB": "hellhound",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-968f5f21",
+      "parentA": "thunderbird",
+      "parentB": "hellhound",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-d71c0fab",
+      "parentA": "sphinx",
+      "parentB": "manticore",
+      "parentC": "sphinx",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-f51b5b11",
+      "parentA": "sphinx",
+      "parentB": "manticore",
+      "parentC": "thunderbird",
+      "resultId": "inferno-lion"
+    },
+    {
+      "id": "recipe-de237d73",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e2260727",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-f3413f9c",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-2fe709ce",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-d5250630",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-d864b82c",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-1511cbc8",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-4d6166eb",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-72195255",
+      "parentA": "kitsune",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-66d1b9ee",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-02058c79",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-dc28e81e",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-86fe2598",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-8adb9706",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-d1a31c96",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-76c7aa4b",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-9359772b",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a050eacf",
+      "parentA": "kitsune",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-6be4ef8f",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "forest-spirit",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-47d1e18e",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "frost-moth",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e4987a2b",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "frost-wyrm",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-9acacf65",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "griffin",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e94fccfc",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-3f9b65ab",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-eeb1ee1d",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a395d39d",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-7e596e2e",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c51830de",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-ce58659c",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-f954f338",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-b33490b7",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-6823d7e4",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-9b6d791d",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-ab879947",
+      "parentA": "forest-spirit",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-bdac6f48",
+      "parentA": "sphinx",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a70d25d4",
+      "parentA": "sphinx",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c3b2eab5",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "frost-moth",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-9c52417c",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "frost-wyrm",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-ed8cfcf5",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "griffin",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-800fd1e8",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "hellhound",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-03809aaa",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "hydra",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-b1c4249d",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "ice-golem",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e4a21656",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-2028026f",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-923ddb2c",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e87ec56f",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-fe4f13bc",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e895b5ec",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-41f507a3",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-6a3073a2",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a7b81f55",
+      "parentA": "frost-moth",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-b48c8ea3",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-f4572ad8",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-b6b022db",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e50f1baf",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c89d8222",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c1f314df",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-203feb2e",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-871caaa7",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-fda1ac45",
+      "parentA": "kitsune",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e0a7b114",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-2944404e",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-3d7287e7",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a5729ffd",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-2b91f398",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-10c78ef9",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-5629de4b",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-32d3635d",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c1d792c9",
+      "parentA": "kitsune",
+      "parentB": "frost-wyrm",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-ef9d0058",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-27b406bb",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-6f3e2865",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-bd371a8d",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-ee391d4b",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-06c4b1c4",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-6f567a26",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-44970f5c",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-3fcf441a",
+      "parentA": "kitsune",
+      "parentB": "griffin",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-117d6bf5",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-90d16c6a",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-0798c617",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c2f32bb3",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-b57739e7",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-81f75fc6",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-68bc7e1b",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-4d74a4aa",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-64eb4fe1",
+      "parentA": "kitsune",
+      "parentB": "ice-golem",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-3802938f",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "kitsune",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a29a1c05",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "kraken",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-7d84eeda",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "leviathan",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-eac79494",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "manticore",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-ab8eee42",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "pegasus",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-4d58d7cf",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "phoenix",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a7c60c9e",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "roc",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-8a547a17",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c01c95e8",
+      "parentA": "kitsune",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-a39edb7d",
+      "parentA": "sphinx",
+      "parentB": "kitsune",
+      "parentC": "sphinx",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-c87800a8",
+      "parentA": "sphinx",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-e7dd3a4a",
+      "parentA": "thunderbird",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "jackalope"
+    },
+    {
+      "id": "recipe-1ba649c1",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "ember-rhino",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-628e0b81",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "ent",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-0340af25",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "fenrir",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-aea7a138",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "forest-spirit",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-86b16466",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "frost-moth",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3e0b9542",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "frost-wyrm",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-fcc781f1",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "griffin",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-53f1eb13",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "hellhound",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-e3ff9476",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "hydra",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-1e478a63",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "ice-golem",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-b67b9a7a",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-768fc2f2",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-34154c50",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3d181378",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-55c223ca",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-f174f846",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-19134c6b",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-a6732953",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-0d5b395d",
+      "parentA": "ember-rhino",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-36dd7a05",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "ember-rhino",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-c2ad963d",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "ent",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-613bcd77",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "fenrir",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-a7ef8ea8",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "forest-spirit",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-9a980b77",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "frost-moth",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-f218dba8",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "frost-wyrm",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3f5f71dd",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "griffin",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-beb431bf",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "hellhound",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-9776a057",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "hydra",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-4a2e625a",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "ice-golem",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-45ef3a40",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "kitsune",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-eace4603",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "kraken",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-b42a76e4",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "leviathan",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-126a89d3",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "manticore",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-2e83d75b",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-16de0881",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3aefb43c",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-25fd4151",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-2d0f433a",
+      "parentA": "ember-rhino",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-197715c4",
+      "parentA": "pegasus",
+      "parentB": "chimera",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-d8b0df6d",
+      "parentA": "pegasus",
+      "parentB": "chimera",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-ef96e007",
+      "parentA": "pegasus",
+      "parentB": "chimera",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-8b61a6a9",
+      "parentA": "pegasus",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-cdca7314",
+      "parentA": "pegasus",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-5e8a824b",
+      "parentA": "sphinx",
+      "parentB": "chimera",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-5f159f25",
+      "parentA": "sphinx",
+      "parentB": "chimera",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-27945bb6",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "ember-rhino",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-10a28953",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "ent",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-a98e4793",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "fenrir",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-966fa541",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "forest-spirit",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-e332a884",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "frost-moth",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-24c7008d",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "frost-wyrm",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-7e370802",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "griffin",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-fea3179b",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "hellhound",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-e613f65a",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "hydra",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-8ee08bed",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "ice-golem",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-80f99bb6",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "kitsune",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-dbac5af5",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "kraken",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-9e7abce0",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "leviathan",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-2e50aece",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "manticore",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-d1ea175a",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-a4d52a43",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-c4cba1c1",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-88023cae",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-dc437021",
+      "parentA": "ember-rhino",
+      "parentB": "dragon",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-5304dd40",
+      "parentA": "pegasus",
+      "parentB": "dragon",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-71d4e7fa",
+      "parentA": "pegasus",
+      "parentB": "dragon",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-6b036213",
+      "parentA": "pegasus",
+      "parentB": "dragon",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-6d49bdbb",
+      "parentA": "pegasus",
+      "parentB": "dragon",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-0f364e61",
+      "parentA": "pegasus",
+      "parentB": "dragon",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-e7d95750",
+      "parentA": "sphinx",
+      "parentB": "dragon",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-9af21a19",
+      "parentA": "sphinx",
+      "parentB": "dragon",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-c282b344",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "fenrir",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-bb3afa9f",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "forest-spirit",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3e5a2ec2",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "frost-moth",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-65fa8103",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "frost-wyrm",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-31675dea",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "griffin",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-8aa7b325",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-fd2c4b69",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-83f777dd",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-2b2bdda4",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-c0fece8f",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-53aee824",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3b3e1e42",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-9a6bb6a1",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-18787055",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-ad337b26",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-faf45df0",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-13bbe019",
+      "parentA": "fenrir",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-4ebd241b",
+      "parentA": "phoenix",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3d4ab080",
+      "parentA": "phoenix",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3a7bd9de",
+      "parentA": "phoenix",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-7897c775",
+      "parentA": "phoenix",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-3a61365a",
+      "parentA": "manticore",
+      "parentB": "griffin",
+      "parentC": "manticore",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-cd17a731",
+      "parentA": "manticore",
+      "parentB": "griffin",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-105cda3b",
+      "parentA": "manticore",
+      "parentB": "griffin",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-5364340c",
+      "parentA": "manticore",
+      "parentB": "griffin",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-21d8ec0d",
+      "parentA": "manticore",
+      "parentB": "griffin",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-f992dd40",
+      "parentA": "manticore",
+      "parentB": "griffin",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-b696b78e",
+      "parentA": "pegasus",
+      "parentB": "manticore",
+      "parentC": "pegasus",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-4f77b770",
+      "parentA": "pegasus",
+      "parentB": "manticore",
+      "parentC": "phoenix",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-1e4dcc09",
+      "parentA": "pegasus",
+      "parentB": "manticore",
+      "parentC": "roc",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-cd91f6c8",
+      "parentA": "pegasus",
+      "parentB": "manticore",
+      "parentC": "sphinx",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-4b5f9e68",
+      "parentA": "pegasus",
+      "parentB": "manticore",
+      "parentC": "thunderbird",
+      "resultId": "cerberus"
+    },
+    {
+      "id": "recipe-2709c182",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "frost-wyrm",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-49a6b6ff",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "griffin",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-b2c38c20",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "hellhound",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-c39281e8",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "hydra",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-9aaf8bb5",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "ice-golem",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-d6c1a35a",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "kitsune",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-b5e6b34d",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "kraken",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-c92fb9e9",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "leviathan",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-d86e23ec",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-8b566be3",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-592d56f8",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-41c6342b",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-4d2417d0",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-1a528f28",
+      "parentA": "frost-wyrm",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f83c6a01",
+      "parentA": "sphinx",
+      "parentB": "behemoth",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-64914fd7",
+      "parentA": "sphinx",
+      "parentB": "behemoth",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-db5d4376",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "fenrir",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-fb1e6f7f",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "forest-spirit",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-e79c1695",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "frost-moth",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-504b1da5",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "frost-wyrm",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-7f6fedd4",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "griffin",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-b60a51a9",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "hellhound",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-63c12678",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "hydra",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-d972b6d6",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "ice-golem",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-a719a37a",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "kitsune",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-713843bc",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "kraken",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-104382ff",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "leviathan",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-eb1bf313",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-78611efa",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-59a4c1be",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-d5450ecc",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-9415f90b",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f501a0c0",
+      "parentA": "fenrir",
+      "parentB": "dragon-turtle",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-2cf997fa",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "frost-moth",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-0c7de730",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "frost-wyrm",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-22a72958",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "griffin",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-c1891a7d",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-d762f03e",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-2c2dbaae",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-c099acce",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-394991da",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-257e5dc8",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-4720c70a",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-5baa481f",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-b4284938",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-99c4a802",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-759de334",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-19433054",
+      "parentA": "frost-moth",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-2af6495a",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "frost-wyrm",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-a1a392da",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "griffin",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-45efdf63",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-28ed2d10",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-fd2366ca",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-dea7a2ea",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-96d10052",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-3dd5276a",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-95936bc2",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-0ad546e0",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-8678c771",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-b4fedd0f",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-9c5c23c8",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-fc7e764b",
+      "parentA": "frost-wyrm",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-6dfa22e4",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-fdb90839",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-ac16e3e2",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-35ad7ea4",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-88e7db91",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-244b3dd6",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-43b8d063",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-edd1a44e",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-1df87fff",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-e046e300",
+      "parentA": "ice-golem",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f3ab5966",
+      "parentA": "sphinx",
+      "parentB": "fenrir",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-c7432bc4",
+      "parentA": "sphinx",
+      "parentB": "fenrir",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-3ad7720d",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "hellhound",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f1722044",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "hydra",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-e948453c",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "ice-golem",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-3eb1840f",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "kitsune",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-eb43341a",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "kraken",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-15eb2327",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "leviathan",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-d09a306e",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-fe9d552b",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-420294af",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f285d62c",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-389cad12",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-8193ff30",
+      "parentA": "hellhound",
+      "parentB": "frost-moth",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-11981f42",
+      "parentA": "manticore",
+      "parentB": "frost-moth",
+      "parentC": "manticore",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-dd6fc8fe",
+      "parentA": "manticore",
+      "parentB": "frost-moth",
+      "parentC": "pegasus",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f5dced67",
+      "parentA": "manticore",
+      "parentB": "frost-moth",
+      "parentC": "phoenix",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-63ce213c",
+      "parentA": "manticore",
+      "parentB": "frost-moth",
+      "parentC": "roc",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-4fe5c268",
+      "parentA": "manticore",
+      "parentB": "frost-moth",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-959fece9",
+      "parentA": "manticore",
+      "parentB": "frost-moth",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-14d90be7",
+      "parentA": "sphinx",
+      "parentB": "leviathan",
+      "parentC": "sphinx",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-479f0aa0",
+      "parentA": "sphinx",
+      "parentB": "leviathan",
+      "parentC": "thunderbird",
+      "resultId": "golden-boar"
+    },
+    {
+      "id": "recipe-f31ee674",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "forest-spirit",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-fe910556",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "frost-moth",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c9c10e62",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "frost-wyrm",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-a9c55b57",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "griffin",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-08cd2a21",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "hellhound",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-66240335",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "hydra",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0e68ca7f",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "ice-golem",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-3a518819",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-ad00d0fc",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-4d78a99a",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-f17e195d",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-37846d03",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-e83d72f1",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-dad20781",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-5398bc28",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-4e9a79d8",
+      "parentA": "forest-spirit",
+      "parentB": "dragon-turtle",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-330096da",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b083a205",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-5381bc61",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-2f8b9b3f",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-82b2e17a",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-d8acca73",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c6912bc0",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c955d4cc",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-04b9c83a",
+      "parentA": "kitsune",
+      "parentB": "dragon",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-8da679ea",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "ent",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-a5e68a1f",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "fenrir",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-ddb389e2",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "forest-spirit",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-16a17583",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "frost-moth",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-9e2c4d4d",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "frost-wyrm",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-7f8416cd",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "griffin",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-8ea68799",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "hellhound",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0307296e",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "hydra",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-472ef067",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "ice-golem",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-4cad573c",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-2e254a47",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-1fbd3836",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-fc7bbf18",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-2ea09963",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b04f294a",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0f3d4d6f",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-fb8a7506",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-5c50f398",
+      "parentA": "ent",
+      "parentB": "ember-rhino",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-882d4f86",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "frost-moth",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-5f70f97b",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "frost-wyrm",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-ee3272bc",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "griffin",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-f2420965",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "hellhound",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-9890fa3f",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "hydra",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-ccbcddbc",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "ice-golem",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-9dec86bd",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-929367f7",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0987f401",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-1cc44ece",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-8dc1d6b2",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-5f0f90b3",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-71a9c103",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-6058879a",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-e9c93555",
+      "parentA": "frost-moth",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-e0f3b424",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-814980b7",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b3ac7ee0",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-abee6600",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c27c3c9a",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-dd483213",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0e40794e",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0c445aa5",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-bb8da88b",
+      "parentA": "kitsune",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-16b328eb",
+      "parentA": "pegasus",
+      "parentB": "ent",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-eec35b8a",
+      "parentA": "pegasus",
+      "parentB": "ent",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-d62fcbba",
+      "parentA": "pegasus",
+      "parentB": "ent",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-8771c4c6",
+      "parentA": "pegasus",
+      "parentB": "ent",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-f95d8616",
+      "parentA": "pegasus",
+      "parentB": "ent",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-9a16feff",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-4040ca36",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-a59efba1",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-8e027d47",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-251d04eb",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c1cfa169",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b0fcca16",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-22a4db9a",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b847c762",
+      "parentA": "kitsune",
+      "parentB": "fenrir",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b2b3e993",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "griffin",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-5b3f148d",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "hellhound",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c577e066",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "hydra",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-436e0878",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "ice-golem",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-ecaf39e7",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "kitsune",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-c0a6e301",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "kraken",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-a284bd58",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "leviathan",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-d50743cb",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-a57edb29",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-ebe61871",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-cbed634d",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-b17581fd",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-cd3b0cc1",
+      "parentA": "griffin",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-0d4d3938",
+      "parentA": "sphinx",
+      "parentB": "forest-spirit",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-89cd44e5",
+      "parentA": "sphinx",
+      "parentB": "forest-spirit",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-257a0b5b",
+      "parentA": "manticore",
+      "parentB": "kitsune",
+      "parentC": "manticore",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-316e2124",
+      "parentA": "manticore",
+      "parentB": "kitsune",
+      "parentC": "pegasus",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-e21aac06",
+      "parentA": "manticore",
+      "parentB": "kitsune",
+      "parentC": "phoenix",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-f337dc71",
+      "parentA": "manticore",
+      "parentB": "kitsune",
+      "parentC": "roc",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-26cd58d2",
+      "parentA": "manticore",
+      "parentB": "kitsune",
+      "parentC": "sphinx",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-a6f226eb",
+      "parentA": "manticore",
+      "parentB": "kitsune",
+      "parentC": "thunderbird",
+      "resultId": "carbuncle"
+    },
+    {
+      "id": "recipe-800d7fbb",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "frost-ram",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-f6a7fbf7",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "gale-griffin",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-5286c05d",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "glacier-wolf",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-60596899",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "golden-boar",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-9304a441",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "inferno-lion",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-668418d0",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "jackalope",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-f4519c74",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "lotus-toad",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-e6d0cb0a",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "magma-tortoise",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-93851d94",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "moss-colossus",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-f3625d60",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "sand-wyrm",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-77ac37c1",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "shadow-beast",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-c3a8325f",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "shadow-jaguar",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-61541539",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-6ceda28d",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-dcc89e23",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-af2d9bec",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-76f462c6",
+      "parentA": "frost-ram",
+      "parentB": "cloud-pegasus",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-06502fe5",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "glacier-wolf",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-149f63cd",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "golden-boar",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-9a722463",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "inferno-lion",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-cd2ae41f",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "jackalope",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-667e853f",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "lotus-toad",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-bb548d52",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "magma-tortoise",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-57647342",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "moss-colossus",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-a0c3acbe",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "sand-wyrm",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-4fdfab1e",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "shadow-beast",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-46f34a4b",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "shadow-jaguar",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-4cfe9d97",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-7ecd9f2d",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-415374e7",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-cb09eaba",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-cd00e5af",
+      "parentA": "glacier-wolf",
+      "parentB": "cloud-pegasus",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-ae951576",
+      "parentA": "sky-whale",
+      "parentB": "coral-titan",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-c98e9ac4",
+      "parentA": "sky-whale",
+      "parentB": "coral-titan",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-6e9a79e4",
+      "parentA": "sky-whale",
+      "parentB": "coral-titan",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-69b33f0e",
+      "parentA": "sky-whale",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-61328017",
+      "parentA": "sky-whale",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-0658b17c",
+      "parentA": "sky-whale",
+      "parentB": "frost-ram",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-1cfbf3a1",
+      "parentA": "sky-whale",
+      "parentB": "frost-ram",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-8595d432",
+      "parentA": "sky-whale",
+      "parentB": "frost-ram",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-839ffda5",
+      "parentA": "sky-whale",
+      "parentB": "frost-ram",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-28403149",
+      "parentA": "sky-whale",
+      "parentB": "frost-ram",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-4c77c54f",
+      "parentA": "storm-roc",
+      "parentB": "frost-ram",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-85a38adc",
+      "parentA": "storm-roc",
+      "parentB": "frost-ram",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-e68b0fbf",
+      "parentA": "storm-roc",
+      "parentB": "frost-ram",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-0a292ee3",
+      "parentA": "storm-roc",
+      "parentB": "frost-ram",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-94347b79",
+      "parentA": "storm-roc",
+      "parentB": "golden-boar",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-b62f806b",
+      "parentA": "storm-roc",
+      "parentB": "golden-boar",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-848274c7",
+      "parentA": "storm-roc",
+      "parentB": "golden-boar",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-561caf60",
+      "parentA": "storm-roc",
+      "parentB": "golden-boar",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-36cb3c4a",
+      "parentA": "storm-roc",
+      "parentB": "lotus-toad",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-26500eda",
+      "parentA": "storm-roc",
+      "parentB": "lotus-toad",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-aeafa70c",
+      "parentA": "storm-roc",
+      "parentB": "lotus-toad",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-4148fd29",
+      "parentA": "storm-roc",
+      "parentB": "lotus-toad",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-7f30bda1",
+      "parentA": "sky-whale",
+      "parentB": "moss-colossus",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-53ab9469",
+      "parentA": "sky-whale",
+      "parentB": "moss-colossus",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-0fa9d7b1",
+      "parentA": "sky-whale",
+      "parentB": "moss-colossus",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-8456128e",
+      "parentA": "sky-whale",
+      "parentB": "moss-colossus",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-a7febdae",
+      "parentA": "sky-whale",
+      "parentB": "moss-colossus",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-709bcfcc",
+      "parentA": "sky-whale",
+      "parentB": "sand-wyrm",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-6d7570c0",
+      "parentA": "sky-whale",
+      "parentB": "sand-wyrm",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-22ab0eff",
+      "parentA": "sky-whale",
+      "parentB": "sand-wyrm",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-7d7b831a",
+      "parentA": "sky-whale",
+      "parentB": "sand-wyrm",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-e70e442c",
+      "parentA": "sky-whale",
+      "parentB": "sand-wyrm",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-e4211d37",
+      "parentA": "sky-whale",
+      "parentB": "shadow-beast",
+      "parentC": "sky-whale",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-75404d15",
+      "parentA": "sky-whale",
+      "parentB": "shadow-beast",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-a5e64dd9",
+      "parentA": "sky-whale",
+      "parentB": "shadow-beast",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-6d1dbbf0",
+      "parentA": "sky-whale",
+      "parentB": "shadow-beast",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-6cbd6d4e",
+      "parentA": "sky-whale",
+      "parentB": "shadow-beast",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-d6cea47a",
+      "parentA": "storm-roc",
+      "parentB": "sky-whale",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-95e006c1",
+      "parentA": "storm-roc",
+      "parentB": "sky-whale",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-2dd52c47",
+      "parentA": "storm-roc",
+      "parentB": "sky-whale",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-cde7d573",
+      "parentA": "storm-roc",
+      "parentB": "sky-whale",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-b167ea1e",
+      "parentA": "tidal-serpent",
+      "parentB": "sky-whale",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-3afac0b2",
+      "parentA": "tidal-serpent",
+      "parentB": "sky-whale",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-51680b8b",
+      "parentA": "world-tree-sprite",
+      "parentB": "sky-whale",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-d1ab1030",
+      "parentA": "storm-roc",
+      "parentB": "storm-roc",
+      "parentC": "storm-roc",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-a0d14283",
+      "parentA": "storm-roc",
+      "parentB": "storm-roc",
+      "parentC": "sun-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-e441202b",
+      "parentA": "storm-roc",
+      "parentB": "storm-roc",
+      "parentC": "tidal-serpent",
+      "resultId": "tempest-phoenix"
+    },
+    {
+      "id": "recipe-08cfdb4f",
+      "parentA": "storm-roc",
+      "parentB": "storm-roc",
+      "parentC": "world-tree-sprite",
+      "resultId": "tempest-phoenix"
     }
   ],
   "starters": [

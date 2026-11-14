@@ -545,9 +545,10 @@ describe("attemptMerge", () => {
       },
     );
     expect(disassemble("prism", board)).toEqual({
-      status: "tier7",
+      status: "combinations",
       comboCount: "1",
-      tier7Ids: ["blue", "green", "red"],
+      tier: 7,
+      creatureIds: ["blue", "green", "red"],
     });
   });
 
@@ -672,7 +673,7 @@ describe("disassemble", () => {
     });
   });
 
-  it("counts registered tier 7 combinations for tier 8 and above", () => {
+  it("counts combinations from the tier directly below", () => {
     const board = catalog();
     board.creatures.push(
       { id: "t8a", name: "Tide King", tier: 8 },
@@ -687,19 +688,22 @@ describe("disassemble", () => {
       { id: "r4", parentA: "t8a", parentB: "t8a", parentC: "t8b", resultId: "t9" },
     );
     expect(disassemble("t8a", board)).toEqual({
-      status: "tier7",
+      status: "combinations",
       comboCount: "2",
-      tier7Ids: ["behemoth", "dragon", "hydra", "phoenix"],
+      tier: 7,
+      creatureIds: ["behemoth", "dragon", "hydra", "phoenix"],
     });
     expect(disassemble("t9", board)).toEqual({
-      status: "tier7",
-      comboCount: "4",
-      tier7Ids: ["behemoth", "dragon", "griffin", "hydra", "phoenix"],
+      status: "combinations",
+      comboCount: "1",
+      tier: 8,
+      creatureIds: ["t8b", "t8a"],
     });
     expect(disassemble("t8-empty", board)).toEqual({
-      status: "tier7",
+      status: "combinations",
       comboCount: "0",
-      tier7Ids: [],
+      tier: 7,
+      creatureIds: [],
     });
   });
 

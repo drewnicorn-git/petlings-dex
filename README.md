@@ -1,6 +1,6 @@
 # Merge Board
 
-A personal notebook for a pet-merge game. Land Farm and Sea Farm are separate boards. Add creatures and the same-tier combos that make them, drag cartoon tokens together to see what unlocks, and drop a creature in a corner to count the tier 1 pets it takes or to see which same-tier partners are still missing. Tier 8 and above skip that count and instead show how many saved tier 7 combinations can make it, plus the unique tier 7 creatures in those combinations.
+A personal notebook for a pet-merge game. Land Farm and Sea Farm are separate boards. Add creatures and the same-tier combos that make them, drag cartoon tokens together to see what unlocks, and drop a creature in a corner to count the tier 1 pets it takes or to see which same-tier partners are still missing. Tier 8 and above skip that count and instead show how many saved combinations from the tier directly below can make it, plus the unique creatures in those combinations.
 
 This is not the game, and it is not an official guide. The land list lives in `data/merge-board.json`. The sea list lives in `data/sea-board.json`.
 
