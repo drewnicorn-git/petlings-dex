@@ -479,6 +479,41 @@
       "id": "crystal-angelfish",
       "name": "Crystal Angelfish",
       "tier": 8
+    },
+    {
+      "id": "moon-orca",
+      "name": "Moon Orca",
+      "tier": 8
+    },
+    {
+      "id": "island-turtle",
+      "name": "Island Turtle",
+      "tier": 8
+    },
+    {
+      "id": "star-jelly",
+      "name": "Star Jelly",
+      "tier": 8
+    },
+    {
+      "id": "tempest-squid",
+      "name": "Tempest Squid",
+      "tier": 8
+    },
+    {
+      "id": "titan-crab",
+      "name": "Titan Crab",
+      "tier": 8
+    },
+    {
+      "id": "aurora-koi",
+      "name": "Aurora Koi",
+      "tier": 8
+    },
+    {
+      "id": "storm-marlin",
+      "name": "Storm Marlin",
+      "tier": 8
     }
   ],
   "recipes": [
@@ -4645,6 +4680,3177 @@
       "parentB": "anomalocaris",
       "parentC": "sharktopus",
       "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-241dfee3",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "lantern-jelly",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-9554699c",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "megalodon",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-87b91e4a",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "mosasaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-c71a984a",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "namazu",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-7ab83669",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-6485e2a2",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-963a4d4f",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-65e93056",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-b1531448",
+      "parentA": "lantern-jelly",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-6ee32572",
+      "parentA": "namazu",
+      "parentB": "dragon-koi",
+      "parentC": "namazu",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-7ac7ceec",
+      "parentA": "namazu",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-a9d3a559",
+      "parentA": "namazu",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-779c10dc",
+      "parentA": "namazu",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-a1cb7524",
+      "parentA": "namazu",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-040fbd7a",
+      "parentA": "namazu",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-82856e12",
+      "parentA": "pearl-golem",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-d8334052",
+      "parentA": "pearl-golem",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-68d49ebe",
+      "parentA": "pearl-golem",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-055dcddc",
+      "parentA": "pearl-golem",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-e99c3ba3",
+      "parentA": "pearl-golem",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-cea447ec",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "hippocampus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-28cc8670",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "lantern-jelly",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-1a9207e8",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "megalodon",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-7db348f8",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "mosasaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-c8e7eb76",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "namazu",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-3df84352",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-3a6206b7",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-8979b7fb",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-2f9afa8d",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-52138f9e",
+      "parentA": "hippocampus",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-63636892",
+      "parentA": "namazu",
+      "parentB": "lantern-jelly",
+      "parentC": "namazu",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-2a81e785",
+      "parentA": "namazu",
+      "parentB": "lantern-jelly",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-e7fa7441",
+      "parentA": "namazu",
+      "parentB": "lantern-jelly",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-1ad913a9",
+      "parentA": "namazu",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-75137a11",
+      "parentA": "namazu",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-93c59bc1",
+      "parentA": "namazu",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-8db22e6e",
+      "parentA": "namazu",
+      "parentB": "namazu",
+      "parentC": "namazu",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-5b4d94ef",
+      "parentA": "namazu",
+      "parentB": "namazu",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-11b54d46",
+      "parentA": "namazu",
+      "parentB": "namazu",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-8f662d7c",
+      "parentA": "namazu",
+      "parentB": "namazu",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-7e683b68",
+      "parentA": "namazu",
+      "parentB": "namazu",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-7bc280fe",
+      "parentA": "namazu",
+      "parentB": "namazu",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-4480a29d",
+      "parentA": "pearl-golem",
+      "parentB": "namazu",
+      "parentC": "pearl-golem",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-7667f579",
+      "parentA": "pearl-golem",
+      "parentB": "namazu",
+      "parentC": "plesiosaur",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-79a33a45",
+      "parentA": "pearl-golem",
+      "parentB": "namazu",
+      "parentC": "sea-serpent",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-dcccbd53",
+      "parentA": "pearl-golem",
+      "parentB": "namazu",
+      "parentC": "selkie",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-ed9d886e",
+      "parentA": "pearl-golem",
+      "parentB": "namazu",
+      "parentC": "sharktopus",
+      "resultId": "crystal-angelfish"
+    },
+    {
+      "id": "recipe-5ca21058",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "archelon",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-38409ab7",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "dragon-koi",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-cb15d041",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "dunkleosteus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-a4321584",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "giant-trilobite",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-54bb66a9",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "hippocampus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-2c507691",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "lantern-jelly",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-cfd65939",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "megalodon",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-c4878ce6",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "mosasaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-56923a86",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "namazu",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-807979d2",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-d2ab376c",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-c4712750",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-86580af9",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-d5d759a8",
+      "parentA": "archelon",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-ae7578c2",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "dragon-koi",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-55e45ccd",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "dunkleosteus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-b25ce6f9",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "giant-trilobite",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-58325957",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "hippocampus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-71d18731",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "lantern-jelly",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-0750a3c1",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "megalodon",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-bb044d1e",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "mosasaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-2a920cee",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "namazu",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-31f3eefb",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-02aa10f4",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-e3098a77",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-f495e191",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-2d81c089",
+      "parentA": "dragon-koi",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-5ccdd04c",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "dunkleosteus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-2a3e1969",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "giant-trilobite",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-7fb1a9b8",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "hippocampus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-c95395e3",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "lantern-jelly",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-682558cf",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "megalodon",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-7d970d3d",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "mosasaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-4a197795",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "namazu",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-d85fbcaa",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-f29f3e19",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-f36f4b81",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-a50ecfe2",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-3b36d7a7",
+      "parentA": "dunkleosteus",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-b9be1e13",
+      "parentA": "namazu",
+      "parentB": "archelon",
+      "parentC": "namazu",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-7742c563",
+      "parentA": "namazu",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-d3211fcd",
+      "parentA": "namazu",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-8f27fb64",
+      "parentA": "namazu",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-8d9387e1",
+      "parentA": "namazu",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-1ab5b3ea",
+      "parentA": "namazu",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-bcb19b72",
+      "parentA": "pearl-golem",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-0568c730",
+      "parentA": "pearl-golem",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-fe5c63d4",
+      "parentA": "pearl-golem",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-e6a1438a",
+      "parentA": "pearl-golem",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-cba34053",
+      "parentA": "pearl-golem",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-2b9cb336",
+      "parentA": "sharktopus",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-8c5b8bb1",
+      "parentA": "selkie",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-c152791d",
+      "parentA": "selkie",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-eed5a63f",
+      "parentA": "plesiosaur",
+      "parentB": "lantern-jelly",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-a0b76526",
+      "parentA": "plesiosaur",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-ae7b2915",
+      "parentA": "plesiosaur",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-7e018491",
+      "parentA": "plesiosaur",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-aaf08551",
+      "parentA": "plesiosaur",
+      "parentB": "megalodon",
+      "parentC": "plesiosaur",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-df54b692",
+      "parentA": "plesiosaur",
+      "parentB": "megalodon",
+      "parentC": "sea-serpent",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-32a44ad4",
+      "parentA": "plesiosaur",
+      "parentB": "megalodon",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-cc1ca09a",
+      "parentA": "plesiosaur",
+      "parentB": "megalodon",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-3db05f7c",
+      "parentA": "selkie",
+      "parentB": "plesiosaur",
+      "parentC": "selkie",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-4e453580",
+      "parentA": "selkie",
+      "parentB": "plesiosaur",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-41c19bd9",
+      "parentA": "sharktopus",
+      "parentB": "selkie",
+      "parentC": "sharktopus",
+      "resultId": "moon-orca"
+    },
+    {
+      "id": "recipe-d5790154",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "archelon",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-56ba37ee",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "dragon-koi",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-b47b9aee",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "dunkleosteus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-5889f487",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "giant-trilobite",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-54036495",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "hippocampus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-6f6970b5",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "lantern-jelly",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-58ed4c91",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "megalodon",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-19e3b8b5",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "mosasaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-741adfe5",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-a3fb1dd6",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-7e5be887",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-4c5930ec",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-a981b12e",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-47dcdc79",
+      "parentA": "archelon",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-fd818332",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "lantern-jelly",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-f9d714da",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "megalodon",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-0e40e495",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "mosasaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-5bdc9a81",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "namazu",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-c85ce012",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-2b21aec6",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-8e0a07d5",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-0c72928e",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-e741b07f",
+      "parentA": "lantern-jelly",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-33f268c0",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "megalodon",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-5c089479",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "mosasaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-9a80e1db",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "namazu",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-1b599022",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "pearl-golem",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-9afa2a0a",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "plesiosaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-d7c952f8",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "sea-serpent",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-5101bdca",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-b336d785",
+      "parentA": "megalodon",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-366afdf8",
+      "parentA": "selkie",
+      "parentB": "archelon",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-0068183f",
+      "parentA": "selkie",
+      "parentB": "archelon",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-54edfee9",
+      "parentA": "selkie",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-7008f19c",
+      "parentA": "selkie",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-7572b92a",
+      "parentA": "plesiosaur",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-e6de4a2b",
+      "parentA": "plesiosaur",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-e61326cf",
+      "parentA": "plesiosaur",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-72573be5",
+      "parentA": "plesiosaur",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-a722236f",
+      "parentA": "selkie",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-5f2a0c73",
+      "parentA": "selkie",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-77932efa",
+      "parentA": "selkie",
+      "parentB": "namazu",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-6493383d",
+      "parentA": "selkie",
+      "parentB": "namazu",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-36027014",
+      "parentA": "selkie",
+      "parentB": "selkie",
+      "parentC": "selkie",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-4adc3d79",
+      "parentA": "selkie",
+      "parentB": "selkie",
+      "parentC": "sharktopus",
+      "resultId": "island-turtle"
+    },
+    {
+      "id": "recipe-32ceb4a5",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "hippocampus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-1eff7b07",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "lantern-jelly",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-4f8e001c",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "megalodon",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-256dd468",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "mosasaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-2defea16",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-e03296d5",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-028019c9",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-fbd74926",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-a94be84e",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-8a3c6560",
+      "parentA": "hippocampus",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-2992bb60",
+      "parentA": "sharktopus",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-1a3035c0",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "lantern-jelly",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-a2ef8ac6",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "megalodon",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-3b20ab78",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "mosasaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-adbcf17d",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "namazu",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-7a9edff5",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-fa018ead",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-2938c800",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-ddf66bdb",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-4bbd8ae7",
+      "parentA": "lantern-jelly",
+      "parentB": "giant-trilobite",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-5206edf6",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "hippocampus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-39bb14ce",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "lantern-jelly",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-508b257d",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "megalodon",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-8661e7fe",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "mosasaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-53a77b63",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "namazu",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-d7a41d3d",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-f74adb67",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-67fb7c2b",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-5b23e8cb",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-3570d7c3",
+      "parentA": "hippocampus",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-5f34ab1f",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "mosasaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-9955838d",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "namazu",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-2c6bbe34",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-40062969",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-0e277645",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-73de73eb",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-884f9267",
+      "parentA": "mosasaur",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-8cebac2a",
+      "parentA": "pearl-golem",
+      "parentB": "hippocampus",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-9a91cf70",
+      "parentA": "pearl-golem",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-0d8683c0",
+      "parentA": "pearl-golem",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-d5fa3c70",
+      "parentA": "pearl-golem",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-73eca018",
+      "parentA": "pearl-golem",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-41937f91",
+      "parentA": "sharktopus",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-0f9f26fe",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "lantern-jelly",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-6d158bed",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "megalodon",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-a14f0f99",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "mosasaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-bfb31d56",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "namazu",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-5ae355f7",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-c8f8d875",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-f44b91bb",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-e2fe2902",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-52ff1a37",
+      "parentA": "lantern-jelly",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-d4eeff26",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "mosasaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-f7cecf20",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "namazu",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-44398b35",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "pearl-golem",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-d96be73b",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "plesiosaur",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-c15f5a96",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-9c9d8b23",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-64d68176",
+      "parentA": "mosasaur",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-3ff68c9c",
+      "parentA": "sharktopus",
+      "parentB": "megalodon",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-ff25e8eb",
+      "parentA": "sharktopus",
+      "parentB": "pearl-golem",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-c5f32893",
+      "parentA": "sharktopus",
+      "parentB": "sea-serpent",
+      "parentC": "sharktopus",
+      "resultId": "star-jelly"
+    },
+    {
+      "id": "recipe-bc4c3ba1",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "lantern-jelly",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d87acc64",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "megalodon",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-4b4b793e",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "mosasaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-fed67f44",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-935ed8a4",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-cab24370",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-6bcc2352",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d36f9f84",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-52d7ffee",
+      "parentA": "lantern-jelly",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d1ce2a79",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "hippocampus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-b0611450",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "lantern-jelly",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d6e9413a",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "megalodon",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-7f580f17",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "mosasaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-dedd7390",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "namazu",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-accbe169",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "pearl-golem",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-aa50e971",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "plesiosaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-cede43e4",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-3001a8de",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-0e4f758f",
+      "parentA": "hippocampus",
+      "parentB": "giant-trilobite",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-383639cd",
+      "parentA": "sharktopus",
+      "parentB": "giant-trilobite",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-341503ef",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "lantern-jelly",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-fa437c67",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "megalodon",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-f14b7f33",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "mosasaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-268817c8",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "namazu",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-fde77ac2",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "pearl-golem",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-9f4e8bfa",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-b948bd8a",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d332ee22",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d2d13fa1",
+      "parentA": "lantern-jelly",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-c717434a",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "megalodon",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-c4997db3",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "mosasaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-1ba194cb",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "namazu",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-a512ab6c",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "pearl-golem",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-624599db",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-cee031ec",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-349b2daf",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-a33f50b5",
+      "parentA": "megalodon",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-655683a3",
+      "parentA": "sea-serpent",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-782fe1db",
+      "parentA": "sea-serpent",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-610d12d2",
+      "parentA": "sea-serpent",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-8545227a",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "megalodon",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-d31aa01b",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "mosasaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-4dc01067",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "namazu",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-819d04df",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "pearl-golem",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-6623b2a8",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "plesiosaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-fdade910",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-62374b82",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-c80c3236",
+      "parentA": "megalodon",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-415ca27d",
+      "parentA": "pearl-golem",
+      "parentB": "lantern-jelly",
+      "parentC": "pearl-golem",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-1d09dbd8",
+      "parentA": "pearl-golem",
+      "parentB": "lantern-jelly",
+      "parentC": "plesiosaur",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-8ddb08ab",
+      "parentA": "pearl-golem",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-a969a817",
+      "parentA": "pearl-golem",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-95f9d912",
+      "parentA": "pearl-golem",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-8b7751bb",
+      "parentA": "sea-serpent",
+      "parentB": "lantern-jelly",
+      "parentC": "sea-serpent",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-21a8db30",
+      "parentA": "sea-serpent",
+      "parentB": "lantern-jelly",
+      "parentC": "selkie",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-82c9db05",
+      "parentA": "sea-serpent",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-7bdca94e",
+      "parentA": "sharktopus",
+      "parentB": "lantern-jelly",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-91998bf1",
+      "parentA": "sharktopus",
+      "parentB": "mosasaur",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-495a52eb",
+      "parentA": "sharktopus",
+      "parentB": "sharktopus",
+      "parentC": "sharktopus",
+      "resultId": "tempest-squid"
+    },
+    {
+      "id": "recipe-0ef7e3e3",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "anomalocaris",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-93a00287",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "archelon",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-434349fa",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "dragon-koi",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-76edf5a8",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "dunkleosteus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-d237a8e0",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "giant-trilobite",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-7c63da0d",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "hippocampus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-11600eee",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "lantern-jelly",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-0160f6fb",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "megalodon",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-92dfac4c",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "mosasaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-e4670dfe",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-48b2142c",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-27a31cd5",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-0da831c2",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-54b208fc",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-485bf2b1",
+      "parentA": "anomalocaris",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-1b2adb6d",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "megalodon",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-30f402bf",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "mosasaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-1b726cf7",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-1de6f7bb",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-58718136",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-d052e34a",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-ea3784fa",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-1df5cded",
+      "parentA": "megalodon",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-2a9fbe3b",
+      "parentA": "pearl-golem",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-cabaae49",
+      "parentA": "pearl-golem",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-aff1b1ac",
+      "parentA": "pearl-golem",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-efe74605",
+      "parentA": "pearl-golem",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-80285ed1",
+      "parentA": "pearl-golem",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-f452317c",
+      "parentA": "sea-serpent",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-f8687506",
+      "parentA": "sea-serpent",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-fed056cc",
+      "parentA": "sea-serpent",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-359a226c",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "mosasaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-e7ad7004",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "namazu",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-8dbce46b",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "pearl-golem",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-12e120cd",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "plesiosaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-3973a9b2",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-8bc141a4",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-0228be18",
+      "parentA": "mosasaur",
+      "parentB": "giant-trilobite",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-078fc82e",
+      "parentA": "selkie",
+      "parentB": "giant-trilobite",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-6c91457c",
+      "parentA": "selkie",
+      "parentB": "giant-trilobite",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-9e18a368",
+      "parentA": "pearl-golem",
+      "parentB": "megalodon",
+      "parentC": "pearl-golem",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-beb6ee8d",
+      "parentA": "pearl-golem",
+      "parentB": "megalodon",
+      "parentC": "plesiosaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-28f5d1f3",
+      "parentA": "pearl-golem",
+      "parentB": "megalodon",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-76fa64d2",
+      "parentA": "pearl-golem",
+      "parentB": "megalodon",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-39366d9d",
+      "parentA": "pearl-golem",
+      "parentB": "megalodon",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-65f6f763",
+      "parentA": "pearl-golem",
+      "parentB": "pearl-golem",
+      "parentC": "pearl-golem",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-961b4bc1",
+      "parentA": "pearl-golem",
+      "parentB": "pearl-golem",
+      "parentC": "plesiosaur",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-f06a3601",
+      "parentA": "pearl-golem",
+      "parentB": "pearl-golem",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-65903c37",
+      "parentA": "pearl-golem",
+      "parentB": "pearl-golem",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-0fc15f15",
+      "parentA": "pearl-golem",
+      "parentB": "pearl-golem",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-a132f1fa",
+      "parentA": "sea-serpent",
+      "parentB": "pearl-golem",
+      "parentC": "sea-serpent",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-f703ab56",
+      "parentA": "sea-serpent",
+      "parentB": "pearl-golem",
+      "parentC": "selkie",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-851a4891",
+      "parentA": "sea-serpent",
+      "parentB": "pearl-golem",
+      "parentC": "sharktopus",
+      "resultId": "titan-crab"
+    },
+    {
+      "id": "recipe-cb380a16",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "dragon-koi",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-263d7213",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "dunkleosteus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-cc3d1412",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "giant-trilobite",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-bdb2709c",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "hippocampus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-598472d8",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "lantern-jelly",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-adb3371f",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "megalodon",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-cc0d200b",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "mosasaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-5cadca00",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "namazu",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-8462fef0",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-1d05e8ba",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-8d6e3940",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-f75f0ea2",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-9b8946e4",
+      "parentA": "dragon-koi",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-90defee5",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "giant-trilobite",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-db75fa36",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "hippocampus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-0263f3ce",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "lantern-jelly",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-4ed4cf7f",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "megalodon",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-a048c29d",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "mosasaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-c64d9d95",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "namazu",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-a6a2a13f",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-79ee315c",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-cb6cc958",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-2ae58a86",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-f8536892",
+      "parentA": "giant-trilobite",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-da1251d0",
+      "parentA": "sharktopus",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-a2c952a7",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "lantern-jelly",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-e3bdccae",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "megalodon",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-f30807e6",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "mosasaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-dd7a6fa8",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "namazu",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-87903212",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "pearl-golem",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-ac9fd941",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "plesiosaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-6721875a",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "sea-serpent",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-778933f7",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-4ac05b15",
+      "parentA": "lantern-jelly",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-13acf910",
+      "parentA": "namazu",
+      "parentB": "dunkleosteus",
+      "parentC": "namazu",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-5fcb5486",
+      "parentA": "namazu",
+      "parentB": "dunkleosteus",
+      "parentC": "pearl-golem",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-fdaf2d9d",
+      "parentA": "namazu",
+      "parentB": "dunkleosteus",
+      "parentC": "plesiosaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-1bac786f",
+      "parentA": "namazu",
+      "parentB": "dunkleosteus",
+      "parentC": "sea-serpent",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-ed19dff3",
+      "parentA": "namazu",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-22646124",
+      "parentA": "namazu",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-16b5ac24",
+      "parentA": "pearl-golem",
+      "parentB": "dunkleosteus",
+      "parentC": "pearl-golem",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-ea2f2199",
+      "parentA": "pearl-golem",
+      "parentB": "dunkleosteus",
+      "parentC": "plesiosaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-84294d76",
+      "parentA": "pearl-golem",
+      "parentB": "dunkleosteus",
+      "parentC": "sea-serpent",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-4a90fc5d",
+      "parentA": "pearl-golem",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-a200497c",
+      "parentA": "pearl-golem",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-58647629",
+      "parentA": "namazu",
+      "parentB": "giant-trilobite",
+      "parentC": "namazu",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-9a280871",
+      "parentA": "namazu",
+      "parentB": "giant-trilobite",
+      "parentC": "pearl-golem",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-aac64069",
+      "parentA": "namazu",
+      "parentB": "giant-trilobite",
+      "parentC": "plesiosaur",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-03a3f6f9",
+      "parentA": "namazu",
+      "parentB": "giant-trilobite",
+      "parentC": "sea-serpent",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-509f0ef8",
+      "parentA": "namazu",
+      "parentB": "giant-trilobite",
+      "parentC": "selkie",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-f7b06131",
+      "parentA": "namazu",
+      "parentB": "giant-trilobite",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-2e05538c",
+      "parentA": "sharktopus",
+      "parentB": "namazu",
+      "parentC": "sharktopus",
+      "resultId": "aurora-koi"
+    },
+    {
+      "id": "recipe-28b1efa9",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "dragon-koi",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-74bda1cc",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "dunkleosteus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-2bb1c61f",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "giant-trilobite",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-bd888c82",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "hippocampus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-0551f360",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "lantern-jelly",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-ed86539a",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "megalodon",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-ffd6102c",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "mosasaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-3697ab48",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-90970803",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-0a373243",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-fc1b14e0",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-92716d3b",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-0ffc9230",
+      "parentA": "dragon-koi",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-820fb806",
+      "parentA": "namazu",
+      "parentB": "anomalocaris",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-75a9c5c4",
+      "parentA": "namazu",
+      "parentB": "anomalocaris",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-89590377",
+      "parentA": "namazu",
+      "parentB": "anomalocaris",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-8cd73138",
+      "parentA": "namazu",
+      "parentB": "anomalocaris",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-87b86083",
+      "parentA": "namazu",
+      "parentB": "anomalocaris",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-eb14f994",
+      "parentA": "namazu",
+      "parentB": "anomalocaris",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-64d9854d",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "dunkleosteus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-32c03624",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "giant-trilobite",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-03c05a03",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "hippocampus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-876c10e4",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "lantern-jelly",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-db6a9391",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "megalodon",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-c71986c4",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "mosasaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-9888363e",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-5fdf0a12",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-5566b043",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-d8fe9aac",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-6add1b87",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-d3240ca0",
+      "parentA": "dunkleosteus",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-5080a208",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "hippocampus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-26ee63a9",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "lantern-jelly",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-63a9b105",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "megalodon",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-5bc0746f",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "mosasaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-1107daa1",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-904789da",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-90c3c3d0",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-7503c073",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-03de4008",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-186654df",
+      "parentA": "hippocampus",
+      "parentB": "dragon-koi",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-7e369b41",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "dunkleosteus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-8216ec1a",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "giant-trilobite",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-abfd05cf",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "hippocampus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-64603561",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "lantern-jelly",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-e9227e1d",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "megalodon",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-4307475c",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "mosasaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-098864d7",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-f47d102c",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-f1836f04",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-e51b6900",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-563ed625",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-134f8030",
+      "parentA": "dunkleosteus",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-b9a344cc",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "giant-trilobite",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-1dc15c53",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "hippocampus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-6f6cff89",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "lantern-jelly",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-106e1e4c",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "megalodon",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-15d228c8",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "mosasaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-0c4d3e4f",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-c02b5c26",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-4e705290",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-a97063eb",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-e1146364",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-8a5e871e",
+      "parentA": "giant-trilobite",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-9667ed92",
+      "parentA": "sharktopus",
+      "parentB": "dunkleosteus",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-b360d16f",
+      "parentA": "namazu",
+      "parentB": "hippocampus",
+      "parentC": "namazu",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-cd50ec80",
+      "parentA": "namazu",
+      "parentB": "hippocampus",
+      "parentC": "pearl-golem",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-0cda931f",
+      "parentA": "namazu",
+      "parentB": "hippocampus",
+      "parentC": "plesiosaur",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-4a983530",
+      "parentA": "namazu",
+      "parentB": "hippocampus",
+      "parentC": "sea-serpent",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-be55c435",
+      "parentA": "namazu",
+      "parentB": "hippocampus",
+      "parentC": "selkie",
+      "resultId": "storm-marlin"
+    },
+    {
+      "id": "recipe-950df8f1",
+      "parentA": "namazu",
+      "parentB": "hippocampus",
+      "parentC": "sharktopus",
+      "resultId": "storm-marlin"
     }
   ],
   "starters": [

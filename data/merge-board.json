@@ -784,6 +784,16 @@
       "id": "thunder-tiger",
       "name": "Thunder Tiger",
       "tier": 9
+    },
+    {
+      "id": "gaia-beast",
+      "name": "Gaia Beast",
+      "tier": 9
+    },
+    {
+      "id": "abyssal-whale",
+      "name": "Abyssal Whale",
+      "tier": 9
     }
   ],
   "recipes": [
@@ -29412,6 +29422,1553 @@
       "parentB": "jackalope",
       "parentC": "world-tree-sprite",
       "resultId": "thunder-tiger"
+    },
+    {
+      "id": "recipe-41a39318",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "carbuncle",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-3c1685a2",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "cerberus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-11dbf669",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "cloud-pegasus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-1d3f6fa5",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "coral-titan",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-cc3029d0",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "frost-ram",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-12831492",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "gale-griffin",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-c5350429",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "glacier-wolf",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8a84e661",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "golden-boar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-fe06ef2f",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "inferno-lion",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-9cf64be5",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "jackalope",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-08a7e4e8",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "lotus-toad",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-da9eaf20",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "magma-tortoise",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-08d5d7b6",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-bcc74e4e",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f96e9994",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-aaeec431",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-19c93155",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-76a5592e",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-e74fa9d0",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-6b3129e2",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-235d0013",
+      "parentA": "carbuncle",
+      "parentB": "carbuncle",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-d546040e",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "cerberus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-0deeeda9",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "cloud-pegasus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-e9d760b7",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "coral-titan",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-d94f92cb",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "frost-ram",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f7c81c21",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "gale-griffin",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-0c3bdce0",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "glacier-wolf",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-1c093a91",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "golden-boar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f29489c0",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "inferno-lion",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-414be84c",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "jackalope",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-4c29d671",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "lotus-toad",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-64dad7db",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "magma-tortoise",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-66d01b59",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-7a5ef9b0",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-36d1e55e",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-636151d4",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-c0151fb2",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-eb38a89e",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-dd695005",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-b9c059d2",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-fa03f6d6",
+      "parentA": "cerberus",
+      "parentB": "carbuncle",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-05f749b6",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "frost-ram",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-b822cdb8",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "gale-griffin",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-32475bb6",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "glacier-wolf",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-0d8c9778",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "golden-boar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-ef27d821",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "inferno-lion",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-13edee64",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "jackalope",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-d23e0af0",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "lotus-toad",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-716c0dbd",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "magma-tortoise",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-26ccb0df",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-73e2b2a5",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-e63db424",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-03be38b9",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-d00282e7",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-6ae00cd2",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-46507df3",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-7432bf42",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-1c88f9fd",
+      "parentA": "frost-ram",
+      "parentB": "carbuncle",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-246fd4c9",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "inferno-lion",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8103d69a",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "jackalope",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-e9b31996",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "lotus-toad",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f7aac3af",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "magma-tortoise",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8604156d",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-c89f63eb",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-1b797f9a",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-b689b865",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-27d0ecfe",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-514c3f46",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-b6d1e934",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-71792b02",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-6179fcdd",
+      "parentA": "inferno-lion",
+      "parentB": "carbuncle",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-86427552",
+      "parentA": "sky-whale",
+      "parentB": "carbuncle",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-ee69c678",
+      "parentA": "sky-whale",
+      "parentB": "carbuncle",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-c9920c57",
+      "parentA": "sky-whale",
+      "parentB": "carbuncle",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-9c39aac4",
+      "parentA": "sky-whale",
+      "parentB": "carbuncle",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f7d76412",
+      "parentA": "sky-whale",
+      "parentB": "carbuncle",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-df3efbf9",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f16c0a7c",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-1f938978",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-fe08eea5",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-1d6c8a92",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-df54dd87",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-00d1b3fe",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-008f834e",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-542155e3",
+      "parentA": "moss-colossus",
+      "parentB": "frost-ram",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-e4951938",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-f62032ea",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-45400270",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-9329c896",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-cb4ebcbf",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8dc3b8da",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-6071cc02",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-208b7632",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-82860455",
+      "parentA": "moss-colossus",
+      "parentB": "jackalope",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-2836e236",
+      "parentA": "world-tree-sprite",
+      "parentB": "jackalope",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-3e17946c",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "moss-colossus",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-6b0c36c7",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "sand-wyrm",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8f8d0765",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-11009226",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-a9fc080b",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-4bb5e52d",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-4b541245",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-650e3841",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8a0c43fe",
+      "parentA": "moss-colossus",
+      "parentB": "moss-colossus",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-4ab93eec",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "shadow-beast",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-7cd557b1",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "shadow-jaguar",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8667452b",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "sky-whale",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-8b850f4f",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "storm-roc",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-86e210e4",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "sun-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-489b0129",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "tidal-serpent",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-554f649e",
+      "parentA": "shadow-beast",
+      "parentB": "moss-colossus",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-68c16fd1",
+      "parentA": "world-tree-sprite",
+      "parentB": "shadow-beast",
+      "parentC": "world-tree-sprite",
+      "resultId": "gaia-beast"
+    },
+    {
+      "id": "recipe-2353ac3f",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "coral-titan",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-40e24615",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "frost-ram",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-67b87e10",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "gale-griffin",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-cd4267cb",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "glacier-wolf",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-062e066e",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "golden-boar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-a80a2ad2",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "inferno-lion",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-714386ea",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "jackalope",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-6cb3d394",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "lotus-toad",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-db746208",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "magma-tortoise",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-cb3eee1e",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-bdb581d1",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ac5aae1d",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ca5a70d4",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-7f2c99cb",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-455e2d19",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-47b6c725",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-12e001ea",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-1f48c0a1",
+      "parentA": "coral-titan",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-6dee0e05",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "golden-boar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-a9aee8f2",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "inferno-lion",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-7ff46c89",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "jackalope",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-b9fee118",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "lotus-toad",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-b0b32580",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "magma-tortoise",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-967c2f84",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-7b660f87",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c7ec8eed",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-a3706883",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-fad5bf8f",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-2c2c6292",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ce88f1fc",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ecd8093e",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-3174cfaf",
+      "parentA": "golden-boar",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-fe441bb3",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "inferno-lion",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-900d1361",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "jackalope",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-5d766d7e",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "lotus-toad",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-5658e691",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "magma-tortoise",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-e830e885",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-afc22cf6",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-10e129b7",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c408d2b7",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-06c793db",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ad777461",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-56ed80c3",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-7ccbe6ec",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c78fb5d0",
+      "parentA": "inferno-lion",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-4d991a8b",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ca7c416b",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c1ed105a",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-361f5981",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-d6efc491",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-d160c202",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-f8ed04b8",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-11f25794",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-8ce16f64",
+      "parentA": "moss-colossus",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c4ec0c80",
+      "parentA": "shadow-jaguar",
+      "parentB": "coral-titan",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-bcd1c9e1",
+      "parentA": "shadow-jaguar",
+      "parentB": "coral-titan",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-db07a81c",
+      "parentA": "shadow-jaguar",
+      "parentB": "coral-titan",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-f1bf98ae",
+      "parentA": "shadow-jaguar",
+      "parentB": "coral-titan",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-90c1676b",
+      "parentA": "shadow-jaguar",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-86f2bcbb",
+      "parentA": "shadow-jaguar",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-7de6f68e",
+      "parentA": "tidal-serpent",
+      "parentB": "coral-titan",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-53241e30",
+      "parentA": "tidal-serpent",
+      "parentB": "coral-titan",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-cee0ac41",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "lotus-toad",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-d1a72dfa",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "magma-tortoise",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-4e80ffc5",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-afe6fb80",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ecb2caca",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-4d02462c",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-06616ca1",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-505f9042",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-e70dada0",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-570b910b",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-28da4cd8",
+      "parentA": "lotus-toad",
+      "parentB": "glacier-wolf",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-9b2dd851",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "lotus-toad",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-303a5596",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "magma-tortoise",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-69d10287",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-3e712be5",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-0741b2d3",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c9965f69",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-bf56d08d",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-3978fd59",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-9bdc87c2",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-1ed1af33",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-62cac1b5",
+      "parentA": "lotus-toad",
+      "parentB": "golden-boar",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-5cbe80b5",
+      "parentA": "tidal-serpent",
+      "parentB": "inferno-lion",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-5b244361",
+      "parentA": "tidal-serpent",
+      "parentB": "inferno-lion",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-995fbaca",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "moss-colossus",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-36dab002",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-8341a966",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-ee3c3a58",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-3220efe1",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-b0555f98",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-f390ecb3",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c5429315",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-cf639711",
+      "parentA": "moss-colossus",
+      "parentB": "lotus-toad",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-431398d9",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "sand-wyrm",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-bd1202f5",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "shadow-beast",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-1a3f0db0",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "shadow-jaguar",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-2c6065e5",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "sky-whale",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-3371e46f",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "storm-roc",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-9e3a6247",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "sun-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-05f43b27",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-2bfd60bc",
+      "parentA": "sand-wyrm",
+      "parentB": "lotus-toad",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-b78e19f6",
+      "parentA": "tidal-serpent",
+      "parentB": "lotus-toad",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-4ccca7b7",
+      "parentA": "tidal-serpent",
+      "parentB": "lotus-toad",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-c78139bb",
+      "parentA": "tidal-serpent",
+      "parentB": "moss-colossus",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-4d94fb00",
+      "parentA": "tidal-serpent",
+      "parentB": "moss-colossus",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-3d06f180",
+      "parentA": "tidal-serpent",
+      "parentB": "shadow-jaguar",
+      "parentC": "tidal-serpent",
+      "resultId": "abyssal-whale"
+    },
+    {
+      "id": "recipe-177df14a",
+      "parentA": "tidal-serpent",
+      "parentB": "shadow-jaguar",
+      "parentC": "world-tree-sprite",
+      "resultId": "abyssal-whale"
     }
   ],
   "starters": [
