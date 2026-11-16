@@ -1,8 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CatalogProvider, useCatalog } from "@/components/catalog-context";
 import { MergeBoard } from "@/components/board/merge-board";
+import {
+  readTokenSize,
+  TokenSizePicker,
+  writeTokenSize,
+  type TokenSize,
+} from "@/components/board/token-size";
 import { DataTab } from "@/components/data/data-tab";
 import { TierProgress } from "@/components/tier-progress";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,6 +17,14 @@ import type { FarmId } from "@/lib/farms";
 function Notebook() {
   const { ready, farm, setFarm } = useCatalog();
   const [section, setSection] = useState<"board" | "data">("board");
+  const [tokenSize, setTokenSize] = useState<TokenSize>("medium");
+  useEffect(() => {
+    setTokenSize(readTokenSize());
+  }, []);
+  function chooseTokenSize(size: TokenSize) {
+    setTokenSize(size);
+    writeTokenSize(size);
+  }
   if (!ready) {
     return <p className="text-sm text-muted-foreground">Opening your notebook…</p>;
   }
@@ -26,15 +40,24 @@ function Notebook() {
           setSection(nextSection);
         }}
       >
-        <TabsList className="h-auto min-h-8 flex-wrap">
-          <TabsTrigger value="land-board">Land Farm</TabsTrigger>
-          <TabsTrigger value="sea-board">Sea Farm</TabsTrigger>
-          <TabsTrigger value="land-data">Land Data</TabsTrigger>
-          <TabsTrigger value="sea-data">Sea Data</TabsTrigger>
-        </TabsList>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <TabsList className="h-auto min-h-8 flex-wrap">
+            <TabsTrigger value="land-board">Land Farm</TabsTrigger>
+            <TabsTrigger value="sea-board">Sea Farm</TabsTrigger>
+            <TabsTrigger value="land-data">Land Data</TabsTrigger>
+            <TabsTrigger value="sea-data">Sea Data</TabsTrigger>
+          </TabsList>
+          {section === "board" ? (
+            <TokenSizePicker value={tokenSize} onChange={chooseTokenSize} />
+          ) : null}
+        </div>
       </Tabs>
       <div className="pt-3">
-        {section === "board" ? <MergeBoard key={farm} /> : <DataTab key={farm} />}
+        {section === "board" ? (
+          <MergeBoard key={farm} tokenSize={tokenSize} />
+        ) : (
+          <DataTab key={farm} />
+        )}
       </div>
     </div>
   );

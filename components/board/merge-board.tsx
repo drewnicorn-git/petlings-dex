@@ -53,8 +53,7 @@ import { starterListLabel, storageKey, type FarmId } from "@/lib/farms";
 import { tierStyle } from "@/lib/tiers";
 import { STARTER_NAMES, type BoardToken, type StarterCounts } from "@/lib/types";
 
-const TOKEN_W = 112;
-const TOKEN_H = 132;
+import { TOKEN_METRICS, type TokenSize } from "@/components/board/token-size";
 
 function readStock(farm: FarmId, starters: readonly string[]): StarterCounts {
   const empty = emptyCounts(starters);
@@ -218,19 +217,28 @@ function localPoint(board: HTMLElement, clientX: number, clientY: number) {
   return { x: clientX - rect.left + board.scrollLeft, y: clientY - rect.top + board.scrollTop };
 }
 
-function clampToken(board: HTMLElement, x: number, y: number) {
-  const maxX = Math.max(8, board.clientWidth - TOKEN_W - 8);
-  const maxY = Math.max(8, board.clientHeight - TOKEN_H - 8);
+function clampToken(
+  board: HTMLElement,
+  x: number,
+  y: number,
+  box: { width: number; height: number },
+) {
+  const maxX = Math.max(8, board.clientWidth - box.width - 8);
+  const maxY = Math.max(8, board.clientHeight - box.height - 8);
   return {
     x: Math.min(Math.max(8, x), maxX),
     y: Math.min(Math.max(8, y), maxY),
   };
 }
 
-function besideTarget(board: HTMLElement, target: BoardToken): { x: number; y: number } {
-  const right = clampToken(board, target.x + TOKEN_W - 12, target.y);
+function besideTarget(
+  board: HTMLElement,
+  target: BoardToken,
+  box: { width: number; height: number },
+): { x: number; y: number } {
+  const right = clampToken(board, target.x + box.width - 12, target.y, box);
   if (right.x > target.x + 48) return right;
-  return clampToken(board, target.x - (TOKEN_W - 12), target.y);
+  return clampToken(board, target.x - (box.width - 12), target.y, box);
 }
 
 function pairContaining(pairs: PairBond[], tokenId: string | undefined): PairBond | null {
@@ -542,7 +550,7 @@ function BreakdownView({
   );
 }
 
-export function MergeBoard() {
+export function MergeBoard({ tokenSize }: { tokenSize: TokenSize }) {
   const api = useCatalog();
   const { catalog, tokens, setTokens, farm } = api;
   const starters = catalog.starters;
@@ -583,6 +591,8 @@ export function MergeBoard() {
   const [batchThirds, setBatchThirds] = useState<string[]>([]);
   const [nameError, setNameError] = useState<string | null>(null);
   const noticeTimer = useRef<number | null>(null);
+  const tokenSizeRef = useRef(tokenSize);
+  tokenSizeRef.current = tokenSize;
 
   useEffect(() => {
     if (!stockReady || stockFarm.current !== farm) return;
@@ -673,10 +683,11 @@ export function MergeBoard() {
         );
         if (board && node) {
           const local = localPoint(board, clientX, clientY);
-          const pos = clampToken(board, local.x - drag.dx, local.y - drag.dy);
+          const box = TOKEN_METRICS[tokenSizeRef.current];
+          const pos = clampToken(board, local.x - drag.dx, local.y - drag.dy, box);
           const boardRect = board.getBoundingClientRect();
-          const width = node.getBoundingClientRect().width || TOKEN_W;
-          const height = node.getBoundingClientRect().height || TOKEN_H;
+          const width = node.getBoundingClientRect().width || box.width;
+          const height = node.getBoundingClientRect().height || box.height;
           const left = boardRect.left - board.scrollLeft + pos.x;
           const top = boardRect.top - board.scrollTop + pos.y;
           drop = { left, top, right: left + width, bottom: top + height };
@@ -760,7 +771,8 @@ export function MergeBoard() {
       const board = boardRef.current;
       if (!board) return;
       const local = localPoint(board, event.clientX, event.clientY);
-      const pos = clampToken(board, local.x - drag.dx, local.y - drag.dy);
+      const box = TOKEN_METRICS[tokenSizeRef.current];
+      const pos = clampToken(board, local.x - drag.dx, local.y - drag.dy, box);
       let partnerPos: { x: number; y: number } | null = null;
       if (
         drag.partnerId &&
@@ -769,7 +781,7 @@ export function MergeBoard() {
       ) {
         const rawX = drag.partnerOriginX + (pos.x - drag.originX);
         const rawY = drag.partnerOriginY + (pos.y - drag.originY);
-        const clamped = clampToken(board, rawX, rawY);
+        const clamped = clampToken(board, rawX, rawY, box);
         pos.x += clamped.x - rawX;
         pos.y += clamped.y - rawY;
         partnerPos = clamped;
@@ -816,7 +828,8 @@ export function MergeBoard() {
         }
         if (overBoard) {
           const local = localPoint(board, event.clientX, event.clientY);
-          const pos = clampToken(board, local.x - TOKEN_W / 2, local.y - 40);
+          const box = TOKEN_METRICS[tokenSizeRef.current];
+          const pos = clampToken(board, local.x - box.width / 2, local.y - 40, box);
           place(drag.creatureId, pos.x, pos.y);
         }
         return;
@@ -888,7 +901,8 @@ export function MergeBoard() {
           let tokenC = incomingPair ? target.id : incomingToken;
           if (drag) snapBack(drag);
           if (!tokenC) {
-            const pos = clampToken(board, target.x, target.y - TOKEN_H - 8);
+            const box = TOKEN_METRICS[tokenSizeRef.current];
+            const pos = clampToken(board, target.x, target.y - box.height - 8, box);
             tokenC = place(incomingId, pos.x, pos.y);
           }
           const attempt = attemptTriple(catalogNow, pending.parentA, pending.parentB, thirdId);
@@ -909,7 +923,7 @@ export function MergeBoard() {
           });
           return;
         }
-        const spot = besideTarget(board, target);
+        const spot = besideTarget(board, target, TOKEN_METRICS[tokenSizeRef.current]);
         let tokenA = incomingToken;
         if (drag) {
           setTokens((current) =>
@@ -957,7 +971,8 @@ export function MergeBoard() {
       let tokenA = drag?.tokenId;
       if (drag) snapBack(drag);
       if (!tokenA) {
-        const pos = clampToken(board, target.x + TOKEN_W + 12, target.y);
+        const box = TOKEN_METRICS[tokenSizeRef.current];
+        const pos = clampToken(board, target.x + box.width + 12, target.y, box);
         tokenA = place(incomingId, pos.x, pos.y);
       }
       const local = localPoint(board, clientX, clientY);
@@ -1219,6 +1234,7 @@ export function MergeBoard() {
   }
 
   const batchOpen = batchThirds.length > 0;
+  const metrics = TOKEN_METRICS[tokenSize];
 
   return (
     <div className="grid gap-3 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -1361,7 +1377,7 @@ export function MergeBoard() {
             <div
               key={token.id}
               data-token-id={token.id}
-              className={`absolute w-28 ${joined ? "z-10" : ""}`}
+              className={`absolute ${metrics.frame} ${joined ? "z-10" : ""}`}
               style={{ left: token.x, top: token.y }}
             >
               <button
@@ -1394,7 +1410,7 @@ export function MergeBoard() {
                         : "rounded-2xl ring-1 ring-foreground/10"
                   }`}
                 >
-                  <CreatureArt name={creature.name} id={creature.id} className="h-16 w-16" />
+                  <CreatureArt name={creature.name} id={creature.id} className={metrics.image} />
                 </span>
                 <span className="mt-1 max-w-full truncate text-center text-xs font-semibold">
                   {creature.name}
@@ -1543,10 +1559,10 @@ export function MergeBoard() {
       </div>
       {ghost && ghostCreature ? (
         <div
-          className="pointer-events-none fixed z-50 w-16 -translate-x-1/2 -translate-y-1/2"
+          className={`pointer-events-none fixed z-50 ${metrics.frame} -translate-x-1/2 -translate-y-1/2`}
           style={{ left: ghost.x, top: ghost.y }}
         >
-          <CreatureArt name={ghostCreature.name} id={ghostCreature.id} className="mx-auto h-16 w-16" />
+          <CreatureArt name={ghostCreature.name} id={ghostCreature.id} className={`mx-auto ${metrics.image}`} />
           <p className="truncate text-center text-xs font-semibold">{ghostCreature.name}</p>
         </div>
       ) : null}
