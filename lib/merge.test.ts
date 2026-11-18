@@ -416,6 +416,19 @@ describe("owned creatures", () => {
     expect(fast[0]?.uses).toContain("fire-salamander");
   });
 
+  it("switches to a later tier 7 pairing when that one can spend the owned creatures", () => {
+    const have = { clownfish: 0, seahorse: 0, crab: 0 };
+    const result = firstOwnedBuild(seaCatalog, "dragon-koi", have, ["marlin", "tuna"]);
+    const best = result[0];
+    expect(best?.uses).toEqual(expect.arrayContaining(["marlin", "tuna"]));
+    const stillNeeded =
+      (best?.shortfall.clownfish ?? 0) + (best?.shortfall.seahorse ?? 0) + (best?.shortfall.crab ?? 0);
+    expect(stillNeeded).toBeLessThan(48);
+    const parents = [best?.path?.parentA, best?.path?.parentB];
+    expect(parents).toEqual(expect.arrayContaining(["giant-grouper"]));
+    expect(parents).not.toEqual(["giant-grouper", "ammonite"]);
+  });
+
   it("spends sea creatures you already own when a tier 7 is dropped", () => {
     const have = { clownfish: 0, seahorse: 0, crab: 0 };
     const result = firstOwnedBuild(seaCatalog, "dragon-koi", have, ["octopus", "jellyfish"]);

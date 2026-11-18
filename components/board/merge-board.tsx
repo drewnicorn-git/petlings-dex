@@ -524,7 +524,7 @@ function BreakdownView({
       </Dialog>
       <p className="mt-2 text-xs text-muted-foreground">
         {creature.tier >= 7 && best?.uses.length
-          ? "Stopped at the first build that spends creatures you already own."
+          ? "Spends creatures you already own, and switches pairing when another one fits them."
           : ways === 0
             ? searching
               ? "Looking through the saved ways."

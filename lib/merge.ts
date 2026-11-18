@@ -947,57 +947,25 @@ function parentVectors(
 
 type TriplePick = { id: string; packed: number; bag: string };
 
-function coverSource(
+function roomFor(catalog: Catalog, parent: string, itemTier: number, tiers: ReadonlyMap<string, number>): number {
+  const parentTier = tiers.get(parent) ?? 0;
+  if (itemTier > parentTier) return 0;
+  const branch = (recipeIndex(catalog).get(parent) ?? []).some((recipe) => recipe.parentC) ? 3 : 2;
+  let room = 1;
+  for (let step = itemTier; step < parentTier; step += 1) room *= branch;
+  return room;
+}
+
+function assignOwned(
   catalog: Catalog,
-  creatureId: string,
-  source: StarterOption,
-  have: StarterCounts,
+  parents: readonly string[],
   owned: readonly string[],
   tiers: ReadonlyMap<string, number>,
-): StarterOption {
-  const path = source.path;
-  if (!path || owned.length === 0) return source;
-  const parents = [path.parentA, path.parentB, ...(path.parentC ? [path.parentC] : [])];
+): string[][] {
   const items = owned
     .filter((id) => parents.some((parent) => canLive(catalog, id, parent)))
     .sort((a, b) => (tiers.get(b) ?? 0) - (tiers.get(a) ?? 0) || a.localeCompare(b));
-  if (items.length === 0) return source;
-  const best: {
-    uses: string[];
-    counts: StarterCounts;
-    picks: TriplePick[] | null;
-    bags: string[][] | null;
-  } = { uses: [], counts: source.counts, picks: null, bags: null };
-
-  function consider(bags: string[][]) {
-    const uses = bags.flat();
-    if (uses.length === 0) return;
-    const lists = parents.map((id, index) => parentVectors(catalog, id, bags[index], have));
-    const picked = bestSum(lists, have, catalog.starters);
-    if (!picked) return;
-    const counts = unpackCounts(picked.sum, catalog.starters);
-    const usage = compareUsage(uses, best.uses, tiers);
-    if (usage > 0) return;
-    if (usage === 0 && !countsBeat(counts, best.counts, have)) return;
-    best.uses = [...uses];
-    best.counts = counts;
-    best.bags = bags.map((bag) => [...bag]);
-    best.picks = parents.map((id, index) => ({
-      id,
-      packed: picked.picks[index] ?? 0,
-      bag: bagKey(bags[index]),
-    }));
-  }
-
   const bags = parents.map(() => [] as string[]);
-  function roomFor(parent: string, itemTier: number): number {
-    const parentTier = tiers.get(parent) ?? 0;
-    if (itemTier > parentTier) return 0;
-    const branch = (recipeIndex(catalog).get(parent) ?? []).some((recipe) => recipe.parentC) ? 3 : 2;
-    let room = 1;
-    for (let step = itemTier; step < parentTier; step += 1) room *= branch;
-    return room;
-  }
   function absorb(item: string): boolean {
     const itemTier = tiers.get(item) ?? 0;
     for (let slot = 0; slot < parents.length; slot += 1) {
@@ -1006,7 +974,7 @@ function coverSource(
         (count, id) => count + ((tiers.get(id) ?? 0) === itemTier ? 1 : 0),
         0,
       );
-      if (sameTier >= roomFor(parents[slot], itemTier)) continue;
+      if (sameTier >= roomFor(catalog, parents[slot], itemTier, tiers)) continue;
       bags[slot].push(item);
       if (canPlace(catalog, parents[slot], bags[slot])) return true;
       bags[slot].pop();
@@ -1043,24 +1011,61 @@ function coverSource(
   const skipped: string[] = [];
   for (const item of items) if (!absorb(item)) skipped.push(item);
   for (const item of skipped) absorb(item);
-  consider(bags);
-  const picks = best.picks;
-  if (!picks) return source;
-  const shortfall = starterShortfall(best.counts, have);
+  return bags;
+}
+
+function priceAssigned(
+  catalog: Catalog,
+  creatureId: string,
+  source: StarterOption,
+  have: StarterCounts,
+  parents: readonly string[],
+  bags: string[][],
+): StarterOption {
+  const path = source.path;
+  if (!path) return source;
+  const uses = bags.flat();
+  if (uses.length === 0) return source;
+  const lists = parents.map((id, index) => parentVectors(catalog, id, bags[index], have));
+  const picked = bestSum(lists, have, catalog.starters);
+  if (!picked) return source;
+  const counts = unpackCounts(picked.sum, catalog.starters);
+  const shortfall = starterShortfall(counts, have);
+  const picks = parents.map((id, index) => ({
+    id,
+    packed: picked.picks[index] ?? 0,
+    bag: bagKey(bags[index]),
+  }));
   return {
-    counts: best.counts,
+    counts,
     shortfall,
     affordable: totalCount(shortfall) === 0,
     path,
-    uses: best.uses,
+    uses: [...uses],
     tree: {
       creatureId,
-      counts: best.counts,
+      counts,
       left: materialize(catalog, picks[0].id, picks[0].packed, picks[0].bag),
       right: materialize(catalog, picks[1].id, picks[1].packed, picks[1].bag),
       ...(picks[2] ? { third: materialize(catalog, picks[2].id, picks[2].packed, picks[2].bag) } : {}),
     },
   };
+}
+
+function coverSource(
+  catalog: Catalog,
+  creatureId: string,
+  source: StarterOption,
+  have: StarterCounts,
+  owned: readonly string[],
+  tiers: ReadonlyMap<string, number>,
+): StarterOption {
+  const path = source.path;
+  if (!path || owned.length === 0) return source;
+  const parents = [path.parentA, path.parentB, ...(path.parentC ? [path.parentC] : [])];
+  const bags = assignOwned(catalog, parents, owned, tiers);
+  if (bags.every((bag) => bag.length === 0)) return source;
+  return priceAssigned(catalog, creatureId, source, have, parents, bags);
 }
 
 type TripleMix = { sum: number; counts: StarterCounts; uses: string[]; picks: TriplePick[] };
@@ -1306,6 +1311,44 @@ function materialScore(
   return bestTier * 1_000_000 + exact * 1_000 + atBest * 50 + total;
 }
 
+function spreadScore(catalog: Catalog, parents: readonly string[], owned: readonly string[]): number {
+  const directs = parents.map((parent) => {
+    const found = new Set<string>([parent]);
+    for (const recipe of recipeIndex(catalog).get(parent) ?? []) {
+      found.add(recipe.parentA);
+      found.add(recipe.parentB);
+      if (recipe.parentC) found.add(recipe.parentC);
+    }
+    return found;
+  });
+  const used = new Set<number>();
+  let hits = 0;
+  for (const item of owned) {
+    const slots = directs.flatMap((set, index) => (set.has(item) ? [index] : []));
+    if (slots.length === 0) continue;
+    hits += 1;
+    used.add(slots.find((slot) => !used.has(slot)) ?? slots[0]);
+  }
+  return hits * 10 + used.size;
+}
+
+function coversOwned(owned: readonly string[], uses: readonly string[]): boolean {
+  const left = [...uses];
+  for (const id of owned) {
+    const index = left.indexOf(id);
+    if (index < 0) return false;
+    left.splice(index, 1);
+  }
+  return true;
+}
+
+function keepsMix(next: StarterOption, current: StarterOption | null, have: StarterCounts, tiers: ReadonlyMap<string, number>): boolean {
+  if (!current) return next.uses.length > 0;
+  const usage = compareUsage(next.uses, current.uses, tiers);
+  if (usage !== 0) return usage < 0;
+  return countsBeat(next.counts, current.counts, have);
+}
+
 function firstFeasibleMix(
   catalog: Catalog,
   creatureId: string,
@@ -1315,13 +1358,34 @@ function firstFeasibleMix(
   tiers: ReadonlyMap<string, number>,
 ): StarterOption[] {
   const ordered = collapsed
-    .map((source) => ({ source, score: materialScore(catalog, source, owned, tiers) }))
-    .sort((a, b) => b.score - a.score || compareOptions(a.source, b.source, have));
-  for (const { source, score } of ordered) {
-    if (score <= 0) break;
-    const covered = coverSource(catalog, creatureId, source, have, owned, tiers);
-    if (covered.uses.length > 0) return [covered];
+    .map((source) => {
+      const path = source.path;
+      const parents = path ? [path.parentA, path.parentB, ...(path.parentC ? [path.parentC] : [])] : [];
+      return {
+        source,
+        parents,
+        score: materialScore(catalog, source, owned, tiers),
+        spread: spreadScore(catalog, parents, owned),
+      };
+    })
+    .sort((a, b) => b.score - a.score || b.spread - a.spread || compareOptions(a.source, b.source, have));
+  let best: StarterOption | null = null;
+  let attempts = 0;
+  for (const { source, parents, score } of ordered) {
+    if (score <= 0 || attempts >= 8) break;
+    if (best && coversOwned(owned, best.uses)) break;
+    if (best) {
+      const possible = owned.filter((id) => parents.some((parent) => canLive(catalog, id, parent)));
+      if (compareUsage(possible, best.uses, tiers) >= 0) continue;
+    }
+    attempts += 1;
+    const bags = assignOwned(catalog, parents, owned, tiers);
+    const uses = bags.flat();
+    if (best && compareUsage(uses, best.uses, tiers) >= 0) continue;
+    const covered = priceAssigned(catalog, creatureId, source, have, parents, bags);
+    if (keepsMix(covered, best, have, tiers)) best = covered;
   }
+  if (best) return [best];
   const fallback = ordered[0]?.source ?? collapsed[0];
   return fallback ? [withStarterCounts(catalog, fallback, have)] : [];
 }
