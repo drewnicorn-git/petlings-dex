@@ -23,9 +23,24 @@ function portraitIdFor(id: string | undefined, name: string): string | null {
   return PORTRAIT_IDS.has(slug) ? slug : null;
 }
 
-function Frame({ children, className }: { children: ReactNode; className?: string }) {
+function Frame({
+  children,
+  className,
+  size,
+}: {
+  children: ReactNode;
+  className?: string;
+  size?: number;
+}) {
   return (
-    <svg viewBox="0 0 80 72" className={className} aria-hidden="true">
+    <svg
+      viewBox="0 0 80 72"
+      width={size}
+      height={size}
+      style={size ? { width: size, height: size, maxWidth: "none" } : undefined}
+      className={className}
+      aria-hidden="true"
+    >
       {children}
     </svg>
   );
@@ -599,16 +614,23 @@ export function CreatureArt({
   name,
   id,
   className,
+  size = 64,
 }: {
   name: string;
   id?: string;
   className?: string;
+  size?: number;
 }) {
   const portraitId = portraitIdFor(id, name);
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     setFailed(false);
   }, [portraitId]);
+  const box = {
+    width: size,
+    height: size,
+    maxWidth: "none",
+  };
 
   if (portraitId && !failed) {
     return (
@@ -618,7 +640,10 @@ export function CreatureArt({
         src={assetPath(`/creatures/${portraitId}.jpg`)}
         alt=""
         draggable={false}
-        className={`${className ?? ""} pointer-events-none object-contain`}
+        width={size}
+        height={size}
+        style={box}
+        className={`${className ?? ""} pointer-events-none shrink-0 object-contain`}
         onError={() => setFailed(true)}
       />
     );
@@ -626,7 +651,7 @@ export function CreatureArt({
 
   const look = lookFor(name);
   return (
-    <Frame className={className}>
+    <Frame className={`${className ?? ""} shrink-0`} size={size}>
       {look.classic ? classicPicture(look.name) : portrait(look)}
     </Frame>
   );

@@ -4,11 +4,11 @@ export type TokenSize = "small" | "medium" | "large";
 
 export const TOKEN_METRICS: Record<
   TokenSize,
-  { image: string; frame: string; width: number; height: number }
+  { image: number; frame: string; width: number; height: number }
 > = {
-  small: { image: "h-10 w-10", frame: "w-20", width: 80, height: 108 },
-  medium: { image: "h-16 w-16", frame: "w-28", width: 112, height: 132 },
-  large: { image: "h-28 w-28", frame: "w-40", width: 160, height: 188 },
+  small: { image: 40, frame: "w-20", width: 80, height: 108 },
+  medium: { image: 64, frame: "w-28", width: 112, height: 132 },
+  large: { image: 112, frame: "w-40", width: 160, height: 188 },
 };
 
 const STORAGE_KEY = "petlings-token-size";

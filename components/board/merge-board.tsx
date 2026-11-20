@@ -1410,7 +1410,7 @@ export function MergeBoard({ tokenSize }: { tokenSize: TokenSize }) {
                         : "rounded-2xl ring-1 ring-foreground/10"
                   }`}
                 >
-                  <CreatureArt name={creature.name} id={creature.id} className={metrics.image} />
+                  <CreatureArt name={creature.name} id={creature.id} size={metrics.image} />
                 </span>
                 <span className="mt-1 max-w-full truncate text-center text-xs font-semibold">
                   {creature.name}
@@ -1562,7 +1562,7 @@ export function MergeBoard({ tokenSize }: { tokenSize: TokenSize }) {
           className={`pointer-events-none fixed z-50 ${metrics.frame} -translate-x-1/2 -translate-y-1/2`}
           style={{ left: ghost.x, top: ghost.y }}
         >
-          <CreatureArt name={ghostCreature.name} id={ghostCreature.id} className={`mx-auto ${metrics.image}`} />
+          <CreatureArt name={ghostCreature.name} id={ghostCreature.id} className="mx-auto" size={metrics.image} />
           <p className="truncate text-center text-xs font-semibold">{ghostCreature.name}</p>
         </div>
       ) : null}
